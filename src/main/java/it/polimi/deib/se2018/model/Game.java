@@ -1,10 +1,10 @@
-package it.polimi.deib.se2018;
+package it.polimi.deib.se2018.model;
 
 /**
  * Hello world!
  *
  */
-public class App 
+public class Game
 {
     public static void main( String[] args )
     {
