@@ -6,9 +6,16 @@ import java.util.ArrayList;
 
 public class RoundsTrack {
     private ArrayList <Dice> diceList;
+    private static RoundsTrack instance=null;
+
+    //Singleton
+    public static synchronized RoundsTrack getSingletonRoundsTrack(){
+        if (instance==null) instance=new RoundsTrack();
+        return instance;
+    }
 
     //Constructor
-    public RoundsTrack(){
+    private RoundsTrack(){
         diceList=new ArrayList<Dice>();
     }
 
@@ -22,15 +29,17 @@ public class RoundsTrack {
         diceList.add(d);
     }
 
-    //toString() to show RoundsRoute
+
+    //toString() to show RoundsTrack
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append("ROUNDS ROUTE: \n");
+        builder.append("ROUNDS TRACK: \n");
         for(int i = 0; i < diceList.size(); i++){
-            builder.append("COLORE: "+diceList.get(i).getColor()+" VALORE: "+diceList.get(i).getValue());
+            builder.append("COLOR: "+diceList.get(i).getColor()+" VALUE: "+diceList.get(i).getValue());
             builder.append("\n");
         }
+        builder.append("\n");
         return builder.toString();
     }
 }

@@ -10,6 +10,8 @@ public class Player {
     private String nickname;
     private SchemeCard playerScheme;
     private PrivateGoalCard privateGoalCard;
+    private int nMoves;
+    private int nTurns;
 
 
     //Constructor
@@ -19,6 +21,7 @@ public class Player {
         nickname=name;
         setVictoryPoints(0);
         setFavorMarkers(0);//Assigned when player'll choose scheme card
+        setnMoves(0);
 
     }
 
@@ -49,6 +52,10 @@ public class Player {
 
     public PrivateGoalCard getPrivateGoalCard(){return privateGoalCard;}
 
+    public int getnMoves() { return nMoves; }
+
+    public int getnTurns(){ return nTurns; }
+
     //"Setters" methods
     public void setVictoryPoints(int points){
         victoryPoints=points;
@@ -66,4 +73,8 @@ public class Player {
 
     public void setPlayerScheme(SchemeCard s){playerScheme=s;}
 
+    public void setnMoves(int n){ nMoves=n; }
+
+    public void setnTurns(int n){ nTurns=n;}
 }
+

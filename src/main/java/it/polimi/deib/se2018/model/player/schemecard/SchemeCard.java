@@ -1,5 +1,7 @@
 package it.polimi.deib.se2018.model.player.schemecard;
 
+import it.polimi.deib.se2018.model.dice.DiceColor;
+
 import java.util.ArrayList;
 
 public class SchemeCard {
@@ -52,7 +54,7 @@ public class SchemeCard {
         stringa.add(2,"C");
         stringa.add(3,"D");
         StringBuilder builder = new StringBuilder();
-        builder.append("SCHEMA CASELLE: \n");
+        builder.append("BOXES SCHEME: \n");
         builder.append("  1  2  3  4  5");
         for(int i = 0; i < ROWS; i++){
             builder.append("\n" + (stringa.get(i)));
@@ -63,7 +65,7 @@ public class SchemeCard {
             }
         }
         builder.append("\n\n");
-        builder.append("SCHEMA DADI PIAZZATI (XX=Casella senza dado): \n");
+        builder.append("PLACED DICES SCHEME (XX=Boxes with no dices): \n");
         builder.append("  1   2   3   4   5");
         for(int i = 0; i < ROWS; i++){
             builder.append("\n" + (stringa.get(i)));
@@ -73,7 +75,12 @@ public class SchemeCard {
                 else {builder.append(("|XX|"));}
             }
         }
-        builder.append("\n");
+        builder.append("\n\n");
         return builder.toString();
     }
+
+
+
+
 }
+

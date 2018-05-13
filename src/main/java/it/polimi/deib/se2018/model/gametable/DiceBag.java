@@ -7,9 +7,16 @@ import java.util.ArrayList;
 
 public class DiceBag {
     private ArrayList<Dice> diceList;
+    private static DiceBag instance=null;
+
+    //Singleton
+    public static synchronized DiceBag getSingletonDiceBag(){
+        if (instance==null) instance=new DiceBag();
+        return instance;
+    }
 
     //Constructor
-    public DiceBag(){
+    private DiceBag(){
         diceList=new ArrayList<Dice>(90);
         init();
     }
@@ -38,6 +45,7 @@ public class DiceBag {
         }
     }
 
+
     //toString() to show DiceBag
     @Override
     public String toString() {
@@ -50,10 +58,15 @@ public class DiceBag {
                 if (diceList.get(i).getColor().equals(c)) cont++;
             }
 
-            builder.append("COLORE: " + c + " RIMASTI: " + cont);
+            builder.append("COLOR: " + c + " LEFT: " + cont);
             builder.append("\n");
         }
+        builder.append("\n");
         return builder.toString();
     }
 
+
+
+
 }
+

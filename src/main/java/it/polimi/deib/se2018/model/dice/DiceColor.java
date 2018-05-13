@@ -5,14 +5,13 @@ public enum DiceColor {
 
     private final String abbreviation;
 
-    //Constructor...to use abbreviation
     DiceColor(String abbreviation){
         this.abbreviation = abbreviation;
     }
 
-    //toString() to represent the DiceColor
     @Override
     public String toString() {
         return abbreviation;
     }
+
 }
