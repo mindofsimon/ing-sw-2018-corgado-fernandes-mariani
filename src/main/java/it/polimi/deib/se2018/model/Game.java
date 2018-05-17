@@ -15,12 +15,17 @@ import it.polimi.deib.se2018.model.player.schemecard.ValueBox;
 import it.polimi.deib.se2018.modelview.ModelView;
 import it.polimi.deib.se2018.view.View;
 
+/**
+ * Game class
+ * @author Simone Mariani
+ */
 public class Game implements Runnable
 {
     private Model model;
     private ModelView modelView;
     private View view;
     private Controller controller;
+
 
     public static void main( String[] args )
     {
@@ -29,6 +34,9 @@ public class Game implements Runnable
 
     }
 
+    /**
+     * Constructor, initializes game class, loads a scheme card, show messages..
+     */
     public Game(){
         //CARICO UNO SCHEMA
         Box[][] tabella = new Box[4][5];
@@ -88,6 +96,9 @@ public class Game implements Runnable
         view.showMessage(diceBag.toString()+diceStock.toString());
     }
 
+    /**
+     * Runs game
+     */
     @Override
     public void run(){
         view.run();

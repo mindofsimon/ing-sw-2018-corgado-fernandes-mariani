@@ -4,6 +4,10 @@ import it.polimi.deib.se2018.model.dice.DiceColor;
 
 import java.util.ArrayList;
 
+/**
+ * Scheme card class
+ * @author Simone Mariani
+ */
 public class SchemeCard {
     private String schemeName;
     private int difficulty;
@@ -12,6 +16,13 @@ public class SchemeCard {
     private final int ROWS=4;//Rows
     private final int COLS=5;//Columns
 
+    /**
+     * Constructor
+     * @param name scheme card name
+     * @param diff scheme card difficulty
+     * @param retro scheme card retro
+     * @param table scheme card table
+     */
     //Constructor
     public SchemeCard(String name, int diff, SchemeCard retro,Box [][] table){
         this.retro=retro;
@@ -22,29 +33,61 @@ public class SchemeCard {
     }
 
     //"Getters" methods
+    /**
+     * Get scheme card name
+     * @return scheme card name
+     */
     public String getSchemeName() {
         return schemeName;
     }
 
+    /**
+     * Get scheme card difficulty
+     * @return scheme card difficulty
+     */
     public int getDifficulty() {
         return difficulty;
     }
 
+    /**
+     * Get scheme card retro
+     * @return scheme card retro
+     */
     public SchemeCard getRetro() {
         return retro;
     }
 
+    /**
+     * Get scheme
+     * @return scheme
+     */
     public Box[][] getScheme(){return scheme;}
 
+    /**
+     * Get scheme card rows
+     * @return scheme card rows
+     */
     public int getROWS(){ return ROWS; }
 
+    /**
+     * Get scheme card columns
+     * @return scheme card columns
+     */
     public int getCOLS() { return COLS; }
 
     //"Setters" methods
+    /**
+     * Set difficulty
+     * @param diff difficulty
+     */
     public void setDifficulty(int diff){
         difficulty=diff;
     }
 
+    /**
+     * Show scheme card
+     * @return string that describes the object
+     */
     //toString() to show the scheme card
     @Override
     public String toString() {

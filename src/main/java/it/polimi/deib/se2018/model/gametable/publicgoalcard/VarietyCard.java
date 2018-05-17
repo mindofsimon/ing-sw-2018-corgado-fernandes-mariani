@@ -3,12 +3,21 @@ package it.polimi.deib.se2018.model.gametable.publicgoalcard;
 import it.polimi.deib.se2018.model.dice.DiceColor;
 import it.polimi.deib.se2018.model.player.Player;
 
+/**
+ * Variety card class: public goal card
+ * @author Simone Mariani
+ */
 public class VarietyCard implements PublicGoalCard {
 
     private final ElementType elementType;
     private final int points;
     private final String name;
 
+    /**
+     * Constructor, initializes variety card class. Identifies which public goal card is given: color or shade variety
+     * @param et element type
+     * @param n name
+     */
     public VarietyCard(ElementType et,String n){
         elementType=et;
         name=n;
@@ -16,11 +25,21 @@ public class VarietyCard implements PublicGoalCard {
         else points=5;
     }
 
+    /**
+     * Calculates victory points depending on element type
+     * @param p player
+     * @return total victory points depending on element type: color or shade
+     */
     public int calculateVictoryPoints(Player p){
         if(elementType.equals(ElementType.COLOR)) return calculateColorsVariety(p);
         else return calculateShadesVariety(p);
     }
 
+    /**
+     * Counts how many sets of one of each color anywhere there are
+     * @param p player
+     * @return sets of color variety * points
+     */
     private int calculateColorsVariety(Player p){//LO SWITCH NEL CICLO DA PROBLEMI
         int varietyCounter=0;
         int contR=0;
@@ -54,6 +73,11 @@ public class VarietyCard implements PublicGoalCard {
         return varietyCounter*points;
     }
 
+    /**
+     * Counts how many sets of one of each shade anywhere there are
+     * @param p player
+     * @return sets of shade variety * points
+     */
     private int calculateShadesVariety(Player p){//LO SWITCH NEL CICLO DA PROBLEMI
         int varietyCounter=0;
         int cont1=0;
@@ -89,6 +113,10 @@ public class VarietyCard implements PublicGoalCard {
         return varietyCounter*points;
     }
 
+    /**
+     * Object text representation
+     * @return name
+     */
     @Override
     public String toString() {
         return name;

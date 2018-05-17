@@ -1,0 +1,17 @@
+it.polimi.deib.se2018
+it.polimi.deib.se2018.controller
+it.polimi.deib.se2018.controller.toolcard
+it.polimi.deib.se2018.model
+it.polimi.deib.se2018.model.dice
+it.polimi.deib.se2018.model.events
+it.polimi.deib.se2018.model.gametable
+it.polimi.deib.se2018.model.gametable.publicgoalcard
+it.polimi.deib.se2018.model.player
+it.polimi.deib.se2018.model.player.schemecard
+it.polimi.deib.se2018.modelview
+it.polimi.deib.se2018.TestModel.testGameTable
+it.polimi.deib.se2018.TestModel.testGameTable.testPublicGoalCard
+it.polimi.deib.se2018.TestModel.testPlayer
+it.polimi.deib.se2018.TestModel.testPlayer.testSchemeCard
+it.polimi.deib.se2018.utils
+it.polimi.deib.se2018.view

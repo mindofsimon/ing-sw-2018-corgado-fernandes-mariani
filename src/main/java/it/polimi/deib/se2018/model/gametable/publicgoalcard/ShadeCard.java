@@ -2,17 +2,31 @@ package it.polimi.deib.se2018.model.gametable.publicgoalcard;
 
 import it.polimi.deib.se2018.model.player.Player;
 
+/**
+ * Shade card class: public goal card
+ * @author Simone Mariani
+ */
 public class ShadeCard implements PublicGoalCard {
 
     private final ShadeType type;
     private final int points=2;
     private final String name;
 
+    /**
+     * Constructor, initializes shade card class
+     * @param t type
+     * @param n name
+     */
     public ShadeCard(ShadeType t,String n){
         type=t;
         name=n;
     }
 
+    /**
+     * Identifies which public goal card is given and calculates total victory points
+     * @param p player
+     * @return total victory points depending on the values of given public card: 1 and 2, 3 and 4 or 5 and 6
+     */
     public int calculateVictoryPoints(Player p){
         switch (type){
             case LIGHT:{
@@ -28,6 +42,13 @@ public class ShadeCard implements PublicGoalCard {
         }
     }
 
+    /**
+     * Calculate number of boxes with given values
+     * @param p player
+     * @param val1 shade value n.1
+     * @param val2 shade value n.2
+     * @return total number of boxes with given values * points
+     */
     private int calculateShades(Player p, int val1, int val2){
         int cont=0;
         for(int i=0;i<p.getPlayerScheme().getROWS();i++){
@@ -40,6 +61,14 @@ public class ShadeCard implements PublicGoalCard {
         return cont*points;
     }
 
+    /**
+     * Checks if the value of the boxes adjacent to the given box is equal to the given value and counts them
+     * @param p player
+     * @param r box row
+     * @param c box column
+     * @param val dice value
+     * @return number of boxes with the given value
+     */
     private int countSet(Player p,int r,int c,int val){
         if ((r == 1 || r == 2) && (c == 1 || c == 2 || c == 3)) {
             return contA(p,r,c,val);
@@ -63,6 +92,14 @@ public class ShadeCard implements PublicGoalCard {
         return 0;
     }
 
+    /**
+     * Method contA-contI checks if the value of the boxes adjacent to the given box is equal to the given value and counts them
+     * @param p player
+     * @param r row
+     * @param c column
+     * @param val dice value
+     * @return number of boxes with the given value
+     */
     private int contA(Player p,int r,int c,int val){
         int cont=0;
         if((p.getPlayerScheme().getScheme()[r - 1][c - 1].getDice()!=null)&&(p.getPlayerScheme().getScheme()[r - 1][c - 1].getDice().getValue()==val))cont++;
@@ -148,6 +185,10 @@ public class ShadeCard implements PublicGoalCard {
         return cont;
     }
 
+    /**
+     * Object text representation
+     * @return name
+     */
     @Override
     public String toString() {
         return name;
