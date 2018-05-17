@@ -74,7 +74,7 @@ public class Controller implements Observer<Event> {
     }
 
     private int calculateVictoryPoints(Player p){
-        return calculatePrivateGoal(p)+calculateEmptyBoxes(p)+calculatePublicGoal(p);
+        return calculatePrivateGoal(p)+calculateEmptyBoxes(p)+calculatePublicGoal(p)+p.getFavorMarkers();
     }
 
     private int calculateEmptyBoxes(Player p){

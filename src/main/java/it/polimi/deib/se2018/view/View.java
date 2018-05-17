@@ -31,7 +31,7 @@ public class View  extends Observable<Event>  implements Observer<Message>,Runna
     }
 
     public void reportError(String message){
-        showMessage(message + "\nCHOOSE AN OPTION: \n1)PLACE A DICE\n2)ACTIVATE A CARD\n3)NOTHING");
+        showMessage(message +"\n");
     }
 
     @Override

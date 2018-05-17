@@ -29,6 +29,27 @@ public class RoundsTrack {
         diceList.add(d);
     }
 
+    //cancella l'istanziamento
+    public void clear(){
+        instance=null;
+
+    }
+
+    //To find a dice
+    public int findDice(Dice d){
+        for(int i=0;i<diceList.size();i++){
+            if(diceList.get(i).getColor().equals(d.getColor())&&diceList.get(i).getValue()==d.getValue()){
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    //Get a size of Track
+    public int size(){
+        return diceList.size();
+    }
+
 
     //toString() to show RoundsTrack
     @Override

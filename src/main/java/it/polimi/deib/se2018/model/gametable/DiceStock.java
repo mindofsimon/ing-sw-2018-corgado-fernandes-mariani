@@ -45,6 +45,7 @@ public class DiceStock {
         return -1;
     }
 
+
     //To extract a selected dice
     public void extractDice(Dice d){
         int i=findDice(d);
@@ -56,6 +57,23 @@ public class DiceStock {
         int index = (int) ((Math.random() * diceList.size()));
         return diceList.remove(index);
     }
+
+    //Get a dice
+    public Dice getDice(int i){
+        return diceList.get(i);
+    }
+
+    //Get a size of stock
+    public int size(){
+        return diceList.size();
+    }
+    //cancella l'istanziamento
+    public void clear(){
+        instance=null;
+
+    }
+
+
 
     //toString() to show DiceStock
     @Override

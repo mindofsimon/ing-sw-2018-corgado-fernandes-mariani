@@ -45,6 +45,31 @@ public class DiceBag {
         }
     }
 
+    //return the numbers of dice in the bag
+    public int size() {
+        return diceList.size();
+    }
+
+    //return the dice in the position i
+    public Dice get(int i) {
+        return diceList.get(i);
+    }
+
+    public int numColor(DiceColor c){
+        int cont = 0;
+        for (int i = 0; i < diceList.size(); i++) {
+            if (diceList.get(i).getColor().equals(c)) cont++;
+        }
+        return cont;
+
+    }
+
+    //clear the bag
+    public void clear(){
+        instance=null;
+
+    }
+
 
     //toString() to show DiceBag
     @Override
@@ -64,9 +89,6 @@ public class DiceBag {
         builder.append("\n");
         return builder.toString();
     }
-
-
-
 
 }
 
