@@ -98,7 +98,7 @@ public class RowAndColCard implements PublicGoalCard {
             for (int i = 0; i < p.getPlayerScheme().getCOLS(); i++) {
                 cond = true;
                 for (int j = 1; j < p.getPlayerScheme().getROWS(); j++) {
-                    if (!(p.getPlayerScheme().getScheme()[i][j - 1].getDice() != null && p.getPlayerScheme().getScheme()[i][j].getDice() != null && p.getPlayerScheme().getScheme()[i][j - 1].getDice().getValue()!=p.getPlayerScheme().getScheme()[i][j].getDice().getValue()))
+                    if (!(p.getPlayerScheme().getScheme()[j-1][i].getDice() != null && p.getPlayerScheme().getScheme()[j][i].getDice() != null && p.getPlayerScheme().getScheme()[j-1][i].getDice().getValue()!=p.getPlayerScheme().getScheme()[j][i].getDice().getValue()))
                         cond = false;
                 }
                 if (cond) cont++;
@@ -106,6 +106,15 @@ public class RowAndColCard implements PublicGoalCard {
             return cont * points;
 
         }
+    }
+
+    /**
+     * return the points assigneted on the card
+     * @return points
+     */
+    //ritorna il numero di punti assegnato alla carta
+    public int getPoints(){
+        return this.points;
     }
 
     /**

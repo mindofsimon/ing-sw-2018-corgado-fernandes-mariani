@@ -1,6 +1,7 @@
 package it.polimi.deib.se2018.model;
 
 import it.polimi.deib.se2018.controller.Controller;
+import it.polimi.deib.se2018.controller.GameRoundController;
 import it.polimi.deib.se2018.model.dice.Dice;
 import it.polimi.deib.se2018.model.dice.DiceColor;
 import it.polimi.deib.se2018.model.gametable.DiceBag;
@@ -82,7 +83,7 @@ public class Game implements Runnable
         view.register(controller);
 
         controller.initGame();
-        controller.updateDiceStock();
+        //GameRoundController.updateDiceStock(); Bisogna metterlo a posto
 
         //VISUALIZZAZIONE INIZIALE (PER OGNI VIEW)...PER ORA DI UNA SOLA
         view.showMessage("PUBLIC GOAL CARDS: \n");
