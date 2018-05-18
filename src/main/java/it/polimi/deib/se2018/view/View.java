@@ -12,11 +12,10 @@ import java.util.Scanner;
 public class View  extends Observable<Event>  implements Observer<Message>,Runnable {//Classe abstract?
 
     private Player player;
-    private int nmove;
     private boolean gameover=false;
     private Scanner s;
 
-    public View(Player p) { player=p; nmove=0; }//Valutare protected
+    public View(Player p) { player=p; }//Valutare protected
 
     public Player getPlayer(){
         return player;
@@ -26,12 +25,30 @@ public class View  extends Observable<Event>  implements Observer<Message>,Runna
         notify(new DicePlacement(player,r,c,d));
     }
 
+    private void handleCardActivation(int n){notify(new CardActivation(player,n));}
+
     public void showMessage(String message){//Valutare protected
         System.out.printf(message);
     }
 
+    public String increment(){
+        showMessage("INCREMENT(I) OR DECREMENT(D): ");
+        return s.next().toUpperCase();
+
+    }
+
+    public Dice selectDice(){
+        showMessage("DICE COLOR (B/G/R/V/Y): ");
+        String color = s.next().toUpperCase();
+        showMessage("DICE VALUE (1/2/3/4/5/6): ");
+        int value = s.nextInt();
+        Dice d=new Dice(convert(color));
+        d.setValue(value);
+        return d;
+    }
+
     public void reportError(String message){
-        showMessage(message +"\n");
+        showMessage(message+"\n\n");
     }
 
     @Override
@@ -68,7 +85,7 @@ public class View  extends Observable<Event>  implements Observer<Message>,Runna
                     placeDice();break;
                 }
                 case "2":{
-                    break;
+                    activateCard();break;
                 }
                 case "3":{
                     endTurn();break;
@@ -123,4 +140,11 @@ public class View  extends Observable<Event>  implements Observer<Message>,Runna
         handleDicePlacement(rowConversion(row), column - 1, dice);
     }
 
+    private void activateCard(){
+        showMessage("TOOL CARD NUMBER: \n");
+        int number=s.nextInt();
+        handleCardActivation(number);
+    }
+
 }
+

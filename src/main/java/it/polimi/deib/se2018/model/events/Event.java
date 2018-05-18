@@ -38,4 +38,10 @@ public class Event {
      * @return null
      */
     public Dice getDice() { return null; }
+
+    /**
+     * Get tool card number
+     * @return -1
+     */
+    public int getCardNumber(){return -1;}
 }

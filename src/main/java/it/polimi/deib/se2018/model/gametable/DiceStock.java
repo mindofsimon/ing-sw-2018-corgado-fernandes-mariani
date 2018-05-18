@@ -1,6 +1,7 @@
 package it.polimi.deib.se2018.model.gametable;
 
 import it.polimi.deib.se2018.model.dice.Dice;
+import it.polimi.deib.se2018.model.dice.DiceColor;
 
 import java.util.ArrayList;
 
@@ -69,6 +70,20 @@ public class DiceStock {
             }
         }
         return -1;
+    }
+
+    /**
+     *
+     * @param c color
+     * @return true if there is a dice with the same color of c, else returns false
+     */
+    public boolean findDice(DiceColor c){
+        for(int i=0;i<diceList.size();i++){
+            if(diceList.get(i).getColor().equals(c)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 

@@ -16,6 +16,8 @@ public class Player {
     private PrivateGoalCard privateGoalCard;
     private int nMoves;
     private int nTurns;
+    private boolean dicePlaced;
+    private boolean cardActivated;
 
 
     /**
@@ -102,6 +104,18 @@ public class Player {
      */
     public int getnTurns(){ return nTurns; }
 
+    /**
+     * Tells if a card was already activated by this player during this turn
+     * @return true if the card was activated, else returns false
+     */
+    public boolean cardActivated() { return cardActivated; }
+
+    /**
+     * Tells if a dice was already placed by this player during this turn
+     * @return true if the dice was placed, else returns false
+     */
+    public boolean dicePlaced() { return dicePlaced; }
+
     //"Setters" methods
     /**
      * Set victory points
@@ -150,5 +164,36 @@ public class Player {
      * @param n number of turns
      */
     public void setnTurns(int n){ nTurns=n;}
+
+    /**
+     * Sets the dice placement for this turn
+     */
+    public void setDicePlacement(){
+        dicePlaced=true;
+    }
+
+    /**
+     * Sets the card activation for this turn
+     */
+    public void setCardActivated(){
+        cardActivated=true;
+    }
+
+    /**
+     * Resets the dice placement for this turn
+     */
+    public void resetDicePlacement(){
+        dicePlaced=false;
+    }
+
+    /**
+     * Resets the dice placement for this turn
+     */
+    public void resetCardActivated(){
+        cardActivated=false;
+    }
+
 }
+
+
 
