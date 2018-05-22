@@ -33,6 +33,7 @@ public class Player {
         nickname=name;
         setVictoryPoints(0);
         setFavorMarkers(0);//Assigned when player'll choose scheme card
+        setnTurns(1);
         setnMoves(0);
 
     }

@@ -83,7 +83,7 @@ public class Game implements Runnable
         view.register(controller);
 
         controller.initGame();
-        //GameRoundController.updateDiceStock(); Bisogna metterlo a posto
+        controller.getGameRoundController().updateDiceStock();
 
         //VISUALIZZAZIONE INIZIALE (PER OGNI VIEW)...PER ORA DI UNA SOLA
         view.showMessage("PUBLIC GOAL CARDS: \n");
