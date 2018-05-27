@@ -3,6 +3,9 @@ package it.polimi.deib.se2018.TestModel.testGameTable.testPublicGoalCard;
 import it.polimi.deib.se2018.model.dice.Dice;
 import it.polimi.deib.se2018.model.dice.DiceColor;
 import it.polimi.deib.se2018.model.gametable.publicgoalcard.DiagonalCard;
+import it.polimi.deib.se2018.model.gametable.publicgoalcard.ElementType;
+import it.polimi.deib.se2018.model.gametable.publicgoalcard.LineType;
+import it.polimi.deib.se2018.model.gametable.publicgoalcard.RowAndColCard;
 import it.polimi.deib.se2018.model.player.Player;
 import it.polimi.deib.se2018.model.player.PlayerColor;
 import it.polimi.deib.se2018.model.player.schemecard.Box;
@@ -36,28 +39,33 @@ public class TestDiagonalCard {
         //creo giocatore
         player=new Player("sirlan",0,PlayerColor.GREEN);
         player.setPlayerScheme(scheme);
-        //piazzo i dadi in modo da avere 7 sette punti con la carta diagonali colorate
-        Dice d1=new Dice(DiceColor.BLU);
-        d1.setValue(1);
-        player.getPlayerScheme().getScheme()[1][1].setDice(d1);
-        Dice d2=new Dice(DiceColor.YELLOW);
-        d2.setValue(1);
-        player.getPlayerScheme().getScheme()[1][4].setDice(d2);
-        Dice d3=new Dice(DiceColor.BLU);
-        d3.setValue(1);
-        player.getPlayerScheme().getScheme()[2][0].setDice(d3);
-        Dice d4=new Dice(DiceColor.BLU);
-        d4.setValue(5);
-        player.getPlayerScheme().getScheme()[2][2].setDice(d4);
-        Dice d5=new Dice(DiceColor.YELLOW);
-        d5.setValue(1);
-        player.getPlayerScheme().getScheme()[2][3].setDice(d5);
-        Dice d6=new Dice(DiceColor.YELLOW);
-        d6.setValue(3);
-        player.getPlayerScheme().getScheme()[3][2].setDice(d6);
-        Dice d7=new Dice(DiceColor.BLU);
-        d7.setValue(2);
-        player.getPlayerScheme().getScheme()[3][3].setDice(d7);
+        //piazzo i dadi in modo da avere una copertura completa dei test
+        Dice dB=new Dice(DiceColor.BLU);
+        dB.setValue(1);
+        Dice dR=new Dice(DiceColor.RED);
+        dR.setValue(1);
+        Dice dY=new Dice(DiceColor.YELLOW);
+        dY.setValue(1);
+        Dice dG=new Dice(DiceColor.GREEN);
+        dG.setValue(1);
+        Dice dV=new Dice(DiceColor.VIOLET);
+        dV.setValue(1);
+        player.getPlayerScheme().getScheme()[0][0].setDice(dB);
+        player.getPlayerScheme().getScheme()[1][1].setDice(dB);
+        player.getPlayerScheme().getScheme()[2][0].setDice(dB);
+        player.getPlayerScheme().getScheme()[2][2].setDice(dB);
+        player.getPlayerScheme().getScheme()[3][3].setDice(dB);
+        player.getPlayerScheme().getScheme()[1][4].setDice(dY);
+        player.getPlayerScheme().getScheme()[2][3].setDice(dY);
+        player.getPlayerScheme().getScheme()[3][2].setDice(dY);
+        player.getPlayerScheme().getScheme()[3][4].setDice(dY);
+        player.getPlayerScheme().getScheme()[0][1].setDice(dR);
+        player.getPlayerScheme().getScheme()[1][0].setDice(dR);
+        player.getPlayerScheme().getScheme()[1][3].setDice(dV);
+        player.getPlayerScheme().getScheme()[0][2].setDice(dV);
+        player.getPlayerScheme().getScheme()[0][3].setDice(dG);
+
+
 
     }
     /**
@@ -66,7 +74,16 @@ public class TestDiagonalCard {
      */
    @Test
     public void testCalculateVictoryPoints(){
-       assertEquals(7,card.calculateVictoryPoints(player));
+       assertEquals(13,card.calculateVictoryPoints(player));
    }
 
+    @Test
+    public void testToString(){
+
+        assertEquals("diagonali colorate",card.toString());
+
+    }
+
 }
+
+

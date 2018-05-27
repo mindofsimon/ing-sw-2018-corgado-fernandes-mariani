@@ -64,6 +64,11 @@ public class TestRowAndColCard {
             cont1++;
         }
 
+        //piazzo un dado vicino a un'altro dello stesso colore e valore per coprire tutte le condizione di test
+        Dice d= new Dice(DiceColor.GREEN);
+        d.setValue(2);
+        player.getPlayerScheme().getScheme()[1][1].setDice(d);
+
 
     }
 
@@ -105,6 +110,34 @@ public class TestRowAndColCard {
         //inizializzo la carta 'Sfumature Diverse Colonna'
         card=new RowAndColCard(LineType.COLUMN,ElementType.SHADE,"Sfumature Diverse Colonna");
         assertEquals(4,card.calculateVictoryPoints(player));//controllo il punteggio
+        //piazzo il dado in mezzo alla riga e alla colonna per non avere colori e valori diversi e controllo che il punteggio ora sia 0
+        Dice d1= new Dice(DiceColor.GREEN);
+        d1.setValue(2);
+        player.getPlayerScheme().getScheme()[3][0].setDice(d1);
+        player.getPlayerScheme().getScheme()[0][4].setDice(d1);
+
+        //inizializzo la carta 'Colori Diversi Riga'
+        card=new RowAndColCard(LineType.ROW,ElementType.COLOR,"colore Diversi Riga");
+        assertEquals(0,card.calculateVictoryPoints(player));//controllo il punteggio
+        //inizializzo la carta 'Colori Diversi Colonna'
+        card=new RowAndColCard(LineType.COLUMN,ElementType.COLOR,"colore Diversi Colonna");
+        assertEquals(0,card.calculateVictoryPoints(player));//controllo il punteggio
+        //inizializzo la carta 'Sfumature Diverse Riga'
+        card=new RowAndColCard(LineType.ROW,ElementType.SHADE,"sfumature Diverse Riga");
+        assertEquals(0,card.calculateVictoryPoints(player));//controllo il punteggio
+        //inizializzo la carta 'Sfumature Diverse Colonna'
+        card=new RowAndColCard(LineType.COLUMN,ElementType.SHADE,"Sfumature Diverse Colonna");
+        assertEquals(0,card.calculateVictoryPoints(player));//controllo il punteggio
+
+
+    }
+
+    @Test
+    public void testToString(){
+        //inizializzo la carta 'Colori Diversi Riga'
+        card=new RowAndColCard(LineType.ROW,ElementType.COLOR,"colore Diversi Riga");
+        assertEquals("colore Diversi Riga",card.toString());
+
     }
 
 

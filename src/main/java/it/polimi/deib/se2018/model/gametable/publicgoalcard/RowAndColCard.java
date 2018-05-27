@@ -10,7 +10,7 @@ public class RowAndColCard implements PublicGoalCard {
 
     private final LineType lineType;
     private final ElementType elementType;
-    private final int points;
+    private int points;
     private final String name;
 
     /**
@@ -25,9 +25,10 @@ public class RowAndColCard implements PublicGoalCard {
         elementType=et;
         name=n;
         if(lineType.equals(LineType.ROW)&&elementType.equals(ElementType.COLOR)){points=6;}
-        else if(lineType.equals(LineType.COLUMN)&&elementType.equals(ElementType.COLOR)){points=5;}
-        else if(lineType.equals(LineType.ROW)&&elementType.equals(ElementType.SHADE)){points=5;}
-        else points=4;
+        if(lineType.equals(LineType.COLUMN)&&elementType.equals(ElementType.COLOR)){points=5;}
+        if(lineType.equals(LineType.ROW)&&elementType.equals(ElementType.SHADE)){points=5;}
+        if(lineType.equals(LineType.COLUMN)&&elementType.equals(ElementType.SHADE)){points=4;}
+
     }
 
     /**
@@ -55,9 +56,11 @@ public class RowAndColCard implements PublicGoalCard {
         if (lineType.equals(LineType.ROW)) {
             for (int i = 0; i < p.getPlayerScheme().getROWS(); i++) {
                 cond = true;
-                for (int j = 1; j < p.getPlayerScheme().getCOLS(); j++) {
-                    if (!(p.getPlayerScheme().getScheme()[i][j - 1].getDice() != null && p.getPlayerScheme().getScheme()[i][j].getDice() != null && !p.getPlayerScheme().getScheme()[i][j - 1].getDice().getColor().equals(p.getPlayerScheme().getScheme()[i][j].getDice().getColor())))
-                        cond = false;
+                for (int j = 0; j < p.getPlayerScheme().getCOLS()-1; j++) {
+                    for(int k=j+1;k<p.getPlayerScheme().getCOLS();k++){
+                        if (!(p.getPlayerScheme().getScheme()[i][j].getDice() != null && p.getPlayerScheme().getScheme()[i][k].getDice() != null && !p.getPlayerScheme().getScheme()[i][j].getDice().getColor().equals(p.getPlayerScheme().getScheme()[i][k].getDice().getColor())))
+                            cond = false;
+                    }
                 }
                 if (cond) cont++;
             }
@@ -65,9 +68,11 @@ public class RowAndColCard implements PublicGoalCard {
         } else {
             for (int i = 0; i < p.getPlayerScheme().getCOLS(); i++) {
                 cond = true;
-                for (int j = 1; j < p.getPlayerScheme().getROWS(); j++) {
-                    if (!(p.getPlayerScheme().getScheme()[j-1][i].getDice() != null && p.getPlayerScheme().getScheme()[j][i].getDice() != null && !p.getPlayerScheme().getScheme()[j-1][i].getDice().getColor().equals(p.getPlayerScheme().getScheme()[j][i].getDice().getColor())))
-                        cond = false;
+                for (int j = 0; j < p.getPlayerScheme().getROWS()-1; j++) {
+                    for(int k=j+1;k<p.getPlayerScheme().getROWS();k++) {
+                        if (!(p.getPlayerScheme().getScheme()[j][i].getDice() != null && p.getPlayerScheme().getScheme()[k][i].getDice() != null && !p.getPlayerScheme().getScheme()[j][i].getDice().getColor().equals(p.getPlayerScheme().getScheme()[k][i].getDice().getColor())))
+                            cond = false;
+                    }
                 }
                 if (cond) cont++;
             }
@@ -86,9 +91,11 @@ public class RowAndColCard implements PublicGoalCard {
         if (lineType.equals(LineType.ROW)) {
             for (int i = 0; i < p.getPlayerScheme().getROWS(); i++) {
                 cond = true;
-                for (int j = 1; j < p.getPlayerScheme().getCOLS(); j++) {
-                    if (!(p.getPlayerScheme().getScheme()[i][j - 1].getDice() != null && p.getPlayerScheme().getScheme()[i][j].getDice() != null && p.getPlayerScheme().getScheme()[i][j - 1].getDice().getValue()!=p.getPlayerScheme().getScheme()[i][j].getDice().getValue()))
-                        cond = false;
+                for (int j = 0; j < p.getPlayerScheme().getCOLS()-1; j++) {
+                    for(int k=j+1;k<p.getPlayerScheme().getCOLS();k++) {
+                        if (!(p.getPlayerScheme().getScheme()[i][j].getDice() != null && p.getPlayerScheme().getScheme()[i][k].getDice() != null && p.getPlayerScheme().getScheme()[i][j].getDice().getValue() != p.getPlayerScheme().getScheme()[i][k].getDice().getValue()))
+                            cond = false;
+                    }
                 }
                 if (cond) cont++;
             }
@@ -97,9 +104,11 @@ public class RowAndColCard implements PublicGoalCard {
         else {
             for (int i = 0; i < p.getPlayerScheme().getCOLS(); i++) {
                 cond = true;
-                for (int j = 1; j < p.getPlayerScheme().getROWS(); j++) {
-                    if (!(p.getPlayerScheme().getScheme()[j-1][i].getDice() != null && p.getPlayerScheme().getScheme()[j][i].getDice() != null && p.getPlayerScheme().getScheme()[j-1][i].getDice().getValue()!=p.getPlayerScheme().getScheme()[j][i].getDice().getValue()))
-                        cond = false;
+                for (int j = 0; j < p.getPlayerScheme().getROWS()-1; j++) {
+                    for(int k=j+1;k<p.getPlayerScheme().getROWS();k++) {
+                        if (!(p.getPlayerScheme().getScheme()[j][i].getDice() != null && p.getPlayerScheme().getScheme()[k][i].getDice() != null && p.getPlayerScheme().getScheme()[j][i].getDice().getValue() != p.getPlayerScheme().getScheme()[k][i].getDice().getValue()))
+                            cond = false;
+                    }
                 }
                 if (cond) cont++;
             }

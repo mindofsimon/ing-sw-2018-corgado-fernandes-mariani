@@ -10,6 +10,8 @@ import it.polimi.deib.se2018.model.player.Player;
 public class DiagonalCard implements PublicGoalCard {
 
     private final String name;
+    //matrice che vede se quella casella è stata gia contata
+    private boolean[][] contato= new boolean[4][5];
 
     /**
      * Constructor, initializes card activation message class
@@ -28,13 +30,13 @@ public class DiagonalCard implements PublicGoalCard {
     public int calculateVictoryPoints(Player p) {
         int countTotal=0;
         int cont=0;
-        int contNext=0;
+        //int contNext=0;
         for(DiceColor c: DiceColor.values()) {
-            for (int i = 0; i < p.getPlayerScheme().getROWS()-1; i++) {
+            for (int i = 0; i < p.getPlayerScheme().getROWS(); i++) {
                 for (int j = 0; j < p.getPlayerScheme().getCOLS(); j++) {
                     if (p.getPlayerScheme().getScheme()[i][j].getDice() != null && p.getPlayerScheme().getScheme()[i][j].getDice().getColor().equals(c)) {
                         cont = countNearDiagonalDices(p, i, j, c);
-                        if(cont>0&&j==4){
+                        /*if(cont>0&&j==4){
                             contNext= countNearDiagonalDices(p, i+1, j-1, c);
                         }
                         if(cont>0&&j==0){
@@ -44,7 +46,7 @@ public class DiagonalCard implements PublicGoalCard {
                             contNext=countNearDiagonalDices(p, i+1, j+1, c);
                             contNext=contNext+countNearDiagonalDices(p, i+1, j-1, c);
                         }
-                        if(contNext==0&&cont!=0) cont++;
+                        if(contNext==0&&cont!=0) cont++;*/
                         countTotal=countTotal+cont;
                     }
                 }
@@ -85,8 +87,27 @@ public class DiagonalCard implements PublicGoalCard {
      */
     private int contA(Player p,int r,int c,DiceColor color){
         int cont=0;
-        if((p.getPlayerScheme().getScheme()[r + 1][c - 1].getDice()!=null)&&(p.getPlayerScheme().getScheme()[r + 1][c - 1].getDice().getColor().equals(color)))cont++;
-        if((p.getPlayerScheme().getScheme()[r + 1][c + 1].getDice()!=null)&&(p.getPlayerScheme().getScheme()[r + 1][c + 1].getDice().getColor().equals(color)))cont++;
+        if((p.getPlayerScheme().getScheme()[r + 1][c - 1].getDice()!=null)&&(p.getPlayerScheme().getScheme()[r + 1][c - 1].getDice().getColor().equals(color))&&!contato[r+1][c-1]){
+            if(!contato[r][c]){
+                contato[r][c]=true;
+                cont++;
+            }
+
+            contato[r+1][c-1]=true;
+            cont++;
+
+
+        }
+        if((p.getPlayerScheme().getScheme()[r + 1][c + 1].getDice()!=null)&&(p.getPlayerScheme().getScheme()[r + 1][c + 1].getDice().getColor().equals(color))&&!contato[r+1][c+1]) {
+            if(!contato[r][c]){
+                contato[r][c]=true;
+                cont++;
+            }
+
+            contato[r+1][c+1]=true;
+            cont++;
+
+        }
         return cont;
     }
 
@@ -100,7 +121,15 @@ public class DiagonalCard implements PublicGoalCard {
      */
     private int contB(Player p,int r,int c,DiceColor color){
         int cont=0;
-        if((p.getPlayerScheme().getScheme()[r+1][c + 1].getDice() != null)&&(p.getPlayerScheme().getScheme()[r+1][c + 1].getDice().getColor().equals(color)))cont++;
+        if((p.getPlayerScheme().getScheme()[r+1][c + 1].getDice() != null)&&(p.getPlayerScheme().getScheme()[r+1][c + 1].getDice().getColor().equals(color))&&!contato[r+1][c+1]){
+            if(!contato[r][c]){
+                contato[r][c]=true;
+                cont++;
+            }
+            contato[r+1][c+1]=true;
+            cont++;
+
+        }
         return cont;
     }
 
@@ -114,7 +143,16 @@ public class DiagonalCard implements PublicGoalCard {
      */
     private int contC(Player p,int r,int c,DiceColor color){
         int cont=0;
-        if((p.getPlayerScheme().getScheme()[r+1][c - 1].getDice()!=null)&&(p.getPlayerScheme().getScheme()[r+1][c - 1].getDice().getColor().equals(color)))cont++;
+        if((p.getPlayerScheme().getScheme()[r+1][c - 1].getDice()!=null)&&(p.getPlayerScheme().getScheme()[r+1][c - 1].getDice().getColor().equals(color))&&!contato[r+1][c-1]){
+            if(!contato[r][c]){
+                contato[r][c]=true;
+                cont++;
+            }
+
+            contato[r+1][c-1]=true;
+            cont++;
+
+        }
         return cont;
     }
 
