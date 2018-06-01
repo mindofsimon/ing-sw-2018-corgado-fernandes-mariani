@@ -9,9 +9,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+
+import static org.junit.Assert.*;
 
 /**
  *Classe Test del Dice Stock
@@ -101,6 +101,41 @@ public class TestDiceStock {
     public void testSetDiceValue(){
         stock.setDiceValue(0);
         assertTrue(stock.getDice(0).getValue()>0&&stock.getDice(0).getValue()<7);
+
+    }
+
+    /**
+     * Metodo che testa se nello stock esiste un dado di quel colore
+     * @author fernandes
+     */
+    @Test
+    public void testFindDiceColor(){
+        stock.getDice(0).setColor(DiceColor.BLU);
+        assertTrue(stock.findDice(DiceColor.BLU));
+        assertFalse(stock.findDice(DiceColor.RED));
+
+    }
+
+    /**
+     * Metodo che testa se lo stock torna la lista di dadi presenti
+     * @author fernandes
+     */
+    @Test
+    public void testGetDiceList(){
+        ArrayList<Dice> lista=new ArrayList<Dice>();
+        Dice d=stock.getDice(0);
+        lista.add(d);
+
+        assertEquals(lista,stock.getDiceList());
+
+    }
+
+    @Test
+    public void testToString(){
+        stock.getDice(0).setColor(DiceColor.BLU);
+        stock.getDice(0).setValue(1);
+        assertTrue(stock.toString().contains("B"));
+        assertTrue(stock.toString().contains("1"));
 
     }
 

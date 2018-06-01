@@ -21,10 +21,20 @@ import static org.junit.Assert.assertEquals;
 public class TestShadeCard {
     SchemeCard scheme;
     Player player;
-    ShadeCard card;
+    ShadeCard card1;
+    ShadeCard card2;
+    ShadeCard card3;
+
 
     @Before
     public void setUp() {
+        //inizializzo la carta 'Sfumature Chiare'
+        card1=new ShadeCard(ShadeType.LIGHT,"sfumature chiare");
+        //inizializzo la carta 'Sfumature medie'
+        card2=new ShadeCard(ShadeType.MEDIUM,"sfumature medie");
+        //inizializzo la carta 'Sfumature Scure'
+        card3=new ShadeCard(ShadeType.DARK,"sfumature scure");
+
         //creo una carta schema generica tutta bianca solo per i test
         Box[][] tabella = new Box[4][5];
         for (int i = 0; i < 4; i++) {
@@ -47,6 +57,16 @@ public class TestShadeCard {
             cont++;
             i++;
         }
+        //inserisco altri dadi da coprire tutte le condizioni per il test
+        Dice d=new Dice(DiceColor.BLU);
+        d.setValue(1);
+        player.getPlayerScheme().getScheme()[1][4].setDice(d);
+        d=new Dice(DiceColor.BLU);
+        d.setValue(4);
+        player.getPlayerScheme().getScheme()[3][4].setDice(d);
+        d=new Dice(DiceColor.BLU);
+        d.setValue(6);
+        player.getPlayerScheme().getScheme()[2][2].setDice(d);
 
 
 
@@ -58,20 +78,15 @@ public class TestShadeCard {
      */
     @Test
     public void testCalculateVictoryPoints(){
-        //inizializzo la carta 'Sfumature Chiare'
-        card=new ShadeCard(ShadeType.LIGHT,"sfumature chiare");
-        assertEquals(2,card.calculateVictoryPoints(player));//controllo il punteggio
-        //inizializzo la carta 'Sfumature medie'
-        card=new ShadeCard(ShadeType.MEDIUM,"sfumature medie");
-        assertEquals(2,card.calculateVictoryPoints(player));//controllo il punteggio
-        //inizializzo la carta 'Sfumature Scure'
-        card=new ShadeCard(ShadeType.DARK,"sfumature scure");
-        assertEquals(0,card.calculateVictoryPoints(player));//controllo il punteggio,0 perche nello schema non c'erano sfumature scure
-        //aggiungo un dado di valore 6 vicino al 5
-        Dice d=new Dice(DiceColor.BLU);
-        d.setValue(6);
-        player.getPlayerScheme().getScheme()[1][4].setDice(d);
-        assertEquals(2,card.calculateVictoryPoints(player));//controllo il punteggio,2 ora ce la sfumatura scura
+        assertEquals(2,card1.calculateVictoryPoints(player));//controllo il punteggio
+        assertEquals(2,card2.calculateVictoryPoints(player));//controllo il punteggio
+        assertEquals(2,card3.calculateVictoryPoints(player));//controllo il punteggio
+
+    }
+
+    @Test
+    public void testToString(){
+        assertEquals("sfumature chiare",card1.toString());
 
     }
 }

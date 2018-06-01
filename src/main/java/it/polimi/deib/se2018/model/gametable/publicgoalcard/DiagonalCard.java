@@ -5,7 +5,7 @@ import it.polimi.deib.se2018.model.player.Player;
 
 /**
  * Diagonal card class: public goal card
- * @author Simone Mariani
+ * @author Simone Mariani,Sirlan Fernandes
  */
 public class DiagonalCard implements PublicGoalCard {
 
@@ -30,23 +30,11 @@ public class DiagonalCard implements PublicGoalCard {
     public int calculateVictoryPoints(Player p) {
         int countTotal=0;
         int cont=0;
-        //int contNext=0;
         for(DiceColor c: DiceColor.values()) {
             for (int i = 0; i < p.getPlayerScheme().getROWS(); i++) {
                 for (int j = 0; j < p.getPlayerScheme().getCOLS(); j++) {
                     if (p.getPlayerScheme().getScheme()[i][j].getDice() != null && p.getPlayerScheme().getScheme()[i][j].getDice().getColor().equals(c)) {
                         cont = countNearDiagonalDices(p, i, j, c);
-                        /*if(cont>0&&j==4){
-                            contNext= countNearDiagonalDices(p, i+1, j-1, c);
-                        }
-                        if(cont>0&&j==0){
-                            contNext= countNearDiagonalDices(p, i+1, j+1, c);
-                        }
-                        if(cont>0&&j!=0&&j!=4){
-                            contNext=countNearDiagonalDices(p, i+1, j+1, c);
-                            contNext=contNext+countNearDiagonalDices(p, i+1, j-1, c);
-                        }
-                        if(contNext==0&&cont!=0) cont++;*/
                         countTotal=countTotal+cont;
                     }
                 }

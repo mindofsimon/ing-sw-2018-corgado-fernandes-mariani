@@ -8,6 +8,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+
 /**
  *Classe Test del Dice Bag
  * @author fernandes
@@ -59,6 +61,47 @@ public class TestDiceBag {
         assertEquals(17,bag.numColor(c));
 
     }
+
+    /**
+     * metodo che testa l'inserimento di un dado dal sacchetto
+     * si controlla che i numeri di dadi rimasti dopo l'inserimento sia di +1 in generale e per quel colore
+     * @author fernandes
+     */
+    @Test
+    public void testInserttDice(){
+
+        Dice dice=new Dice(DiceColor.BLU);
+        bag.insertDice(dice);
+        assertEquals(91,bag.size());
+        assertEquals(19,bag.numColor(DiceColor.BLU));
+
+    }
+
+    /**
+     * metodo che testa il get del dado nel sachetto
+     * @author fernandes
+     */
+    @Test
+    public void testGet(){
+
+        Dice dice=new Dice(DiceColor.BLU);
+        bag.insertDice(dice);
+        assertEquals(dice,bag.get(90));
+
+
+    }
+
+    @Test
+    public void testToString(){
+        Dice dice=new Dice(DiceColor.BLU);
+        bag.insertDice(dice);
+        assertTrue(bag.toString().contains("COLOR: B"));
+        assertTrue(bag.toString().contains("LEFT: 19"));
+
+
+    }
+
+
 
 
 

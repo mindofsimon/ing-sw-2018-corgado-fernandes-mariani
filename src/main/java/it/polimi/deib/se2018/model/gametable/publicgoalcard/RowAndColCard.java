@@ -4,13 +4,13 @@ import it.polimi.deib.se2018.model.player.Player;
 
 /**
  * Rows and columns card class: public goal card
- * @author Simone Mariani
+ * @author Simone Mariani,Sirlan Fernandes
  */
 public class RowAndColCard implements PublicGoalCard {
 
     private final LineType lineType;
     private final ElementType elementType;
-    private int points;
+    private static int P;
     private final String name;
 
     /**
@@ -24,10 +24,10 @@ public class RowAndColCard implements PublicGoalCard {
         lineType = lt;
         elementType=et;
         name=n;
-        if(lineType.equals(LineType.ROW)&&elementType.equals(ElementType.COLOR)){points=6;}
-        if(lineType.equals(LineType.COLUMN)&&elementType.equals(ElementType.COLOR)){points=5;}
-        if(lineType.equals(LineType.ROW)&&elementType.equals(ElementType.SHADE)){points=5;}
-        if(lineType.equals(LineType.COLUMN)&&elementType.equals(ElementType.SHADE)){points=4;}
+        if(lineType.equals(LineType.ROW)&&elementType.equals(ElementType.COLOR)){P=6;}
+        if(lineType.equals(LineType.COLUMN)&&elementType.equals(ElementType.COLOR)){P=5;}
+        if(lineType.equals(LineType.ROW)&&elementType.equals(ElementType.SHADE)){P=5;}
+        if(lineType.equals(LineType.COLUMN)&&elementType.equals(ElementType.SHADE)){P=4;}
 
     }
 
@@ -64,7 +64,7 @@ public class RowAndColCard implements PublicGoalCard {
                 }
                 if (cond) cont++;
             }
-            return cont * points;
+            return cont * P;
         } else {
             for (int i = 0; i < p.getPlayerScheme().getCOLS(); i++) {
                 cond = true;
@@ -76,7 +76,7 @@ public class RowAndColCard implements PublicGoalCard {
                 }
                 if (cond) cont++;
             }
-            return cont * points;
+            return cont * P;
         }
     }
 
@@ -99,7 +99,7 @@ public class RowAndColCard implements PublicGoalCard {
                 }
                 if (cond) cont++;
             }
-            return cont * points;
+            return cont * P;
         }
         else {
             for (int i = 0; i < p.getPlayerScheme().getCOLS(); i++) {
@@ -112,7 +112,7 @@ public class RowAndColCard implements PublicGoalCard {
                 }
                 if (cond) cont++;
             }
-            return cont * points;
+            return cont * P;
 
         }
     }
@@ -123,7 +123,7 @@ public class RowAndColCard implements PublicGoalCard {
      */
     //ritorna il numero di punti assegnato alla carta
     public int getPoints(){
-        return this.points;
+        return this.P;
     }
 
     /**
