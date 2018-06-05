@@ -1,14 +1,14 @@
 package it.polimi.deib.se2018.TestModel.testPlayer;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.ShadeCard;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.ShadeType;
-import it.polimi.deib.se2018.model.player.Player;
-import it.polimi.deib.se2018.model.player.PlayerColor;
-import it.polimi.deib.se2018.model.player.PrivateGoalCard;
-import it.polimi.deib.se2018.model.player.schemecard.Box;
-import it.polimi.deib.se2018.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.ShadeCard;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.ShadeType;
+import it.polimi.deib.se2018.server.model.player.Player;
+import it.polimi.deib.se2018.server.model.player.PlayerColor;
+import it.polimi.deib.se2018.server.model.player.PrivateGoalCard;
+import it.polimi.deib.se2018.server.model.player.schemecard.Box;
+import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,8 +36,7 @@ public class TestPlayer {
                 tabella[i][j] = new Box();
             }
         }
-        SchemeCard retro=null;
-        scheme = new SchemeCard("schema1",3,retro,tabella);
+        scheme = new SchemeCard("schema1",3,tabella);
         player.setPlayerScheme(scheme);
         //riempio lo schema con una colonna di valori diversi,cosi abbiamo i 3 tipi di sfumature da fare il test
         int cont = 1;
@@ -134,7 +133,7 @@ public class TestPlayer {
      */
     @Test
     public void testSetPrivateGoalCard(){
-        PrivateGoalCard card=new PrivateGoalCard(DiceColor.BLU,"dadi blu");
+        PrivateGoalCard card=new PrivateGoalCard(DiceColor.BLUE,"dadi blu");
         player.setPrivateGoalCard(card);
         assertEquals(card,player.getPrivateGoalCard());
     }

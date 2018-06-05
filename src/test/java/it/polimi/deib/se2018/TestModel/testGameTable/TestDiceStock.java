@@ -1,10 +1,10 @@
 package it.polimi.deib.se2018.TestModel.testGameTable;
 
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.gametable.DiceBag;
-import it.polimi.deib.se2018.model.gametable.DiceStock;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.gametable.DiceBag;
+import it.polimi.deib.se2018.server.model.gametable.DiceStock;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -45,7 +45,7 @@ public class TestDiceStock {
     @Test
     public void testFindDice(){
         Dice dice=stock.getDice(0);
-        Dice d= new Dice(DiceColor.BLU);//dado non presente,perche inizializzato con valore 0
+        Dice d= new Dice(DiceColor.BLUE);//dado non presente,perche inizializzato con valore 0
         assertEquals(0 ,stock.findDice(dice));
         assertEquals(-1,stock.findDice(d));
 
@@ -110,8 +110,8 @@ public class TestDiceStock {
      */
     @Test
     public void testFindDiceColor(){
-        stock.getDice(0).setColor(DiceColor.BLU);
-        assertTrue(stock.findDice(DiceColor.BLU));
+        stock.getDice(0).setColor(DiceColor.BLUE);
+        assertTrue(stock.findDice(DiceColor.BLUE));
         assertFalse(stock.findDice(DiceColor.RED));
 
     }
@@ -132,7 +132,7 @@ public class TestDiceStock {
 
     @Test
     public void testToString(){
-        stock.getDice(0).setColor(DiceColor.BLU);
+        stock.getDice(0).setColor(DiceColor.BLUE);
         stock.getDice(0).setValue(1);
         assertTrue(stock.toString().contains("B"));
         assertTrue(stock.toString().contains("1"));

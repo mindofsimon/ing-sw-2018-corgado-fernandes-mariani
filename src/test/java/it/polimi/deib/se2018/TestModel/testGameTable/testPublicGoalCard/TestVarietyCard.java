@@ -1,13 +1,13 @@
 package it.polimi.deib.se2018.TestModel.testGameTable.testPublicGoalCard;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.ElementType;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.VarietyCard;
-import it.polimi.deib.se2018.model.player.Player;
-import it.polimi.deib.se2018.model.player.PlayerColor;
-import it.polimi.deib.se2018.model.player.schemecard.Box;
-import it.polimi.deib.se2018.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.ElementType;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.VarietyCard;
+import it.polimi.deib.se2018.server.model.player.Player;
+import it.polimi.deib.se2018.server.model.player.PlayerColor;
+import it.polimi.deib.se2018.server.model.player.schemecard.Box;
+import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,9 +34,8 @@ public class TestVarietyCard {
                 tabella[i][j] = new Box();
             }
         }
-        SchemeCard retro = null;
-        scheme = new SchemeCard("schema1", 3, retro, tabella);
-        scheme1 = new SchemeCard("schema2", 3, retro, tabella);
+        scheme = new SchemeCard("schema1", 3, tabella);
+        scheme1 = new SchemeCard("schema2", 3, tabella);
         //inizializzo il giocatore con lo schema creato
         player = new Player("sirlan", 0, PlayerColor.GREEN);
         player.setPlayerScheme(scheme);
@@ -98,7 +97,7 @@ public class TestVarietyCard {
         VarietyCard card2=new VarietyCard(ElementType.SHADE,"Sfumature Diverse");
         assertEquals(0,card2.calculateVictoryPoints(player));//controllo il punteggio,o perche non arrivo fino a 6 nello schema
         //aggiungo dado di valore 6
-        Dice d=new Dice(DiceColor.BLU);
+        Dice d=new Dice(DiceColor.BLUE);
         d.setValue(6);
         player.getPlayerScheme().getScheme()[1][0].setDice(d);
         assertEquals(5,card2.calculateVictoryPoints(player));//controllo il punteggio,ora ho anche il dado 6

@@ -1,10 +1,9 @@
 package it.polimi.deib.se2018.TestModel.testPlayer.testSchemeCard;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.player.schemecard.Box;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.player.schemecard.Box;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,7 +22,7 @@ public class TestBox {
     @Before
     public void setUp(){
         box=new Box();
-        dice=new Dice(DiceColor.BLU);
+        dice=new Dice(DiceColor.BLUE);
         dice.setValue(1);
 
     }
@@ -48,7 +47,7 @@ public class TestBox {
     @Test
     public void TestGetDice(){
         box.setDice(dice);
-        assertEquals(DiceColor.BLU,box.getDice().getColor());
+        assertEquals(DiceColor.BLUE,box.getDice().getColor());
         assertEquals(1,box.getDice().getValue());
 
     }

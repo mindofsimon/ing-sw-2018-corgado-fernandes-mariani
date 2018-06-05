@@ -1,7 +1,7 @@
 package it.polimi.deib.se2018.TestModel.testPlayer.testSchemeCard;
 
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.player.schemecard.ColoredBox;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.player.schemecard.ColoredBox;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class TestColoredBox {
     //inizializzo una box Blu
     @Before
     public void setUp(){
-        box=new ColoredBox(DiceColor.BLU);
+        box=new ColoredBox(DiceColor.BLUE);
     }
 
     /**
@@ -26,7 +26,7 @@ public class TestColoredBox {
      */
     @Test
     public void testColoredBox(){
-        assertEquals(DiceColor.BLU,box.getColor());
+        assertEquals(DiceColor.BLUE,box.getColor());
     }
 
 }

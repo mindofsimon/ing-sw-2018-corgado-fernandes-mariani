@@ -1,12 +1,13 @@
 package it.polimi.deib.se2018.TestModel.testGameTable.testPublicGoalCard;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.*;
-import it.polimi.deib.se2018.model.player.Player;
-import it.polimi.deib.se2018.model.player.PlayerColor;
-import it.polimi.deib.se2018.model.player.schemecard.Box;
-import it.polimi.deib.se2018.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.ShadeCard;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.ShadeType;
+import it.polimi.deib.se2018.server.model.player.Player;
+import it.polimi.deib.se2018.server.model.player.PlayerColor;
+import it.polimi.deib.se2018.server.model.player.schemecard.Box;
+import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -42,8 +43,7 @@ public class TestShadeCard {
                 tabella[i][j] = new Box();
             }
         }
-        SchemeCard retro = null;
-        scheme = new SchemeCard("schema1", 3, retro, tabella);
+        scheme = new SchemeCard("schema1", 3, tabella);
         //inizializzo il giocatore con lo schema creato
         player = new Player("sirlan", 0, PlayerColor.GREEN);
         player.setPlayerScheme(scheme);
@@ -58,13 +58,13 @@ public class TestShadeCard {
             i++;
         }
         //inserisco altri dadi da coprire tutte le condizioni per il test
-        Dice d=new Dice(DiceColor.BLU);
+        Dice d=new Dice(DiceColor.BLUE);
         d.setValue(1);
         player.getPlayerScheme().getScheme()[1][4].setDice(d);
-        d=new Dice(DiceColor.BLU);
+        d=new Dice(DiceColor.BLUE);
         d.setValue(4);
         player.getPlayerScheme().getScheme()[3][4].setDice(d);
-        d=new Dice(DiceColor.BLU);
+        d=new Dice(DiceColor.BLUE);
         d.setValue(6);
         player.getPlayerScheme().getScheme()[2][2].setDice(d);
 

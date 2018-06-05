@@ -1,14 +1,12 @@
 package it.polimi.deib.se2018.TestModel.testGameTable;
 import static org.junit.Assert.*;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.gametable.DiceBag;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.gametable.DiceBag;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 /**
  *Classe Test del Dice Bag
@@ -70,10 +68,10 @@ public class TestDiceBag {
     @Test
     public void testInserttDice(){
 
-        Dice dice=new Dice(DiceColor.BLU);
+        Dice dice=new Dice(DiceColor.BLUE);
         bag.insertDice(dice);
         assertEquals(91,bag.size());
-        assertEquals(19,bag.numColor(DiceColor.BLU));
+        assertEquals(19,bag.numColor(DiceColor.BLUE));
 
     }
 
@@ -84,7 +82,7 @@ public class TestDiceBag {
     @Test
     public void testGet(){
 
-        Dice dice=new Dice(DiceColor.BLU);
+        Dice dice=new Dice(DiceColor.BLUE);
         bag.insertDice(dice);
         assertEquals(dice,bag.get(90));
 
@@ -93,7 +91,7 @@ public class TestDiceBag {
 
     @Test
     public void testToString(){
-        Dice dice=new Dice(DiceColor.BLU);
+        Dice dice=new Dice(DiceColor.BLUE);
         bag.insertDice(dice);
         assertTrue(bag.toString().contains("COLOR: B"));
         assertTrue(bag.toString().contains("LEFT: 19"));

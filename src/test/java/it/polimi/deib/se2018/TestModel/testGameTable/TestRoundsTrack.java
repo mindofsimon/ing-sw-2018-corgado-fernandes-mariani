@@ -1,10 +1,10 @@
 package it.polimi.deib.se2018.TestModel.testGameTable;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.gametable.DiceBag;
-import it.polimi.deib.se2018.model.gametable.DiceStock;
-import it.polimi.deib.se2018.model.gametable.RoundsTrack;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.gametable.DiceBag;
+import it.polimi.deib.se2018.server.model.gametable.DiceStock;
+import it.polimi.deib.se2018.server.model.gametable.RoundsTrack;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,7 +76,7 @@ public class TestRoundsTrack {
     public void testFindDice(){
         Dice dice=stock.getDice(0);
         track.insertDice(dice);
-        Dice d= new Dice(DiceColor.BLU);//dado non presente,perche inizializzato con valore 0
+        Dice d= new Dice(DiceColor.BLUE);//dado non presente,perche inizializzato con valore 0
         assertEquals(0 ,track.findDice(dice));
         assertEquals(-1,track.findDice(d));
 
@@ -84,7 +84,7 @@ public class TestRoundsTrack {
 
     @Test
     public void testToString(){
-        Dice d=new Dice(DiceColor.BLU);
+        Dice d=new Dice(DiceColor.BLUE);
         d.setValue(1);
         track.insertDice(d);
         assertTrue(track.toString().contains("B"));

@@ -1,14 +1,14 @@
 package it.polimi.deib.se2018.TestModel.testGameTable.testPublicGoalCard;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.ElementType;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.LineType;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.RowAndColCard;
-import it.polimi.deib.se2018.model.player.Player;
-import it.polimi.deib.se2018.model.player.PlayerColor;
-import it.polimi.deib.se2018.model.player.schemecard.Box;
-import it.polimi.deib.se2018.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.ElementType;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.LineType;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.RowAndColCard;
+import it.polimi.deib.se2018.server.model.player.Player;
+import it.polimi.deib.se2018.server.model.player.PlayerColor;
+import it.polimi.deib.se2018.server.model.player.schemecard.Box;
+import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -35,8 +35,7 @@ public class TestRowAndColCard {
                 tabella[i][j] = new Box();
             }
         }
-        SchemeCard retro=null;
-        scheme = new SchemeCard("schema1",3,retro,tabella);
+        scheme = new SchemeCard("schema1",3,tabella);
         //inizializzo il giocatore con lo schema creato
         player= new Player("sirlan",0,PlayerColor.GREEN);
         player.setPlayerScheme(scheme);

@@ -1,15 +1,12 @@
 package it.polimi.deib.se2018.TestModel.testGameTable.testPublicGoalCard;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.DiagonalCard;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.ElementType;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.LineType;
-import it.polimi.deib.se2018.model.gametable.publicgoalcard.RowAndColCard;
-import it.polimi.deib.se2018.model.player.Player;
-import it.polimi.deib.se2018.model.player.PlayerColor;
-import it.polimi.deib.se2018.model.player.schemecard.Box;
-import it.polimi.deib.se2018.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.gametable.publicgoalcard.DiagonalCard;
+import it.polimi.deib.se2018.server.model.player.Player;
+import it.polimi.deib.se2018.server.model.player.PlayerColor;
+import it.polimi.deib.se2018.server.model.player.schemecard.Box;
+import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,13 +31,12 @@ public class TestDiagonalCard {
                 tabella[i][j] = new Box();
             }
         }
-        SchemeCard retro=null;
-        SchemeCard scheme = new SchemeCard("schema1",3,retro,tabella);
+        SchemeCard scheme = new SchemeCard("schema1",3,tabella);
         //creo giocatore
         player=new Player("sirlan",0,PlayerColor.GREEN);
         player.setPlayerScheme(scheme);
         //piazzo i dadi in modo da avere una copertura completa dei test
-        Dice dB=new Dice(DiceColor.BLU);
+        Dice dB=new Dice(DiceColor.BLUE);
         dB.setValue(1);
         Dice dR=new Dice(DiceColor.RED);
         dR.setValue(1);

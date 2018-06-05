@@ -1,6 +1,6 @@
 package it.polimi.deib.se2018.TestModel.testPlayer.testSchemeCard;
 
-import it.polimi.deib.se2018.model.player.schemecard.ValueBox;
+import it.polimi.deib.se2018.server.model.player.schemecard.ValueBox;
 import org.junit.Before;
 import org.junit.Test;
 

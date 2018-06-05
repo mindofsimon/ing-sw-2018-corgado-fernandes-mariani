@@ -1,7 +1,7 @@
 package it.polimi.deib.se2018.TestModel.testPlayer;
 
-import it.polimi.deib.se2018.model.dice.DiceColor;
-import it.polimi.deib.se2018.model.player.PrivateGoalCard;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.player.PrivateGoalCard;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class TestPrivateGoalCard {
     //inizializzo la carta
     @Before
     public void setUp() {
-        card = new PrivateGoalCard(DiceColor.BLU, "Sfumature Blu");
+        card = new PrivateGoalCard(DiceColor.BLUE, "Sfumature Blu");
     }
 
     /**
@@ -26,7 +26,7 @@ public class TestPrivateGoalCard {
      */
     @Test
     public void TestPrivateGoalCard(){
-        assertEquals(DiceColor.BLU,card.getColor());
+        assertEquals(DiceColor.BLUE,card.getColor());
         assertEquals("Sfumature Blu",card.toString());
     }
 

@@ -1,7 +1,7 @@
 package it.polimi.deib.se2018.TestModel.testDice;
 
-import it.polimi.deib.se2018.model.dice.Dice;
-import it.polimi.deib.se2018.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class TestDice {
     //inizializza un dado blu
     @Before
     public void setUp(){
-        dice= new Dice(DiceColor.BLU);
+        dice= new Dice(DiceColor.BLUE);
     }
 
     /**
@@ -25,7 +25,7 @@ public class TestDice {
      */
     @Test
     public void testDice(){
-        assertEquals(DiceColor.BLU,dice.getColor());
+        assertEquals(DiceColor.BLUE,dice.getColor());
         assertEquals(0,dice.getValue());//valore a 0 perche quando viene inizializzato il dado ha valore 0
 
     }
