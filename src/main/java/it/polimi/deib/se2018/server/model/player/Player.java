@@ -28,7 +28,7 @@ public class Player implements Serializable {
      * Constructor, initializes player class
      * @param name name
      * @param order order
-     * @param color color
+     * @param color player's color
      */
     //Constructor
     public Player(String name, int order, PlayerColor color){
@@ -44,23 +44,23 @@ public class Player implements Serializable {
 
     //"Getters" methods
     /**
-     * Get player color
-     * @return player color
+     * Gets player's color
+     * @return player's color
      */
     public PlayerColor getPlayerColor(){
         return playerColor;
     }
 
     /**
-     * Get order
-     * @return order
+     * Gets order of players
+     * @return order of players
      */
     public int getOrder(){
         return order;
     }
 
     /**
-     * Get favor markers
+     * Gets favor markers
      * @return favor markers
      */
     public int getFavorMarkers(){
@@ -68,7 +68,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Get victory points
+     * Gets victory points
      * @return victory points
      */
     public int getVictoryPoints(){
@@ -76,7 +76,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Get nickname
+     * Gets nickname
      * @return nickname
      */
     public String getNickname(){
@@ -84,7 +84,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Get player scheme
+     * Gets player scheme
      * @return player scheme
      */
     public SchemeCard getPlayerScheme() {
@@ -92,19 +92,19 @@ public class Player implements Serializable {
     }
 
     /**
-     * Get private goal card
+     * Gets private goal card
      * @return private goal card
      */
     public PrivateGoalCard getPrivateGoalCard(){return privateGoalCard;}
 
     /**
-     * Get number of moves
+     * Gets number of moves
      * @return number of moves
      */
     public int getnMoves() { return nMoves; }
 
     /**
-     * Get number of turns
+     * Gets number of turns
      * @return number of turns
      */
     public int getnTurns(){ return nTurns; }
@@ -121,11 +121,15 @@ public class Player implements Serializable {
      */
     public boolean dicePlaced() { return dicePlaced; }
 
+    /**
+     * Gets offered scheme cards
+     * @return offered scheme cards
+     */
     public ArrayList<SchemeCard> getOfferedSchemeCards() { return offeredSchemeCards; }
 
     //"Setters" methods
     /**
-     * Set victory points
+     * Sets victory points
      * @param points victory points
      */
     public void setVictoryPoints(int points){
@@ -133,7 +137,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Set favor markers
+     * Sets favor markers
      * @param markers favor markers
      */
     public void setFavorMarkers(int markers){
@@ -141,7 +145,7 @@ public class Player implements Serializable {
     }
 
     /**
-     * Set order
+     * Sets order
      * @param order order
      */
     public void setOrder(int order){
@@ -149,25 +153,25 @@ public class Player implements Serializable {
     }
 
     /**
-     * Set private goal card
+     * Sets private goal card
      * @param c private goal card
      */
     public void setPrivateGoalCard(PrivateGoalCard c){privateGoalCard=c;}
 
     /**
-     * Set player scheme
+     * Sets player scheme
      * @param s player scheme
      */
     public void setPlayerScheme(SchemeCard s){playerScheme=s;}
 
     /**
-     * Set number of moves
+     * Sets number of moves
      * @param n number of moves
      */
     public void setnMoves(int n){ nMoves=n; }
 
     /**
-     * Set number of turns
+     * Sets number of turns
      * @param n number of turns
      */
     public void setnTurns(int n){ nTurns=n;}
@@ -194,12 +198,16 @@ public class Player implements Serializable {
     }
 
     /**
-     * Resets the dice placement for this turn
+     * Resets the card activation for this turn
      */
     public void resetCardActivated(){
         cardActivated=false;
     }
 
+    /**
+     * Sets offered scheme cards
+     * @param s scheme card
+     */
     public void setOfferedSchemeCards(SchemeCard s){ offeredSchemeCards.add(s); }
 
 }

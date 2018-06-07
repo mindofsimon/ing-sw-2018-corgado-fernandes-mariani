@@ -44,50 +44,50 @@ public class Model extends Observable implements Serializable {
 
     //"Getters" methods
     /**
-     * Get player list
+     * Gets player list
      * @return player list
      */
     public ArrayList<Player> getPlayerList(){return playerList;}
 
     /**
-     * Get public goal cards
+     * Gets public goal cards
      * @return public goal cards
      */
     public ArrayList<PublicGoalCard>getPublicGoalCards(){return publicGoalCards;}
 
     /**
-     * Get dice bag
+     * Gets dice bag
      * @return dice bag
      */
     public DiceBag getDiceBag(){return diceBag;}
 
     /**
-     * Get dice stock
+     * Gets dice stock
      * @return dice stock
      */
     public DiceStock getDiceStock(){return diceStock;}
 
     /**
-     * Get rounds track
+     * Gets rounds track
      * @return rounds track
      */
     public RoundsTrack getRoundsTrack() {return roundsTrack;}
 
     /**
-     * Get round
+     * Gets round
      * @return round
      */
     public int getRound(){return round;}
 
     /**
-     * Get turm
+     * Gets turm
      * @return turn
      */
     public int getTurn(){return turn;}
 
     //"Setters" methods
     /**
-     * Add player
+     * Adds player
      * @param p player
      */
     public void addPlayer(Player p){
@@ -95,27 +95,27 @@ public class Model extends Observable implements Serializable {
     }
 
     /**
-     * Add public goal card
+     * Adds public goal card
      * @param c public goal card
      */
     public void addPublicGoalCard(PublicGoalCard c){publicGoalCards.add(c);}
 
     /**
-     * Increase round
+     * Increases round
      */
     public void incrRound(){
         round++;
     }
 
     /**
-     * Increase turn
+     * Increases turn
      */
     public void incrTurn(){
         turn++;
     }
 
     /**
-     * Decrease turn
+     * Decreases turn
      */
     public void decrTurn(){
         turn--;
@@ -134,33 +134,56 @@ public class Model extends Observable implements Serializable {
     }
 
     /**
-     * Notify round update
+     * Notifies round update
      * @param p player
+     * @throws RemoteException
      */
     public void notifyTurnAndRoundUpdate(Player p) throws RemoteException {
         notify(new EndTurnMessage(p,this));
     }
 
     /**
-     * Notify placement
+     * Notifies placement
      * @param p dice placement
+     * @throws RemoteException
      */
     public void notifyPlacement(DicePlacement p)throws RemoteException{
         notify(new DicePlacementMessage(findPlayerByName(p.getPlayerNickName()),this));
     }
 
+    /**
+     * Performs card activation
+     * @param p player
+     * @param n
+     * @throws RemoteException
+     */
     public void performCardActivation(Player p, int n)throws RemoteException{
         notify(new CardActivationMessage(p,this));
     }
 
+    /**
+     * Sets game over for single player
+     * @param solitaryObjective Solitary objective
+     * @throws RemoteException
+     */
     public void setGameOver1P(int solitaryObjective)throws RemoteException {
         notify(new GameOverMessage(getPlayerList().get(0),printScores(solitaryObjective),false));
     }
 
+    /**
+     * Sets game over for multiplayer
+     * @param p player
+     * @throws RemoteException
+     */
     public void setGameOverMP(Player p)throws RemoteException{
         notify(new GameOverMessage(p,printScores(),true));
     }
 
+    /**
+     * Finds player by name
+     * @param name name
+     * @return player based on the given name
+     */
     private Player findPlayerByName(String name){
         for(int i=0;i<getPlayerList().size();i++){
             if(getPlayerList().get(i).getNickname().equals(name)) return getPlayerList().get(i);
@@ -168,6 +191,11 @@ public class Model extends Observable implements Serializable {
         return getPlayerList().get(0);
     }
 
+    /**
+     * Finds player by order
+     * @param order order
+     * @return player based on the given order
+     */
     public Player findPlayerByOrder(int order){
         for(int i=0;i<getPlayerList().size();i++){
             if(getPlayerList().get(i).getOrder()==turn) return getPlayerList().get(i);
@@ -175,6 +203,11 @@ public class Model extends Observable implements Serializable {
         return getPlayerList().get(0);
     }
 
+    /**
+     * Prints scores for single player game
+     * @param solitaryObjective solitary objective
+     * @return string that prints final score
+     */
     public String printScores(int solitaryObjective){//SINGLE-PLAYER
         StringBuilder builder = new StringBuilder();
         builder.append("Your score: "+playerList.get(0).getVictoryPoints()+"\nSolitary objective (Rounds Track points): "+solitaryObjective+"\n");
@@ -184,6 +217,10 @@ public class Model extends Observable implements Serializable {
     }
 
 
+    /**
+     * Prints scores for multiplayer game
+     * @return string that prints final score
+     */
     public String printScores(){//MULTI-PLAYER (Faccio una specie di classifica)...magari posso usare java funzionale per ordinamento(?)
         StringBuilder builder = new StringBuilder();
         for(int i=0;i<getPlayerList().size();i++){
@@ -192,6 +229,10 @@ public class Model extends Observable implements Serializable {
         return builder.toString();
     }
 
+    /**
+     * Prints public goal cards
+     * @return string that prints all public goal cards
+     */
     public String printPublicGoalCards(){
         StringBuilder builder = new StringBuilder();
         builder.append("Public Goal Cards:\n");

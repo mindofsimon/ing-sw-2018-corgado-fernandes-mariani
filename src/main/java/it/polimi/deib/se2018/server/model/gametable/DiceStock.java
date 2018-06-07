@@ -34,7 +34,7 @@ public class DiceStock implements Serializable {
 
     //"Getters" methods
     /**
-     * Get dice list
+     * Gets dice list
      * @return dice list
      */
     public ArrayList<Dice> getDiceList(){
@@ -43,7 +43,7 @@ public class DiceStock implements Serializable {
 
     //"Setters" methods
     /**
-     * Insert dice
+     * Inserts dice
      * @param d dice
      */
     public void insertDice(Dice d){
@@ -51,7 +51,7 @@ public class DiceStock implements Serializable {
     }
 
     /**
-     * Set dice value
+     * Sets dice value
      * @param i dice index
      */
     public void setDiceValue(int i){
@@ -60,7 +60,7 @@ public class DiceStock implements Serializable {
     }
 
     /**
-     * Find a dice
+     * Finds a dice by index
      * @param d dice
      * @return dice index if in the dice list, else returns -1
      */
@@ -74,7 +74,7 @@ public class DiceStock implements Serializable {
     }
 
     /**
-     *
+     * Finds a dice by color
      * @param c color
      * @return true if there is a dice with the same color of c, else returns false
      */
@@ -89,7 +89,7 @@ public class DiceStock implements Serializable {
 
 
     /**
-     * Extract a selected dice
+     * Extracts a selected dice
      * @param d dice
      */
     public void extractDice(Dice d){
@@ -98,7 +98,7 @@ public class DiceStock implements Serializable {
     }
 
     /**
-     * Extract a random dice
+     * Extracts a random dice
      * @return random dice extracted
      */
     public Dice extractRandomDice(){
@@ -107,7 +107,7 @@ public class DiceStock implements Serializable {
     }
 
     /**
-     * Get a dice
+     * Gets a dice
      * @param i dice index
      * @return dice index
      */
@@ -116,7 +116,7 @@ public class DiceStock implements Serializable {
     }
 
     /**
-     * Get stock size
+     * Gets stock size
      * @return stock size
      */
     public int size(){
@@ -132,10 +132,9 @@ public class DiceStock implements Serializable {
     }
 
     /**
-     * Show dice stock
+     * Shows dice stock
      * @return string that describes the object
      */
-    //toString() to show DiceStock
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

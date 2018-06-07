@@ -13,7 +13,7 @@ public class Box implements Serializable {//It's a white box (no color, no value
     private Dice dice;
 
     /**
-     * Get dice
+     * Gets dice
      * @return dice
      */
     public Dice getDice(){
@@ -21,7 +21,7 @@ public class Box implements Serializable {//It's a white box (no color, no value
     }
 
     /**
-     * Set dice
+     * Sets dice
      * @param d dice
      */
     public void setDice(Dice d){
@@ -29,13 +29,13 @@ public class Box implements Serializable {//It's a white box (no color, no value
     }
 
     /**
-     * Get color
+     * Gets color
      * @return null
      */
     public DiceColor getColor(){return null;}
 
     /**
-     * Get value
+     * Gets value
      * @return 0
      */
     public int getValue(){return 0;}

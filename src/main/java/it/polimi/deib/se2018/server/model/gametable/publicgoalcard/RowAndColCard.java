@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Rows and columns card class: public goal card
- * @author Simone Mariani,Sirlan Fernandes
+ * @author Simone Mariani, Sirlan Fernandes
  */
 public class RowAndColCard implements PublicGoalCard,Serializable {
 
@@ -120,7 +120,7 @@ public class RowAndColCard implements PublicGoalCard,Serializable {
     }
 
     /**
-     * return the points assigneted on the card
+     * Gets points assigned to the card
      * @return points
      */
     //ritorna il numero di punti assegnato alla carta

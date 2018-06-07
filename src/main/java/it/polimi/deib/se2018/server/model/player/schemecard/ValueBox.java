@@ -13,14 +13,13 @@ public class ValueBox extends Box implements Serializable {
      * Constructor
      * @param value box value
      */
-    //Constructor
     public ValueBox(int value){
         setValue(value);
     }
 
     //"Getters" methods
     /**
-     * Get value
+     * Gets value
      * @return value
      */
     public int getValue() {
@@ -29,7 +28,7 @@ public class ValueBox extends Box implements Serializable {
 
     //"Setters" methods
     /**
-     * Set value
+     * Sets value
      * @param value box value
      */
     public void setValue(int value){

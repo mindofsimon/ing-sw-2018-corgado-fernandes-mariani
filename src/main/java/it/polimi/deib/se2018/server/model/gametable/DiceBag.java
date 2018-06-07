@@ -27,7 +27,6 @@ public class DiceBag implements Serializable {
     /**
      * Constructor
      */
-    //Constructor
     private DiceBag(){
         diceList=new ArrayList<Dice>(90);
         init();
@@ -35,7 +34,7 @@ public class DiceBag implements Serializable {
 
     //"Getters" methods
     /**
-     * Get dice list
+     * Gets dice list
      * @return dice list
      */
     public ArrayList<Dice> getDiceList(){
@@ -44,7 +43,7 @@ public class DiceBag implements Serializable {
 
     //"Setters" methods
     /**
-     * Insert dice
+     * Inserts dice
      * @param d dice
      */
     public void insertDice(Dice d){
@@ -52,7 +51,7 @@ public class DiceBag implements Serializable {
     }
 
     /**
-     * Extract a random dice
+     * Extracts a random dice
      * @return random dice extracted
      */
     public Dice extractRandomDice(){
@@ -74,8 +73,8 @@ public class DiceBag implements Serializable {
 
 
     /**
-     * Returns the numbers of dice in the bag
-     * @return number of dice in the bag
+     * Returns the number of dices in the bag
+     * @return number of dices in the bag
      */
     public int size() {
         return diceList.size();
@@ -91,9 +90,9 @@ public class DiceBag implements Serializable {
     }
 
     /**
-     * Counts number of dice with same color
+     * Counts number of dices with same color
      * @param c dice color
-     * @return number of dice with same color
+     * @return number of dices with same color
      */
     public int numColor(DiceColor c){
         int cont = 0;
@@ -105,7 +104,7 @@ public class DiceBag implements Serializable {
     }
 
     /**
-     * clear the bag
+     * Clears the bag
      */
     public void clear(){
         instance=null;
