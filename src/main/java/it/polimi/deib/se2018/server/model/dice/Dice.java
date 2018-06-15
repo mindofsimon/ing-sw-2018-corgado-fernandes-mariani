@@ -23,7 +23,7 @@ public class Dice implements Serializable {
     //"Getters" methods
 
     /**
-     * Get dice value
+     * Gets dice value
      * @return dice value
      */
     public int getValue() {
@@ -31,7 +31,7 @@ public class Dice implements Serializable {
     }
 
     /**
-     * Get dice color
+     * Gets dice color
      * @return dice color
      */
     public DiceColor getColor() {
@@ -41,7 +41,7 @@ public class Dice implements Serializable {
     //"Setters" methods
 
     /**
-     * Set dice value
+     * Sets dice value
      * @param value dice value
      */
     public void setValue(int value){
@@ -49,7 +49,7 @@ public class Dice implements Serializable {
     }
 
     /**
-     * Set dice color
+     * Sets dice color
      * @param color dice color
      */
     public void setColor(DiceColor color){

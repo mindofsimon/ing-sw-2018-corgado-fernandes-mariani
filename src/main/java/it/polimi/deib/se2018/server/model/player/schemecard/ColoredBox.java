@@ -15,14 +15,13 @@ public class ColoredBox extends Box implements Serializable{
      * Constructor
      * @param color dice color
      */
-    //Constructor
     public ColoredBox(DiceColor color){
         setColor(color);
     }
 
     //"Getters" methods
     /**
-     * Get color
+     * Gets color
      * @return color
      */
     public DiceColor getColor() {
@@ -31,7 +30,7 @@ public class ColoredBox extends Box implements Serializable{
 
     //"Setters" methods
     /**
-     * Set color
+     * Sets color
      * @param color dice color
      */
     public void setColor(DiceColor color){

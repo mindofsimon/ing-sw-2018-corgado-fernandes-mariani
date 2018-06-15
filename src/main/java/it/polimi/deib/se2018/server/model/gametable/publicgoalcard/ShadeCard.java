@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Shade card class: public goal card
- * @author Simone Mariani,Sirlan Fernandes
+ * @author Simone Mariani, Sirlan Fernandes
  */
 public class ShadeCard implements PublicGoalCard,Serializable {
 

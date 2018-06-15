@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Diagonal card class: public goal card
- * @author Simone Mariani,Sirlan Fernandes
+ * @author Simone Mariani, Sirlan Fernandes
  */
 public class DiagonalCard implements PublicGoalCard,Serializable {
 
@@ -24,7 +24,7 @@ public class DiagonalCard implements PublicGoalCard,Serializable {
     }
 
     /**
-     * Calculate total victory points
+     * Calculates total victory points
      * @param p player
      * @return total points counted
      */

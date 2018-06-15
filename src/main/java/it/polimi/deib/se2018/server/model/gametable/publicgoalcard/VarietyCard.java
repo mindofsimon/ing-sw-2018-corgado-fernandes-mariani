@@ -42,7 +42,7 @@ public class VarietyCard implements PublicGoalCard,Serializable {
      * @param p player
      * @return sets of color variety * points
      */
-    private int calculateColorsVariety(Player p){//LO SWITCH NEL CICLO DA PROBLEMI
+    private int calculateColorsVariety(Player p){
        int cont=20;
        for(DiceColor c: DiceColor.values()) {
            if(countNumberColors(p,c)<=cont){
@@ -57,7 +57,7 @@ public class VarietyCard implements PublicGoalCard,Serializable {
      * @param p player
      * @return sets of shade variety * points
      */
-    private int calculateShadesVariety(Player p){//LO SWITCH NEL CICLO DA PROBLEMI
+    private int calculateShadesVariety(Player p){
         int cont=20;
         for(int i=1;i<7;i++) {
             if(countNumberShades(p,i)<=cont){
@@ -68,10 +68,10 @@ public class VarietyCard implements PublicGoalCard,Serializable {
     }
 
     /**
-     * Counts how many Dices of one color
+     * Counts how many dices of a given color there are
      * @param p player
      * @param c dice's color to count
-     * @return number of dice for the color
+     * @return number of dices counted
      */
     private int countNumberColors(Player p,DiceColor c){
         int cont=0;
@@ -87,10 +87,10 @@ public class VarietyCard implements PublicGoalCard,Serializable {
     }
 
     /**
-     * Counts how many Dices of one shade
+     * Counts how many dices of a given shade there are
      * @param p player
      * @param val dice's shade to count
-     * @return number of dice for the shade
+     * @return number of dices counted
      */
     private int countNumberShades(Player p,int val){
         int cont=0;

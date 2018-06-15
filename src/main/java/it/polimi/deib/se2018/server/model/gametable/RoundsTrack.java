@@ -33,7 +33,7 @@ public class RoundsTrack implements Serializable {
 
     //"Getters" methods
     /**
-     * Get dice list
+     * Gets dice list
      * @return dice list
      */
     public ArrayList<Dice> getDiceList(){
@@ -42,7 +42,7 @@ public class RoundsTrack implements Serializable {
 
     //"Setters" methods
     /**
-     * Insert dice
+     * Inserts dice
      * @param d dice
      */
     public void insertDice(Dice d){
@@ -58,7 +58,7 @@ public class RoundsTrack implements Serializable {
     }
 
     /**
-     * Find a dice
+     * Finds a dice by index
      * @param d dice
      * @return dice index
      */
@@ -72,20 +72,18 @@ public class RoundsTrack implements Serializable {
     }
 
     /**
-     * Get track size
+     * Gets track size
      * @return track size
      */
-    //Get a size of Track
     public int size(){
         return diceList.size();
     }
 
 
     /**
-     * Show round track
+     * Shows round track
      * @return string that describes the object
      */
-    //toString() to show RoundsTrack
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();

@@ -17,7 +17,6 @@ public class PrivateGoalCard implements Serializable {
      * @param color dice color
      * @param name name
      */
-    //Constructor
     public PrivateGoalCard(DiceColor color,String name) {
         this.color = color;
         this.name = name;
@@ -25,7 +24,7 @@ public class PrivateGoalCard implements Serializable {
 
     //"Getters" methods
     /**
-     * Get color
+     * Gets color
      * @return dice color
      */
     public DiceColor getColor() {

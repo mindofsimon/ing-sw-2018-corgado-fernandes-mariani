@@ -31,7 +31,7 @@ public class SchemeCard implements Serializable {
 
     //"Getters" methods
     /**
-     * Get scheme card name
+     * Gets scheme card name
      * @return scheme card name
      */
     public String getSchemeName() {
@@ -39,7 +39,7 @@ public class SchemeCard implements Serializable {
     }
 
     /**
-     * Get scheme card difficulty
+     * Gets scheme card difficulty
      * @return scheme card difficulty
      */
     public int getDifficulty() {
@@ -47,7 +47,7 @@ public class SchemeCard implements Serializable {
     }
 
     /**
-     * Get scheme card retro
+     * Gets scheme card retro
      * @return scheme card retro
      */
     public SchemeCard getRetro() {
@@ -55,26 +55,26 @@ public class SchemeCard implements Serializable {
     }
 
     /**
-     * Get scheme
+     * Gets scheme
      * @return scheme
      */
     public Box[][] getScheme(){return scheme;}
 
     /**
-     * Get scheme card rows
+     * Gets scheme card rows
      * @return scheme card rows
      */
     public int getROWS(){ return ROWS; }
 
     /**
-     * Get scheme card columns
+     * Gets scheme card columns
      * @return scheme card columns
      */
     public int getCOLS() { return COLS; }
 
     //"Setters" methods
     /**
-     * Set difficulty
+     * Sets difficulty
      * @param diff difficulty
      */
     public void setDifficulty(int diff){
@@ -82,7 +82,7 @@ public class SchemeCard implements Serializable {
     }
 
     /**
-     * Show scheme card
+     * Shows scheme card
      * @return string that describes the object
      */
     //toString() to show the scheme card
@@ -118,12 +118,25 @@ public class SchemeCard implements Serializable {
         builder.append("\n\n");
         return builder.toString();
     }
+
+    /**
+     * Sets scheme card retro
+     * @param retro scheme card retro
+     */
     public void setRetro(SchemeCard retro) {
         this.retro = retro;
     }
 
+    /**
+     * Sets scheme card
+     * @param schemeCard scheme card
+     */
     public void setScheme(SchemeCard schemeCard){this.scheme=schemeCard.getScheme();}
 
+    /**
+     * Basic visualization
+     * @return string that prints initial scheme card
+     */
     public String basicVisualization(){
         ArrayList stringa=new ArrayList<String>();
         stringa.add(0,"A");
