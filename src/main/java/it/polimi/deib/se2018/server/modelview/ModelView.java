@@ -29,6 +29,13 @@ public class ModelView extends Observable<Message> implements Observer<Message>,
         if(message instanceof GameOverMessage){
             notify(message);
         }
+        if(message instanceof QuitPlayerMessage){
+            notify(message);
+        }
+        if(message instanceof PlayerSuspendedMessage){
+            modelCopy = (message.getModel()).copy();
+            notify(new PlayerSuspendedMessage(message.getPlayer(),modelCopy));
+        }
 
     }
 

@@ -12,11 +12,6 @@ public interface ViewInterface extends Remote {
 
     void showMessage(StringMessage message) throws RemoteException;
 
-
-    String increment()throws RemoteException;
-
-    Dice selectDice()throws RemoteException;
-
     void reportError(StringMessage message)throws RemoteException;
 
     void run()throws RemoteException;

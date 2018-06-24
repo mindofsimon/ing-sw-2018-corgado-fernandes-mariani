@@ -34,5 +34,14 @@ public class Message implements Serializable {
     public String getFinalScores(){
         return null;
     }
+
+    public int getCardNumber() {
+        return -1;
+    }
+
+    public int getCardType() {
+        return -1;
+    }
+
 }
 

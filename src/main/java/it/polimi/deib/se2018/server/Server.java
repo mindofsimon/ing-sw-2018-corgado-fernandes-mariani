@@ -8,7 +8,7 @@ import java.rmi.registry.LocateRegistry;
 public class Server {
     private static int PORT = 1099;
 
-    public static void main(String[] args) {
+    public static void startServer() {
 
         try {
             LocateRegistry.createRegistry(PORT);
@@ -22,8 +22,9 @@ public class Server {
             ServerImplementation serverImplementation = new ServerImplementation();
 
 
-            Naming.rebind("//localhost/MyServer", serverImplementation);
+            Naming.rebind("//localhost/Server", serverImplementation);
 
+            System.out.println("Server is running...");
 
         } catch (MalformedURLException e) {
             System.err.println("Impossible to register object!");
@@ -33,4 +34,6 @@ public class Server {
 
     }
 }
+
+
 

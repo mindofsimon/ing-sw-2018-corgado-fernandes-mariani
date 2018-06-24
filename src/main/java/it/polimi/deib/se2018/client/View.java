@@ -29,26 +29,8 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         notify(new DicePlacement(playerNickName,r,c,d));
     }
 
-    private void handleCardActivation(int n)throws RemoteException{notify(new CardActivation(playerNickName,n));}
-
     public void showMessage(StringMessage message)throws RemoteException{//Valutare protected
         System.out.printf(message.getMessage());
-    }
-
-    public String increment()throws RemoteException{
-        showMessage("INCREMENT(I) OR DECREMENT(D): ");
-        return s.next().toUpperCase();
-
-    }
-
-    public Dice selectDice()throws RemoteException{
-        showMessage("DICE COLOR (B/G/R/V/Y): ");
-        String color = s.next().toUpperCase();
-        showMessage("DICE VALUE (1/2/3/4/5/6): ");
-        int value = s.nextInt();
-        Dice d=new Dice(convert(color));
-        d.setValue(value);
-        return d;
     }
 
     public void reportError(StringMessage message)throws RemoteException{
@@ -91,6 +73,24 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
             setGameOver();
             showMessage("\nGAME OVER\n");
         }
+        if (message instanceof PlayerSuspendedMessage) {
+            if (message.getPlayer().getNickname().equals(playerNickName)) {
+                showMessage("You have been suspended!\n");
+                showMessage("ROUND: " + message.getModel().getRound() + " PLAYER: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getNickname() + " TURN: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getnTurns() + "\n");
+            }
+            else{
+                showMessage("Player: "+message.getPlayer().getNickname()+" has been suspended!\n");
+                showMessage("ROUND: " + message.getModel().getRound() + " PLAYER: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getNickname() + " TURN: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getnTurns() + "\n");
+            }
+        }
+        if(message instanceof QuitPlayerMessage){
+            if (message.getPlayer().getNickname().equals(playerNickName)) {
+                System.out.println("You are out of the game\n");
+            }
+            else{
+                System.out.println("Another player has left the game...\n");
+            }
+        }
     }
 
     private void showMessage(String message){
@@ -107,7 +107,7 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         int n=s.nextInt();
         try{
             schemeSelection(n);
-        }catch (RemoteException e){System.out.println("Remote Exception!\n");}
+        }catch (RemoteException e){System.out.println("You are disconnected!\n");}
         while(!gameOver) {
             try{
                 showMessage("CHOOSE AN OPTION: \n1)PLACE A DICE\n2)ACTIVATE A CARD\n3)PASS TURN\n0)EXIT\n");
@@ -117,16 +117,20 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                         placeDice();break;
                     }
                     case "2":{
-                        activateCard();break;
+
+                        break;
                     }
                     case "3":{
                         endTurn();break;
                     }
-                    case "0": return;
+                    case "0":{
+                        quitGame();
+                        return;
+                    }
                     default: {showMessage("Insert a valid option!\n"); break;}
 
                 }
-            }catch (RemoteException e){System.out.println("Remote Exception!\n");}}
+            }catch (RemoteException e){System.out.println("You are disconnected!\n");}}
     }
 
     private void schemeSelection(int n) throws RemoteException{
@@ -162,6 +166,10 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         notify(new EndTurn(playerNickName));
     }
 
+    private void quitGame()throws RemoteException{
+        notify(new QuitPlayerEvent(playerNickName));
+    }
+
     private void placeDice()throws RemoteException{
         showMessage("DICE COLOR (B/G/R/V/Y): ");
         String color = s.next().toUpperCase();
@@ -176,12 +184,6 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         handleDicePlacement(rowConversion(row), column - 1, dice);
     }
 
-    private void activateCard()throws RemoteException{
-        showMessage("TOOL CARD NUMBER: \n");
-        int number=s.nextInt();
-        handleCardActivation(number);
-    }
 
 
 }
-

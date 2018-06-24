@@ -22,7 +22,8 @@ public class Player implements Serializable {
     private boolean dicePlaced;
     private boolean cardActivated;
     private ArrayList<SchemeCard> offeredSchemeCards=new ArrayList<SchemeCard>();
-
+    private boolean suspended;
+    private boolean out;
 
     /**
      * Constructor, initializes player class
@@ -39,6 +40,10 @@ public class Player implements Serializable {
         setFavorMarkers(0);//Assigned when player'll choose scheme card
         setnTurns(1);
         setnMoves(0);
+        dicePlaced=false;
+        cardActivated=false;
+        suspended=false;
+        out=false;
 
     }
 
@@ -127,6 +132,12 @@ public class Player implements Serializable {
      */
     public ArrayList<SchemeCard> getOfferedSchemeCards() { return offeredSchemeCards; }
 
+    public boolean isSuspended() {
+        return suspended;
+    }
+
+    public boolean isOut(){return out;}
+
     //"Setters" methods
     /**
      * Sets victory points
@@ -209,6 +220,10 @@ public class Player implements Serializable {
      * @param s scheme card
      */
     public void setOfferedSchemeCards(SchemeCard s){ offeredSchemeCards.add(s); }
+
+    public void suspend(){suspended=true;}
+
+    public void escape(){out=true;}
 
 }
 

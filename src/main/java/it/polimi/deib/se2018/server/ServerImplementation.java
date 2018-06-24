@@ -32,8 +32,15 @@ public class ServerImplementation extends UnicastRemoteObject implements
     private Controller controller;
     private RemoteView remoteView;
     private ModelView modelView;
-    private Timer timer;
+    private Timer enoughPlayersTimer;
+    private Timer connectionCheckerTimer;
     private TimerTask waitingConnection;
+    private TimerTask clientChecker;
+    private int enoughPlayersTimerInterval;
+    private int suspensionTimerInterval;
+    private boolean gameStarted=false;
+    private ArrayList<ClientInterface> disconnectedClients = new ArrayList<ClientInterface>();
+    private ArrayList<NetworkHandlerInterface> disconnectedNetworkHandlers=new ArrayList<NetworkHandlerInterface>();
 
 
     protected ServerImplementation() throws RemoteException {
@@ -46,18 +53,25 @@ public class ServerImplementation extends UnicastRemoteObject implements
         clients.add(client);
         System.out.println("Player: "+ (client.getPlayerNickName())+ " connected!");
         if(clients.size()<nPlayers) client.notify(new ClientStringMessage("Waiting for other players...\n"));
-        if(clients.size()==nPlayers) initGame();
+        if(clients.size()==nPlayers) {
+            if(nPlayers>1){
+                stopEnoughPlayersTimer();
+            }
+            initGame();
+        }
     }
 
     public void initGame()throws RemoteException{
+        gameStarted=true;
         for(int i=0;i<clients.size();i++){
             model.addPlayer(new Player(clients.get(i).getPlayerNickName(),assignOrder(),assignColor()));
         }
         remoteView.registerNetworkHandlers(networkHandlers);
-        controller.initGame();
+        controller.initGame(suspensionTimerInterval);
     }
 
     public void createGame()throws RemoteException {
+        checkClients();//Faccio partire il controllo sul mantenimento della connessione da qui...cioè dopo che è stato aggiunto il primo client
         model=new Model(DiceBag.getSingletonDiceBag(),DiceStock.getSingletonDiceStock(),RoundsTrack.getSingletonRoundsTrack());
         remoteView=new RemoteView();
         controller=new Controller(model,remoteView);
@@ -111,31 +125,85 @@ public class ServerImplementation extends UnicastRemoteObject implements
     }
 
 
-    public void stopTimer() throws RemoteException{
-        timer.cancel();
+    public void stopEnoughPlayersTimer(){
+        waitingConnection.cancel();
+        enoughPlayersTimer.cancel();
+        enoughPlayersTimer.purge();
     }
 
-    public void setTimer()throws RemoteException{
-        long interval=60000;//60 SECONDI
+    public void checkClients()throws RemoteException {
+        clientChecker = new TimerTask() {
+            @Override
+            public void run() {
+                for (int i = 0; i < clients.size(); i++) {
+                    try {
+                        ClientStringMessage response=pingClient(clients.get(i));
+                    }
+                    catch (RemoteException e) {
+                        removeClient(clients.get(i),i);
+                    }
+                }
+            }
+        };
+        connectionCheckerTimer=new Timer();
+        connectionCheckerTimer.schedule(clientChecker,0,1000);//La esegue ogni secondo
+    }
+
+    public ClientStringMessage pingClient(ClientInterface client) throws RemoteException{
+        return client.pingServer();
+    }
+
+    public void setEnoughPlayersTimer(){
         waitingConnection=new TimerTask() {
             @Override
             public void run() {
                 if(clients.size()>=2&&clients.size()<4) {
-                    try{
-                        nPlayers=clients.size();
+                    try{ nPlayers=clients.size();
                         initGame();}catch (RemoteException e){System.out.println("Error! Remote Exception.");}
-                    timer.cancel();}
+                }
             }
         };
-        timer=new Timer();
-        timer.schedule(waitingConnection,interval,interval);
+        enoughPlayersTimer=new Timer();
+        enoughPlayersTimer.schedule(waitingConnection,(long)enoughPlayersTimerInterval*1000);//La esegue una sola volta
     }
 
 
-    public void removeClient(ClientInterface client) throws RemoteException{
-        clients.remove(client);
-        System.out.println("Player: "+ client.getPlayerNickName() + " disconnected!");
+    private void removeClient(ClientInterface client,int i){
+        //Dovrò dividere tra partita iniziata e partita in fase di avvio?
+        if(!gameStarted){//Fase di avvio
+            if(clients.size()>1) {
+                clients.remove(client);//Valutare anche l'eliminazione del Player dal model
+                networkHandlers.remove(networkHandlers.get(i));
+                if (clients.size() < 2) {
+                    stopEnoughPlayersTimer();//Stoppo il timer solo se la disconnessione produce un solo giocatore in attesa...
+                }
+                System.out.println("Player disconnected!");//Cercare di stampare anche il nome...problema RemoteException
+            }
+            else{
+                clients.remove(client);
+                networkHandlers.remove(networkHandlers.get(i));
+                System.out.println("Player disconnected!");//Cercare di stampare anche il nome...problema RemoteException
+            }
+        }
+        else{//Partita iniziata
+            disconnectClient(client,i);
+        }
+    }
 
+    private void disconnectClient(ClientInterface client,int i){
+        disconnectedClients.add(client);
+        disconnectedNetworkHandlers.add(networkHandlers.get(i));
+        networkHandlers.remove(networkHandlers.get(i));
+        clients.remove(client);
+    }
+
+    public void reconnectClient(ClientInterface client){
+        for(int i=0;i<disconnectedClients.size();i++){
+            clients.add(client);
+            disconnectedClients.remove(client);
+            networkHandlers.add(disconnectedNetworkHandlers.get(i));
+            disconnectedNetworkHandlers.remove(disconnectedNetworkHandlers.get(i));
+        }
     }
 
     public PlayerColor assignColor() throws RemoteException{
@@ -172,5 +240,12 @@ public class ServerImplementation extends UnicastRemoteObject implements
     }
 
 
+    public void setEnoughPlayersTimerInterval(int interval)throws RemoteException{
+        enoughPlayersTimerInterval=interval;
+    }
+
+    public void setSuspensionTimerInterval(int interval)throws RemoteException{
+        suspensionTimerInterval=interval;
+    }
 
 }

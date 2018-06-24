@@ -184,7 +184,7 @@ public class Model extends Observable implements Serializable {
      * @param name name
      * @return player based on the given name
      */
-    private Player findPlayerByName(String name){
+    public Player findPlayerByName(String name){
         for(int i=0;i<getPlayerList().size();i++){
             if(getPlayerList().get(i).getNickname().equals(name)) return getPlayerList().get(i);
         }
@@ -198,7 +198,7 @@ public class Model extends Observable implements Serializable {
      */
     public Player findPlayerByOrder(int order){
         for(int i=0;i<getPlayerList().size();i++){
-            if(getPlayerList().get(i).getOrder()==turn) return getPlayerList().get(i);
+            if(getPlayerList().get(i).getOrder()==order) return getPlayerList().get(i);
         }
         return getPlayerList().get(0);
     }
@@ -240,5 +240,31 @@ public class Model extends Observable implements Serializable {
             builder.append("Card "+(i+1)+": "+getPublicGoalCards().get(i).toString()+"\n");
         }
         return builder.toString();
+    }
+
+    public void suspendPlayer(Player p)throws RemoteException{
+        p.suspend();
+    }
+
+    public void notifyPlayerSuspension(Player p)throws RemoteException{
+        notify(new PlayerSuspendedMessage(p,this));
+    }
+
+    public void setPlayerList(ArrayList<Player> list){
+        this.playerList=list;
+    }
+
+
+    public void notifyPlayerQuit(Player p)throws RemoteException{
+        notify(new QuitPlayerMessage(p));
+    }
+
+    public Player getFirstActive(){//In realtà lo userò per trovare l'unico giocatore rimasto attivo
+        for(int i=0;i<playerList.size();i++){
+            if(!playerList.get(i).isOut()&&!playerList.get(i).isSuspended()){
+                return playerList.get(i);
+            }
+        }
+        return null;
     }
 }

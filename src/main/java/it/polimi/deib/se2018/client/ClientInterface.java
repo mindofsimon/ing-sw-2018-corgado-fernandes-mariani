@@ -1,18 +1,24 @@
 package it.polimi.deib.se2018.client;
 
+import it.polimi.deib.se2018.server.ServerInterface;
+
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface ClientInterface extends Remote {
 
-    public void notify(ClientStringMessage stringMessage) throws RemoteException;
+    void notify(ClientStringMessage stringMessage) throws RemoteException;
 
-    public void setPlayerNickName(String n) throws RemoteException;
+    void setPlayerNickName(String n) throws RemoteException;
 
-    public String getPlayerNickName() throws RemoteException;
+    String getPlayerNickName() throws RemoteException;
 
-    public void setView(View v) throws RemoteException;
+    void setView(View v) throws RemoteException;
 
-    public View getView() throws RemoteException;
+    View getView() throws RemoteException;
+
+    ClientStringMessage pingServer() throws RemoteException;
+
+    void setConnectionCheckerTimer(final ServerInterface server, final ClientInterface client)throws RemoteException;
 
 }

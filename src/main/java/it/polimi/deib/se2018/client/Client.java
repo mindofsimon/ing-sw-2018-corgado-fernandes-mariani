@@ -13,25 +13,39 @@ import java.util.Scanner;
 
 public class Client {
 
-    public static void main(String[] args) {
+    public static void startClient() {
         ServerInterface server;
         try {
+            Scanner scanner = new Scanner(System.in);
+            String serverIp;
+            System.out.println("Enter server IP address: ");
+            serverIp=scanner.next();
 
-            server = (ServerInterface)Naming.lookup("//localhost/MyServer");
+            server = (ServerInterface)Naming.lookup("//"+serverIp+"/Server");
 
             ClientImplementation client = new ClientImplementation();
 
             ClientInterface remoteRef = (ClientInterface) UnicastRemoteObject.exportObject(client, 0);
 
 
-            Scanner scanner = new Scanner(System.in);
             boolean active = true;
             boolean viewStarted=false;
             View view=null;
             String name;
             int gameMod;
             Player p;
+            int interval;
             if(server.getClientsNumber()==0) {
+                do {
+                    System.out.println("Timeout for player connection (in seconds): ");
+                    interval=scanner.nextInt();}
+                while(interval<=0);
+                server.setEnoughPlayersTimerInterval(interval);
+                do {
+                    System.out.println("Timeout for player suspension (in seconds): ");
+                    interval=scanner.nextInt();}
+                while(interval<=0);
+                server.setSuspensionTimerInterval(interval);
                 do{
                     System.out.println("Game mode (0=Single Player, 1=Multi Player): ");
                     gameMod=scanner.nextInt();}
@@ -40,6 +54,7 @@ public class Client {
                     System.out.println("Insert your nickname: ");
                     name=scanner.next();}
                 while(!server.isNameAccepted(name,remoteRef));
+
                 server.createGame();
 
                 remoteRef.setPlayerNickName(name);
@@ -74,8 +89,8 @@ public class Client {
 
                 server.addClient(remoteRef);
 
-                if(server.getClientsNumber()==2){server.setTimer();}
-                if(server.getClientsNumber()==4){server.stopTimer();}
+                if(server.getClientsNumber()==2){server.setEnoughPlayersTimer();}
+                if(server.getClientsNumber()==4){server.stopEnoughPlayersTimer();}
             }
 
             else if(server.isGameFull()){
@@ -85,6 +100,7 @@ public class Client {
 
             while(active&&!viewStarted){
                 if(server.getClientsNumber()==server.getNPlayers()) {
+                    client.setConnectionCheckerTimer(server,remoteRef);
                     viewStarted=true;
                     view.run();
                 }
@@ -94,7 +110,7 @@ public class Client {
         catch (MalformedURLException e) {
             System.err.println("URL not found!");
         } catch (RemoteException e) {
-            System.err.println("Connection error: " + e.getMessage() + "!");
+            System.err.println("Connection error: " + e.getMessage() + "!");//Potrei far ripartire la riconnessione da qui?
         } catch (NotBoundException e) {
             System.err.println("Reference associated to nothing!");
         }
