@@ -4,7 +4,6 @@ import it.polimi.deib.se2018.server.RemoteView;
 import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.model.player.Player;
 
-import java.rmi.RemoteException;
 
 public class ScoreController {//Implements methods related to Victory Points and Game Score
     private Model model;
@@ -17,7 +16,7 @@ public class ScoreController {//Implements methods related to Victory Points and
 
 
 
-    private Player calculateMax() throws RemoteException{
+    private Player calculateMax() {
         Player winner=model.getPlayerList().get(0);
         for(int i=1;i<model.getPlayerList().size();i++){
             if(model.getPlayerList().get(i).getVictoryPoints()>winner.getVictoryPoints()){
@@ -27,7 +26,7 @@ public class ScoreController {//Implements methods related to Victory Points and
         return winner;
     }
 
-    public int solitaryObjectivePoint()throws RemoteException{
+    public int solitaryObjectivePoint() {
         int points=0;
         for(int i=0;i<model.getRoundsTrack().getDiceList().size();i++){
             points=points+model.getRoundsTrack().getDiceList().get(i).getValue();
@@ -36,11 +35,11 @@ public class ScoreController {//Implements methods related to Victory Points and
     }
 
 
-    public Player calculateWinner()throws RemoteException {
+    public Player calculateWinner() {
         return calculateMax();
     }
 
-    public int calculateVictoryPoints(Player p)throws RemoteException{
+    public int calculateVictoryPoints(Player p){
         return calculatePrivateGoal(p)+calculateEmptyBoxes(p)+calculatePublicGoal(p)+p.getFavorMarkers();
     }
 
@@ -68,7 +67,7 @@ public class ScoreController {//Implements methods related to Victory Points and
         return points;
     }
 
-    private int calculatePublicGoal(Player p)throws RemoteException{
+    private int calculatePublicGoal(Player p){
         int points=0;
         for(int i=0;i<model.getPublicGoalCards().size();i++){
             points=points+model.getPublicGoalCards().get(i).calculateVictoryPoints(p);

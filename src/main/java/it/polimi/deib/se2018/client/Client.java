@@ -102,7 +102,8 @@ public class Client {
                 if(server.getClientsNumber()==server.getNPlayers()) {
                     client.setConnectionCheckerTimer(server,remoteRef);
                     viewStarted=true;
-                    view.run();
+                    if(view!=null)
+                        view.run();
                 }
             }
             scanner.close();
