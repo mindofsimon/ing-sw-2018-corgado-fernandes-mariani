@@ -51,6 +51,15 @@ public class DiceStock implements Serializable {
     }
 
     /**
+     * Insert dice in position i
+     * @param dice dice
+     * @param i position
+     */
+    public void insertDiceInPosition(Dice dice,int i){
+        diceList.add(i,dice);
+    }
+
+    /**
      * Sets dice value
      * @param i dice index
      */

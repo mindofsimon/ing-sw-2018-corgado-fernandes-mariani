@@ -36,6 +36,28 @@ public class DicePlacementController {
 
     }
 
+    //controlla se il dado rispetta le restrizioni sui colori
+    public boolean isBoxOkColor(Player p, int r, int c, Dice d){
+        if(p.getPlayerScheme().getScheme()[r][c].getColor()!=null) {
+            return (p.getPlayerScheme().getScheme()[r][c].getDice() == null
+                    && p.getPlayerScheme().getScheme()[r][c].getColor().equals(d.getColor()));
+        }
+        return(p.getPlayerScheme().getScheme()[r][c].getDice()==null);
+    }
+
+    //controlla se il dado rispetta le restrizioni di sfumatura
+    public boolean isBoxOkShade(Player p, int r, int c, Dice d){
+        if(p.getPlayerScheme().getScheme()[r][c].getValue()!=0){
+            return (p.getPlayerScheme().getScheme()[r][c].getDice()==null
+                    &&p.getPlayerScheme().getScheme()[r][c].getValue()==d.getValue());
+        }
+
+        return(p.getPlayerScheme().getScheme()[r][c].getDice()==null);
+
+
+    }
+
+
     //Controls if the selected dice is not placed near similar dices (similar by value and color)
     public boolean similarDicesOk(Player p, int r, int c, Dice d){
         if ((r == 1 || r == 2) && (c == 1 || c == 2 || c == 3)) {

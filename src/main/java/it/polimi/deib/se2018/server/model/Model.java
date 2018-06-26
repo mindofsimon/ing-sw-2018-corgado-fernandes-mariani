@@ -147,8 +147,8 @@ public class Model extends Observable implements Serializable {
      * @param p dice placement
      * @throws RemoteException
      */
-    public void notifyPlacement(DicePlacement p)throws RemoteException{
-        notify(new DicePlacementMessage(findPlayerByName(p.getPlayerNickName()),this));
+    public void notifyPlacement(Player p)throws RemoteException{
+        notify(new DicePlacementMessage(findPlayerByName(p.getNickname()),this));
     }
 
     /**
@@ -157,7 +157,7 @@ public class Model extends Observable implements Serializable {
      * @param n
      * @throws RemoteException
      */
-    public void performCardActivation(Player p, int n)throws RemoteException{
+    public void notifyCardActivation(Player p)throws RemoteException{
         notify(new CardActivationMessage(p,this));
     }
 

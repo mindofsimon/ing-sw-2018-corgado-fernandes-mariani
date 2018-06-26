@@ -1,6 +1,7 @@
 package it.polimi.deib.se2018.server.model.gametable;
 
 import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -69,6 +70,38 @@ public class RoundsTrack implements Serializable {
             }
         }
         return -1;
+    }
+
+    /**
+     * Insert dice in position i
+     * @param dice dice
+     * @param i position
+     */
+    public void insertDiceInPosition(Dice dice,int i){
+        diceList.add(i,dice);
+    }
+
+    /**
+     * Extract a selected dice
+     * @param d dice
+     */
+    public void extractDice(Dice d){
+        int i=findDice(d);
+        diceList.remove(i);
+    }
+
+    /**
+     *
+     * @param c color
+     * @return true if there is a dice with the same color of c, else returns false
+     */
+    public boolean findDice(DiceColor c){
+        for(int i=0;i<diceList.size();i++){
+            if(diceList.get(i).getColor().equals(c)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

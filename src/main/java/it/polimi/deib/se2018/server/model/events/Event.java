@@ -2,6 +2,8 @@ package it.polimi.deib.se2018.server.model.events;
 
 
 import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.dice.DiceColor;
+import it.polimi.deib.se2018.server.model.player.Player;
 
 import java.io.Serializable;
 
@@ -54,6 +56,25 @@ public class Event implements Serializable {
      * @return -1
      */
     public int getSchemeNumber(){return -1;}
+
+    public Player getPlayer(){return null;}
+    public DiceColor getColor() { return null; }
+    public int getDiceRow(){
+        return -1;
+    }
+    public int getValue() {
+        return -1;
+    }
+
+    public int getDiceColum(){
+        return -1;
+    }
+    public Dice getDiceRound() {
+        return null;
+    }
+    //public Restriction getRestriction() {return null;}
+    public String getAction(){return null;}
+    public int getDifficult(){return -1;}
 
 
 }

@@ -24,6 +24,7 @@ public class Player implements Serializable {
     private ArrayList<SchemeCard> offeredSchemeCards=new ArrayList<SchemeCard>();
     private boolean suspended;
     private boolean out;
+    private boolean dicePlacedByCard=false;
 
     /**
      * Constructor, initializes player class
@@ -195,17 +196,36 @@ public class Player implements Serializable {
     }
 
     /**
+     * Sets the dice placement with a card for this turn
+     */
+    public void setDicePlacedByCard(){
+        dicePlacedByCard=true;
+    }
+
+    /**
      * Sets the card activation for this turn
      */
     public void setCardActivated(){
         cardActivated=true;
     }
+    /**
+     * Tells if a dice was already placed by this player during this turn with a card
+     * @return true if the dice was placed, else returns false
+     */
+    public boolean isDicePlacedByCard() { return dicePlaced; }
 
     /**
      * Resets the dice placement for this turn
      */
     public void resetDicePlacement(){
         dicePlaced=false;
+    }
+
+    /**
+     * Resets the dice placement with a card for this turn
+     */
+    public void resetDicePlaceByCard(){
+        dicePlacedByCard=false;
     }
 
     /**

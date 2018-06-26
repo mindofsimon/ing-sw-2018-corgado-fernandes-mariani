@@ -32,7 +32,7 @@ public class Client {
             boolean viewStarted=false;
             View view=null;
             String name;
-            int gameMod;
+            int gameMod=-1;
             Player p;
             int interval;
             if(server.getClientsNumber()==0) {
@@ -59,7 +59,7 @@ public class Client {
 
                 remoteRef.setPlayerNickName(name);
                 server.setNPlayers(gameMod);
-                view=new View(name);
+                view=new View(name,gameMod);
                 NetworkHandler networkHandler=new NetworkHandler(server);
                 view.register(networkHandler);
                 networkHandler.register(view);
@@ -79,7 +79,7 @@ public class Client {
                     name=scanner.next();}
                 while(!server.isNameAccepted(name,remoteRef));
                 remoteRef.setPlayerNickName(name);
-                view=new View(name);
+                view=new View(name,1);
                 NetworkHandler networkHandler=new NetworkHandler(server);
                 view.register(networkHandler);
                 networkHandler.register(view);
