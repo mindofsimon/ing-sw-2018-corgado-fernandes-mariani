@@ -8,6 +8,7 @@ import it.polimi.deib.se2018.common.view.ViewInterface;
 import it.polimi.deib.se2018.server.model.dice.Dice;
 import it.polimi.deib.se2018.common.utils.Observer;
 import it.polimi.deib.se2018.server.model.events.StringMessage;
+import it.polimi.deib.se2018.server.model.events.StringMessageError;
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -36,7 +37,7 @@ public class RemoteView  extends Observable<Event> implements Observer<Message>,
         this.networkHandlers=networkHandlers;
     }
 
-    public void reportError(StringMessage message)throws RemoteException{
+    public void reportError(Message message)throws RemoteException{
         for(int i=0;i<networkHandlers.size();i++){
             networkHandlers.get(i).notifyView(message);
         }
@@ -47,6 +48,12 @@ public class RemoteView  extends Observable<Event> implements Observer<Message>,
             networkHandlers.get(i).notifyView(message);
         }
     }
+    public void notifyView(Message message)throws RemoteException{
+        for(int i=0;i<networkHandlers.size();i++){
+            networkHandlers.get(i).notifyView(message);
+        }
+    }
+
 
     public Dice selectDice(){
         return null;

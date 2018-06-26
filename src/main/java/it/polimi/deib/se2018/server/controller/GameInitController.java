@@ -26,6 +26,14 @@ public class GameInitController {
         loadPublicGoalCards();
     }
 
+    public boolean isSinglePlayer(){
+        if(model.getPlayerList().size()==1){
+            return true;
+        }
+        return false;
+
+    }
+
     public void initFavorMarkers(Player p) throws RemoteException{
         //Never used in Single-Player
         if(model.getPlayerList().size()==1) {

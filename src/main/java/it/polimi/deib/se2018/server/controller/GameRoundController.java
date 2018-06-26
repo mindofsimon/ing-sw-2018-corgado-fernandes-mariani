@@ -41,7 +41,7 @@ public class GameRoundController {
             }
         }
         if(model.getPlayerList().size()>1){
-            for (int i = 0; i < model.getPlayerList().size()*2; i++) {
+            for (int i = 0; i < (model.getPlayerList().size()*2)+1; i++) {
                 model.getDiceStock().insertDice(model.getDiceBag().extractRandomDice());
                 model.getDiceStock().setDiceValue(i);
             }
@@ -126,6 +126,7 @@ public class GameRoundController {
                 p.setnMoves(0);
                 p.resetCardActivated();
                 p.resetDicePlacement();
+                p.resetDicePlaceByCard();
                 p.setnTurns(2);
                 setTimer(p.getnMoves(), p.getOrder());//Viene resettato il suspensionTimer del giocatore
                 model.notifyTurnAndRoundUpdate(p);
@@ -135,6 +136,7 @@ public class GameRoundController {
                 p.setnMoves(0);
                 p.resetCardActivated();
                 p.resetDicePlacement();
+                p.resetDicePlaceByCard();
                 p.setnTurns(1);
                 updateRound(p);
             }
@@ -170,6 +172,7 @@ public class GameRoundController {
                 p.setnMoves(0);
                 p.resetCardActivated();
                 p.resetDicePlacement();
+                p.resetDicePlaceByCard();
                 if (p.getnTurns() == 1 && model.getTurn() != model.getPlayerList().size() - countSuspended()) {
                     model.incrTurn();
                     p.setnTurns(p.getnTurns() + 1);

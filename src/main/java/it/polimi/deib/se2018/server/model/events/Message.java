@@ -42,6 +42,14 @@ public class Message implements Serializable {
     public int getCardType() {
         return -1;
     }
+    public int getNumberOfDices(){return -1;}
+    public boolean getSinglePlayer(){return false;}
+    public int getType() {
+        return -1;
+    }
+    public String getMessage() {
+        return null;
+    }
 
 }
 
