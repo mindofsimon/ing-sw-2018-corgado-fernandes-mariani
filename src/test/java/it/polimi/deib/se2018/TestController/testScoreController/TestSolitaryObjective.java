@@ -13,7 +13,10 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-
+/**
+ *Class used to test the calculation of the solitary objective points (for single player)
+ * @author Simone Mariani
+ */
 public class TestSolitaryObjective {
 
     private RoundsTrack roundsTrack;
@@ -21,7 +24,9 @@ public class TestSolitaryObjective {
     private Model model;
     private RemoteView view;
 
-
+    /**
+     * Method used to set up a simulated rounds track, to calculate points
+     */
     @Before
     public void setUp(){
         roundsTrack=RoundsTrack.getSingletonRoundsTrack();
@@ -34,6 +39,9 @@ public class TestSolitaryObjective {
         }
     }
 
+    /**
+     * Real point calculation test
+     */
     @Test
     public void testSolitaryObjective() {
         assertEquals(10,scoreController.solitaryObjectivePoint());

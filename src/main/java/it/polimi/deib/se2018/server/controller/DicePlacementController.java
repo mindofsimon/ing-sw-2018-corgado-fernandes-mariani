@@ -2,6 +2,7 @@ package it.polimi.deib.se2018.server.controller;
 
 import it.polimi.deib.se2018.server.model.dice.Dice;
 import it.polimi.deib.se2018.server.model.player.Player;
+import it.polimi.deib.se2018.server.model.player.schemecard.ColoredBox;
 
 public class DicePlacementController {
 
@@ -30,8 +31,8 @@ public class DicePlacementController {
     //Controls if the choosen box is compatible with the selected dice
     public boolean isBoxOk(Player p, int r, int c, Dice d){
         return (p.getPlayerScheme().getScheme()[r][c].getDice()==null
-                && (p.getPlayerScheme().getScheme()[r][c].getColor()==null||p.getPlayerScheme().getScheme()[r][c].getValue()==d.getValue()
-                ||p.getPlayerScheme().getScheme()[r][c].getColor().equals(d.getColor())));
+                && ((p.getPlayerScheme().getScheme()[r][c].getColor()==null&&p.getPlayerScheme().getScheme()[r][c].getValue()==0)||p.getPlayerScheme().getScheme()[r][c].getValue()==d.getValue()
+                ||(p.getPlayerScheme().getScheme()[r][c]instanceof ColoredBox &&p.getPlayerScheme().getScheme()[r][c].getColor().equals(d.getColor()))));
 
     }
 
@@ -103,38 +104,52 @@ public class DicePlacementController {
 
     private boolean similarDicesControl4(Player p, int r, int c, Dice d){
         return ((p.getPlayerScheme().getScheme()[r - 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r - 1][c].getDice().getValue() != d.getValue()) &&
+                (p.getPlayerScheme().getScheme()[r - 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r - 1][c].getDice().getColor() != d.getColor()) &&
+                (p.getPlayerScheme().getScheme()[r + 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r + 1][c].getDice().getValue() != d.getValue()) &&
                 (p.getPlayerScheme().getScheme()[r + 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r + 1][c].getDice().getColor() != d.getColor()) &&
-                (p.getPlayerScheme().getScheme()[r][c + 1].getDice() == null || p.getPlayerScheme().getScheme()[r][c + 1].getDice().getValue() != d.getValue()));
+                (p.getPlayerScheme().getScheme()[r][c + 1].getDice() == null || p.getPlayerScheme().getScheme()[r][c + 1].getDice().getValue() != d.getValue()) &&
+                (p.getPlayerScheme().getScheme()[r][c + 1].getDice() == null || p.getPlayerScheme().getScheme()[r][c + 1].getDice().getColor() != d.getColor()));
 
     }
 
     private boolean similarDicesControl5(Player p, int r, int c, Dice d){
         return ((p.getPlayerScheme().getScheme()[r - 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r - 1][c].getDice().getValue() != d.getValue()) &&
+                (p.getPlayerScheme().getScheme()[r - 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r - 1][c].getDice().getColor() != d.getColor()) &&
+                (p.getPlayerScheme().getScheme()[r + 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r + 1][c].getDice().getValue() != d.getValue()) &&
                 (p.getPlayerScheme().getScheme()[r + 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r + 1][c].getDice().getColor() != d.getColor()) &&
-                (p.getPlayerScheme().getScheme()[r][c - 1].getDice() == null || p.getPlayerScheme().getScheme()[r][c - 1].getDice().getValue() != d.getValue()));
+                (p.getPlayerScheme().getScheme()[r][c - 1].getDice() == null || p.getPlayerScheme().getScheme()[r][c - 1].getDice().getValue() != d.getValue()) &&
+                (p.getPlayerScheme().getScheme()[r][c - 1].getDice() == null || p.getPlayerScheme().getScheme()[r][c - 1].getDice().getColor() != d.getColor()));
 
     }
 
     private boolean similarDicesControl6(Player p, int r, int c, Dice d){
         return ((p.getPlayerScheme().getScheme()[r + 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r + 1][c].getDice().getValue() != d.getValue()) &&
+                (p.getPlayerScheme().getScheme()[r + 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r + 1][c].getDice().getColor() != d.getColor()) &&
+                (p.getPlayerScheme().getScheme()[r][c+1].getDice() == null || p.getPlayerScheme().getScheme()[r][c+1].getDice().getValue() != d.getValue()) &&
                 (p.getPlayerScheme().getScheme()[r][c+1].getDice() == null || p.getPlayerScheme().getScheme()[r][c+1].getDice().getColor() != d.getColor()));
 
     }
 
     private boolean similarDicesControl7(Player p, int r, int c, Dice d){
         return ((p.getPlayerScheme().getScheme()[r - 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r - 1][c].getDice().getValue() != d.getValue()) &&
+                (p.getPlayerScheme().getScheme()[r - 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r - 1][c].getDice().getColor() != d.getColor()) &&
+                (p.getPlayerScheme().getScheme()[r][c+1].getDice() == null || p.getPlayerScheme().getScheme()[r][c+1].getDice().getValue() != d.getValue())&&
                 (p.getPlayerScheme().getScheme()[r][c+1].getDice() == null || p.getPlayerScheme().getScheme()[r][c+1].getDice().getColor() != d.getColor()));
 
     }
 
     private boolean similarDicesControl8(Player p, int r, int c, Dice d){
         return ((p.getPlayerScheme().getScheme()[r + 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r + 1][c].getDice().getValue() != d.getValue()) &&
+                (p.getPlayerScheme().getScheme()[r + 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r + 1][c].getDice().getColor() != d.getColor()) &&
+                (p.getPlayerScheme().getScheme()[r][c-1].getDice() == null || p.getPlayerScheme().getScheme()[r][c-1].getDice().getValue() != d.getValue())&&
                 (p.getPlayerScheme().getScheme()[r][c-1].getDice() == null || p.getPlayerScheme().getScheme()[r][c-1].getDice().getColor() != d.getColor()));
 
     }
 
     private boolean similarDicesControl9(Player p, int r, int c, Dice d){
         return ((p.getPlayerScheme().getScheme()[r - 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r - 1][c].getDice().getValue() != d.getValue()) &&
+                (p.getPlayerScheme().getScheme()[r - 1][c].getDice() == null || p.getPlayerScheme().getScheme()[r - 1][c].getDice().getColor() != d.getColor()) &&
+                (p.getPlayerScheme().getScheme()[r][c-1].getDice() == null || p.getPlayerScheme().getScheme()[r][c-1].getDice().getValue() != d.getValue())&&
                 (p.getPlayerScheme().getScheme()[r][c-1].getDice() == null || p.getPlayerScheme().getScheme()[r][c-1].getDice().getColor() != d.getColor()));
 
     }

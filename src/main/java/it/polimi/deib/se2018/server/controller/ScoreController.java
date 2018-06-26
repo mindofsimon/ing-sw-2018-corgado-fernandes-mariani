@@ -22,6 +22,21 @@ public class ScoreController {//Implements methods related to Victory Points and
             if(model.getPlayerList().get(i).getVictoryPoints()>winner.getVictoryPoints()){
                 winner=model.getPlayerList().get(i);
             }
+            else if(model.getPlayerList().get(i).getVictoryPoints()==winner.getVictoryPoints()){
+                if(calculatePrivateGoal(model.getPlayerList().get(i))>calculatePrivateGoal(winner)){
+                    winner=model.getPlayerList().get(i);
+                }
+                else if(calculatePrivateGoal(model.getPlayerList().get(i))==calculatePrivateGoal(winner)){
+                    if(model.getPlayerList().get(i).getFavorMarkers()>winner.getFavorMarkers()){
+                        winner=model.getPlayerList().get(i);
+                    }
+                    else if(model.getPlayerList().get(i).getFavorMarkers()==winner.getFavorMarkers()){
+                        if(model.getPlayerList().get(i).getOrder()>winner.getOrder()){//Come posizione più bassa intendo l'ultimo ad eseguire il primo turno (es: il quarto per quattro giocatori)
+                            winner=model.getPlayerList().get(i);
+                        }
+                    }
+                }
+            }
         }
         return winner;
     }

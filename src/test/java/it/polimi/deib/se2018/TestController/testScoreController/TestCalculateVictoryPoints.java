@@ -1,6 +1,7 @@
 package it.polimi.deib.se2018.TestController.testScoreController;
 
 import it.polimi.deib.se2018.server.RemoteView;
+import it.polimi.deib.se2018.server.controller.Controller;
 import it.polimi.deib.se2018.server.controller.ScoreController;
 import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.model.dice.Dice;
@@ -21,19 +22,29 @@ import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
+/**
+ * Class used to test victory points calculation
+ * @author Simone Mariani
+ */
 public class TestCalculateVictoryPoints {
 
+    private Controller controller;
     private ScoreController scoreController;
     private Model model;
     private RemoteView view;
     private Player p;
 
+    /**
+     * Method used to create a player that will be used to calculate victory points
+     */
     @Before
     public void setUp(){
         model=new Model(DiceBag.getSingletonDiceBag(),DiceStock.getSingletonDiceStock(),RoundsTrack.getSingletonRoundsTrack());
         model.addPublicGoalCard(new RowAndColCard(LineType.ROW,ElementType.COLOR,"Colored Rows"));
         model.addPublicGoalCard(new RowAndColCard(LineType.COLUMN,ElementType.COLOR,"Colored Columns"));
         model.addPublicGoalCard(new RowAndColCard(LineType.ROW,ElementType.SHADE,"Shades Rows"));
+        view=new RemoteView();
+        controller=new Controller(model,view);
         p=new Player("abc",1,PlayerColor.RED);
         p.setPrivateGoalCard(new PrivateGoalCard(DiceColor.RED,"Private Goal Red"));
         Box[][] tabella = new Box[4][5];
@@ -46,9 +57,14 @@ public class TestCalculateVictoryPoints {
         p.getPlayerScheme().getScheme()[0][0].setDice(new Dice(DiceColor.RED));
         p.getPlayerScheme().getScheme()[0][0].getDice().setValue(1);
         p.setFavorMarkers(3);
+        model.addPlayer(p);
+        controller.getGameRoundController().setTimer(p.getnMoves(),p.getOrder());
         scoreController=new ScoreController(model,view);
     }
 
+    /**
+     * Tests if victory points are correctly calculated
+     */
     @Test
     public void testCalculateVictoryPoints(){
         assertEquals(-15,scoreController.calculateVictoryPoints(p));
