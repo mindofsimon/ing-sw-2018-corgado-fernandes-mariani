@@ -23,7 +23,7 @@ public class GameRoundController {
         scoreController=sc;
     }
 
-    private void updateRoundsTrack()throws RemoteException{
+    private void updateRoundsTrack(){
         if(model.getPlayerList().size()==1) {
             model.getRoundsTrack().getDiceList().addAll(model.getDiceStock().getDiceList());
         }
@@ -32,7 +32,7 @@ public class GameRoundController {
         }
     }
 
-    public void updateDiceStock()throws RemoteException{//DEVO ELIMINARE TUTTI I DADI RIMASTI
+    public void updateDiceStock(){//DEVO ELIMINARE TUTTI I DADI RIMASTI
         model.getDiceStock().getDiceList().removeAll(model.getDiceStock().getDiceList());
         if(model.getPlayerList().size()==1) {
             for (int i = 0; i < 4; i++) {
@@ -66,14 +66,18 @@ public class GameRoundController {
         if(model.getPlayerList().size()>1){
             if (p.isSuspended()||p.isOut()) {
                 modifyPlayersOrderAfterSuspensionOrEscape(p);
-                setTimer(model.findPlayerByOrder(model.getTurn()).getnMoves(),model.getTurn());//Setto il suspensionTimer sospensione per il prossimo giocatore
                 if(p.isOut()){
                     model.notifyPlayerQuit(p);
-                    return;
                 }
-                else{
+                else if(p.isSuspended()){
                     model.notifyPlayerSuspension(p);
                 }
+                updateRoundsTrack();
+                updateDiceStock();
+                model.incrRound();
+                setTimer(model.findPlayerByOrder(model.getTurn()).getnMoves(),model.getTurn());//Setto il suspensionTimer sospensione per il prossimo giocatore
+                model.notifyTurnAndRoundUpdate(p);
+                return;
             }
             if (model.getRound() == 10) {//End of the game
                 for(int i=0;i<model.getPlayerList().size();i++){
@@ -94,7 +98,7 @@ public class GameRoundController {
     private void modifyPlayersOrderAfterSuspensionOrEscape(Player p){
         ArrayList<Player> newPlayerList=new ArrayList<Player>();
         for(int i=0;i<model.getPlayerList().size();i++){//Aggiungo prima i non sospesi
-            if(!model.getPlayerList().get(i).isSuspended()) newPlayerList.add(model.getPlayerList().get(i));
+            if(!(model.getPlayerList().get(i).isSuspended()||(model.getPlayerList().get(i).isOut()))) newPlayerList.add(model.getPlayerList().get(i));
         }
         for(int i=0;i<model.getPlayerList().size();i++){//poi aggiungo i sospesi
             if(model.getPlayerList().get(i).isSuspended()) newPlayerList.add(model.getPlayerList().get(i));
@@ -105,18 +109,18 @@ public class GameRoundController {
         if(model.getTurn()>p.getOrder()) model.decrTurn();
         for(int i=0;i<newPlayerList.size();i++){
             if(newPlayerList.get(i).getOrder()>p.getOrder()) newPlayerList.get(i).setOrder(newPlayerList.get(i).getOrder()-1);
-            if(newPlayerList.get(i).isSuspended()) newPlayerList.get(i).setOrder(i+1);
+            if(newPlayerList.get(i).isSuspended()||newPlayerList.get(i).isOut()) newPlayerList.get(i).setOrder(i+1);
         }
         model.setPlayerList(newPlayerList);
     }
 
-    private void modifyPlayersOrder()throws RemoteException{
+    private void modifyPlayersOrder(){
         for(int i=0;i<model.getPlayerList().size()-countNotActivePlayers();i++){
-            if(model.getPlayerList().get(i).getOrder()!=model.getPlayerList().size()-countNotActivePlayers()){
-                model.getPlayerList().get(i).setOrder( model.getPlayerList().get(i).getOrder()+1);
+            if(model.getPlayerList().get(i).getOrder()==1){
+                model.getPlayerList().get(i).setOrder(model.getPlayerList().size()-countNotActivePlayers());
             }
-            else if(model.getPlayerList().get(i).getOrder()==model.getPlayerList().size()-countNotActivePlayers())
-                model.getPlayerList().get(i).setOrder(1);
+            else if(model.getPlayerList().get(i).getOrder()!=1)
+                model.getPlayerList().get(i).setOrder(model.getPlayerList().get(i).getOrder()-1);
         }
     }
 
@@ -149,9 +153,8 @@ public class GameRoundController {
                     setTimer(model.findPlayerByOrder(model.getTurn()).getnMoves(), model.getTurn());//Setto il suspensionTimer sospensione per il prossimo giocatore
                     if(p.isOut()){
                         model.notifyPlayerQuit(p);
-                        return;
                     }
-                    else{
+                    else if(p.isSuspended()){
                         model.notifyPlayerSuspension(p);
                     }
                 } else if ((p.getOrder()==model.getPlayerList().size()-countNotActivePlayers()+1&&(p.getnTurns()==1||p.getnTurns()==2))||(p.getOrder()!=1&&p.getOrder()!=model.getPlayerList().size()-countNotActivePlayers()+1&&p.getnTurns()==2)) {
@@ -160,9 +163,8 @@ public class GameRoundController {
                     setTimer(model.findPlayerByOrder(model.getTurn()).getnMoves(), model.getTurn());//Setto il suspensionTimer sospensione per il prossimo giocatore
                     if(p.isOut()){
                         model.notifyPlayerQuit(p);
-                        return;
                     }
-                    else{
+                    else if(p.isSuspended()){
                         model.notifyPlayerSuspension(p);
                     }
                 } else if (p.getnTurns() == 2 && p.getOrder() == 1) {//Qui bisognerà cambiare round
@@ -173,7 +175,7 @@ public class GameRoundController {
                 p.resetCardActivated();
                 p.resetDicePlacement();
                 p.resetDicePlaceByCard();
-                if (p.getnTurns() == 1 && model.getTurn() != model.getPlayerList().size() - countSuspended()) {
+                if (p.getnTurns() == 1 && model.getTurn() != model.getPlayerList().size() - countNotActivePlayers()) {
                     model.incrTurn();
                     p.setnTurns(p.getnTurns() + 1);
                     setTimer(model.findPlayerByOrder(model.getTurn()).getnMoves(), model.getTurn());//Setto il suspensionTimer sospensione per il prossimo giocatore
@@ -186,7 +188,7 @@ public class GameRoundController {
                 } else if (p.getnTurns() == 2 && model.getTurn() == 1) {
                     p.setnTurns(p.getnTurns() - 1);
                     updateRound(p);
-                } else if (p.getnTurns() == 1 && model.getTurn() == model.getPlayerList().size() - countSuspended()) {
+                } else if (p.getnTurns() == 1 && model.getTurn() == model.getPlayerList().size() - countNotActivePlayers()) {
                     p.setnTurns(p.getnTurns() + 1);
                     setTimer(model.findPlayerByOrder(model.getTurn()).getnMoves(), model.getTurn());//Setto il suspensionTimer sospensione per il prossimo giocatore
                     model.notifyTurnAndRoundUpdate(p);

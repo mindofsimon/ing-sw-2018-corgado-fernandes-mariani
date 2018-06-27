@@ -154,7 +154,6 @@ public class Model extends Observable implements Serializable {
     /**
      * Performs card activation
      * @param p player
-     * @param n
      * @throws RemoteException
      */
     public void notifyCardActivation(Player p)throws RemoteException{

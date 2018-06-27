@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 public class TestSchemeCard {
     SchemeCard scheme;
     Box[][] tabella;
+    SchemeCard retro;
 
     //creo schema con dadi piazzati e giocatore
     @Before
@@ -38,6 +39,8 @@ public class TestSchemeCard {
             }
         }
         scheme = new SchemeCard("schema1",3,tabella);
+        retro=new SchemeCard("schema2",3,tabella);
+        scheme.setRetro(retro);
         Player player=new Player("sirlan",0,PlayerColor.GREEN);
         player.setPlayerScheme(scheme);
         //piazzo i dadi in modo da avere una copertura completa dei test
@@ -58,6 +61,9 @@ public class TestSchemeCard {
 
     }
 
+    /**
+     * Testing schemes string representations
+     */
     @Test
     public void testToString(){
         assertTrue(scheme.toString().contains("B1"));
@@ -65,7 +71,16 @@ public class TestSchemeCard {
         assertTrue(scheme.toString().contains("2"));
         assertTrue(scheme.toString().contains("B"));
 
+        assertTrue(scheme.basicVisualization().contains("2"));
+        assertTrue(scheme.basicVisualization().contains("B"));
+    }
 
+    /**
+     * Testing scheme cards'retro settings
+     */
+    @Test
+    public void testRetro(){
+        assertEquals(retro,scheme.getRetro());
     }
 
 
