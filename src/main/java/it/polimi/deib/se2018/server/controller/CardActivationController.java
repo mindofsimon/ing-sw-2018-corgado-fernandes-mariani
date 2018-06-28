@@ -241,17 +241,12 @@ public class CardActivationController {
     }
 
     public boolean canTakeCard(Player p, ToolCard c)throws RemoteException {
-        if(model.getPlayerList().size()==1){
-            if(model.getDiceStock().findDice(c.getSolitaryColor())){
-                return true;
-            }
-            else return false;
-        }
-        if(model.getPlayerList().size()>1){
+
             if(c.isAlreadyUsed()&&p.getFavorMarkers()<2) return false;
             if(!c.isAlreadyUsed()&&p.getFavorMarkers()<1) return false;
             return true;
-        }
-        return false;
+
+
     }
+
 }

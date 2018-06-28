@@ -75,19 +75,7 @@ public class TestDiceBag {
 
     }
 
-    /**
-     * metodo che testa il get del dado nel sachetto
-     * @author fernandes
-     */
-    @Test
-    public void testGet(){
 
-        Dice dice=new Dice(DiceColor.BLUE);
-        bag.insertDice(dice);
-        assertEquals(dice,bag.get(90));
-
-
-    }
 
     @Test
     public void testToString(){

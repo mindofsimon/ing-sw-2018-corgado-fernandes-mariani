@@ -53,6 +53,7 @@ public class Controller implements Observer<Event> {
     public ViewInterface getView() {
         return view;
     }
+    public ArrayList getToolCardList(){return toolCardList;}
 
     //We'll use this method just to reconvert the row, to show the letter instead of the number...
     private String convertRow(int r){
@@ -128,6 +129,11 @@ public class Controller implements Observer<Event> {
         cardActivationController.setActivated(p,gameInitController.isSinglePlayer());
         view.showMessage(new StringMessage(toStringToolCards(), p));
 
+    }
+
+    //pulisce la lista delle toolCards
+    public void cleanToolCards(){
+        toolCardList.clear();
     }
 
     //costruisce l'array con le toolcards per farle vedere nella view
@@ -379,17 +385,14 @@ public class Controller implements Observer<Event> {
          */
         Player p=model.findPlayerByName(e.getPlayerNickName());
         if(p!=null) {
-            SchemeCard temp;
             switch (e.getSchemeNumber()) {
                 case 0: {
                     p.setPlayerScheme(p.getOfferedSchemeCards().get(0));
                     break;
                 }
                 case 1: {
-                    temp = p.getOfferedSchemeCards().get(0).getRetro();
-                    p.getOfferedSchemeCards().get(0).setRetro(p.getOfferedSchemeCards().get(0));
-                    p.getOfferedSchemeCards().get(0).setScheme(temp);
-                    p.setPlayerScheme(p.getOfferedSchemeCards().get(0));
+
+                    p.setPlayerScheme(p.getOfferedSchemeCards().get(0).getRetro());
                     break;
                 }
                 case 2: {
@@ -397,10 +400,7 @@ public class Controller implements Observer<Event> {
                     break;
                 }
                 case 3: {
-                    temp = p.getOfferedSchemeCards().get(1).getRetro();
-                    p.getOfferedSchemeCards().get(1).setRetro(p.getOfferedSchemeCards().get(1));
-                    p.getOfferedSchemeCards().get(1).setScheme(temp);
-                    p.setPlayerScheme(p.getOfferedSchemeCards().get(1));
+                    p.setPlayerScheme(p.getOfferedSchemeCards().get(1).getRetro());
                     break;
                 }
                 default:break;
@@ -719,7 +719,6 @@ public class Controller implements Observer<Event> {
         }
         if(event instanceof SetDice){
 
-            int position=model.getDiceStock().findDice(event.getDice());
             model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(event.getValue());
 
 
