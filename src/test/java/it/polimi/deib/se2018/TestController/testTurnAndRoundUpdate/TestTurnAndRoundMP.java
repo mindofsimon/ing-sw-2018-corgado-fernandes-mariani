@@ -93,6 +93,15 @@ public class TestTurnAndRoundMP {
         assertEquals(p2,model.findPlayerByOrder(model.getTurn()));
         assertEquals(1,model.getRound());
 
+        //Update turn made by "out of turn players" make no changes
+        controller.update(new EndTurn(p3.getNickname()));
+        assertEquals(1,p3.getnTurns());
+        assertEquals(0,p3.getnMoves());
+        assertEquals(p2.getOrder(),model.getTurn());
+        assertEquals(p2,model.findPlayerByOrder(model.getTurn()));
+        assertEquals(1,model.getRound());
+
+
         controller.update(new EndTurn(p2.getNickname()));
         assertEquals(2,p2.getnTurns());
         assertEquals(0,p2.getnMoves());
@@ -177,6 +186,15 @@ public class TestTurnAndRoundMP {
         assertEquals(4,p1.getOrder());//è stato sospeso
         assertEquals(p2.getOrder(),model.getTurn());
 
+        //Update turn made by "suspended players" make no changes
+        controller.update(new EndTurn(p1.getNickname()));
+        assertEquals(1,model.getRound());
+        assertEquals(1,p2.getOrder());
+        assertEquals(2,p3.getOrder());
+        assertEquals(3,p4.getOrder());
+        assertEquals(4,p1.getOrder());//è stato sospeso
+        assertEquals(p2.getOrder(),model.getTurn());
+
         controller.update(new EndTurn(p2.getNickname()));
         controller.update(new EndTurn(p3.getNickname()));
 
@@ -221,6 +239,16 @@ public class TestTurnAndRoundMP {
         assertEquals(4,p2.getOrder());//è uscito
         assertEquals(p3.getOrder(),model.getTurn());
 
+        //Update turn by "quitting players" make no changes
+        controller.update(new EndTurn(p2.getNickname()));
+        assertEquals(1,model.getRound());
+        assertEquals(1,p1.getOrder());
+        assertEquals(2,p3.getOrder());
+        assertEquals(3,p4.getOrder());
+        assertEquals(4,p2.getOrder());//è uscito
+        assertEquals(p3.getOrder(),model.getTurn());
+
+
         controller.update(new EndTurn(p3.getNickname()));
         assertEquals(p4.getOrder(),model.getTurn());
         controller.update(new EndTurn(p4.getNickname()));
@@ -237,6 +265,12 @@ public class TestTurnAndRoundMP {
         assertEquals(4,p2.getOrder());//è uscito
         assertEquals(p3.getOrder(),model.getTurn());
 
+        controller.update(new QuitPlayerEvent(p4.getNickname()));
+        assertEquals(false,p4.isOut());
+        assertEquals(p3.getOrder(),model.getTurn());
+
+        controller.update(new QuitPlayerEvent(p3.getNickname()));
+        assertEquals(p4,model.getFirstActive());
 
 
 
