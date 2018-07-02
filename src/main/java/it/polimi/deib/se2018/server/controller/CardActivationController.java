@@ -6,7 +6,6 @@ import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.controller.toolcard.ToolCard;
 import it.polimi.deib.se2018.server.model.dice.Dice;
 import it.polimi.deib.se2018.server.model.dice.DiceColor;
-import it.polimi.deib.se2018.server.model.events.toolCardsEvents.ChangeAndPlace;
 import it.polimi.deib.se2018.server.model.player.Player;
 
 import java.rmi.RemoteException;
@@ -26,21 +25,20 @@ public class CardActivationController {
 
     //passando il giocatore,controllo se quel giocatore ha gia attivato una carta in questo turno,ritorna vero o falso
     public boolean isCardActivationAlreadyDone(Player p){
-        if(p.cardActivated()) return true;
-        else return false;
+       return p.cardActivated();
+
     }
 
     //passando il giocatore,controllo se quel giocatore ha piazzato un dado in questo turno,ritorna vero o falso
     public boolean isDicePlacementAlreadyDone(Player p){
-        if(p.dicePlaced()) return true;
-        else return false;
+       return p.dicePlaced();
     }
 
     //controllo se almeno 1 carta è attivabile,torno vero o falso
     public boolean noOneCardsActivated(){
         boolean control=true;
         for(int i=0;i<toolCardList.size();i++) {
-            if (toolCardList.get(i).getActivated() == true){
+            if (toolCardList.get(i).getActivated()){
                 control=false;
             }
         }
@@ -68,7 +66,7 @@ public class CardActivationController {
 
 
             }
-            if(p.getnTurns()!=2&&toolCardList.get(i).getNumber()==8&&model.getDiceStock().size()<3){
+            if(toolCardList.get(i).getNumber()==8&&(p.getnTurns()==2||canPlaceAdice(p,toolCardList.get(i).getNumber())<=1)){
                 control=false;
 
 
@@ -91,7 +89,7 @@ public class CardActivationController {
                 }
             }
 
-            if((toolCardList.get(i) instanceof ChangeAndPlace) && canPlaceAdice(p,toolCardList.get(i).getNumber())<=0){
+            if((toolCardList.get(i) instanceof ChangeAndPlaceCard) && canPlaceAdice(p,toolCardList.get(i).getNumber())==0){
                 control=false;
             }
 
@@ -115,71 +113,43 @@ public class CardActivationController {
 
     public boolean canPlaceDice(Player p, Dice dice, int cardNumb){
         boolean control=false;
-        for(int i=0;i<4;i++){
-            for(int j=0;j<5;j++) {
-                switch(cardNumb){
-                    case 2:
-                        if (!dicePlacementController.firstDice(p)) {
+        if(dicePlacementController.firstDice(p)){
+            control=true;
+        }else {
+            for (int i = 0; i < 4; i++) {
+                for (int j = 0; j < 5; j++) {
+                    switch (cardNumb) {
+                        case 2:
                             if (dicePlacementController.isBoxOkShade(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice) && dicePlacementController.alreadyPlacedDicesOk(p, i, j)) {
                                 control = true;
                             }
 
-
-                        }else{
-                            if (dicePlacementController.isBoxOkShade(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice) && (i==0||i==3||j==0||j==4)) {
-                                control = true;
-                            }
-
-                        }
-                        break;
-                    case 3:
-                        if (!dicePlacementController.firstDice(p)) {
+                            break;
+                        case 3:
                             if (dicePlacementController.isBoxOkShade(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice) && dicePlacementController.alreadyPlacedDicesOk(p, i, j)) {
                                 control = true;
                             }
 
+                            break;
 
-                        }else{
-                            if (dicePlacementController.isBoxOkColor(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice) && (i==0||i==3||j==0||j==4)) {
-                                control = true;
-                            }
-
-                        }
-                        break;
-
-                    case 9:
-                        if (!dicePlacementController.firstDice(p)) {
+                        case 9:
                             if (dicePlacementController.isBoxOkShade(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice)) {
                                 control = true;
                             }
 
+                            break;
 
-                        }else{
-                            if (dicePlacementController.isBoxOkColor(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice) && (i==0||i==3||j==0||j==4)) {
-                                control = true;
-                            }
-
-                        }
-                        break;
-
-                    default:
-                        if (!dicePlacementController.firstDice(p)) {
+                        default:
                             if (dicePlacementController.isBoxOk(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice) && dicePlacementController.alreadyPlacedDicesOk(p, i, j)) {
                                 control = true;
                             }
 
+                            break;
 
-                        }else{
-                            if (dicePlacementController.isBoxOk(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice) && (i==0||i==3||j==0||j==4)) {
-                                control = true;
-                            }
 
-                        }
-                        break;
-
+                    }
 
                 }
-
             }
         }
         return control;
@@ -187,10 +157,12 @@ public class CardActivationController {
 
     public int canPlaceAdice(Player p,int cardNumb){
         int cont=0;
+        if(model.getDiceStock().size()==0){return 0;}
+        else{
         for(int i=0;i<model.getDiceStock().size();i++){
             if(canPlaceDice(p,model.getDiceStock().getDice(i),cardNumb))cont++;
         }
-        return cont;
+        return cont;}
     }
 
     public int canMoveAdice(Player p,int cardNumb){

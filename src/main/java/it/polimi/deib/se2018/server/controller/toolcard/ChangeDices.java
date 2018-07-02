@@ -1,11 +1,9 @@
 package it.polimi.deib.se2018.server.controller.toolcard;
 
-import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.model.dice.DiceColor;
-import it.polimi.deib.se2018.server.model.gametable.DiceStock;
-import it.polimi.deib.se2018.server.model.gametable.RoundsTrack;
-import it.polimi.deib.se2018.server.model.player.Player;
-import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.model.events.Event;
+
 
 import java.rmi.RemoteException;
 
@@ -23,39 +21,32 @@ public class ChangeDices implements ToolCard  {
 
     }
 
-    public void activateEffect(Dice dice, DiceStock stock,String action) throws RemoteException {
-        if(action.equals("N")){
-            int value=stock.getDice(stock.findDice(dice)).getValue();
-            if(value==1)stock.getDice(stock.findDice(dice)).setValue(6);
-            if(value==2)stock.getDice(stock.findDice(dice)).setValue(5);
-            if(value==3)stock.getDice(stock.findDice(dice)).setValue(4);
-            if(value==4)stock.getDice(stock.findDice(dice)).setValue(3);
-            if(value==5)stock.getDice(stock.findDice(dice)).setValue(2);
-            if(value==6)stock.getDice(stock.findDice(dice)).setValue(1);
+    public void activateEffect(Model model,Event event) throws RemoteException {
+        if(event.getAction().equals("N")){
+            int value=model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).getValue();
+            if(value==1)model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(6);
+            if(value==2)model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(5);
+            if(value==3)model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(4);
+            if(value==4)model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(3);
+            if(value==5)model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(2);
+            if(value==6)model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(1);
 
         }
-        else if(action.equals("I")){
-            int value =stock.getDice(stock.findDice(dice)).getValue();
-            stock.getDice(stock.findDice(dice)).setValue(value+1);
+        else if(event.getAction().equals("I")){
+            int value =model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).getValue();
+            model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(value+1);
 
 
         }
         else {
-            int value =stock.getDice(stock.findDice(dice)).getValue();
-            stock.getDice(stock.findDice(dice)).setValue(value-1);
+            int value =model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).getValue();
+            model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).setValue(value-1);
 
         }
 
 
 
     }
-
-    public void activateEffect(Dice dice, Dice diceR, DiceStock stock, RoundsTrack round) throws RemoteException {
-
-    }
-
-    public void setIsActivaded(boolean act){}
-    public boolean getIsActivaded(){return false;}
     public DiceColor getColorDice(){return null;}
     public void setColorDice(DiceColor color){}
     public DiceColor getSolitaryColor() {
@@ -89,15 +80,4 @@ public class ChangeDices implements ToolCard  {
     public void used(){
         alreadyUsed=true;
     }
-
-    public void activateEffect(Player p, int dr, int dc, int r, int c, Dice dice) throws RemoteException {
-
-    }
-    public void activateEffect(DiceStock stock) throws RemoteException {
-
-    }
-    public void activateEffect(Player p, int r, int c, Dice dice) throws RemoteException {
-
-    }
-
 }

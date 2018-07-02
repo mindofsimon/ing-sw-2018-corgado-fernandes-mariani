@@ -105,6 +105,15 @@ public class RoundsTrack implements Serializable {
     }
 
     /**
+     * Gets a dice
+     * @param i dice index
+     * @return dice index
+     */
+    public Dice getDice(int i){
+        return diceList.get(i);
+    }
+
+    /**
      * Gets track size
      * @return track size
      */

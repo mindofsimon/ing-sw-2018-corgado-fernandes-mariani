@@ -174,17 +174,22 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
 
     @Override
     public void run() {
+        int n;
+        do {
         s=new Scanner(System.in);
-        int n=s.nextInt();
-        try{
-            schemeSelection(n);
-        }catch (RemoteException e){System.out.println("You are disconnected!\n");}
+        n=stringToInt(s.next());
+            try {
+                schemeSelection(n);
+            } catch (RemoteException e) {
+                System.out.println("You are disconnected!\n");
+            }
+        }while(error==1);
         //nel caso del singleplayer si chiede la difficolta con cui vuole giocare
         if(gameMode==0) {
             int difficult;
             do {
                 showMessage("CHOOSE A DIFFICULT: \n1)EXTREME CHALLENGE\n5)EASY CHALLENGE");
-                difficult = s.nextInt();
+                difficult = stringToInt(s.next());
 
             } while (difficult != 1 && difficult != 5);
             try {
@@ -222,11 +227,11 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         notify(new SchemeSelection(playerNickName,n));
     }
 
-    public void setGameOver()throws RemoteException{
+    public void setGameOver(){
         gameOver=true;
     }
 
-    private DiceColor convert(String c)throws RemoteException{
+    private DiceColor convert(String c){
         switch (c){
             case "B": return DiceColor.BLUE;
             case "G": return DiceColor.GREEN;
@@ -237,12 +242,31 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         }
     }
 
-    private int rowConversion(String rowLetter)throws RemoteException{
+    private int rowConversion(String rowLetter){
         switch (rowLetter){
             case "A": return 0;
             case "B": return 1;
             case "C": return 2;
             case "D": return 3;
+            default: return -1;
+        }
+    }
+
+    private int stringToInt(String rowLetter){
+        switch (rowLetter){
+            case "0": return 0;
+            case "1": return 1;
+            case "2": return 2;
+            case "3": return 3;
+            case "4": return 4;
+            case "5": return 5;
+            case "6": return 6;
+            case "7": return 7;
+            case "8": return 8;
+            case "9": return 9;
+            case "10": return 10;
+            case "11": return 11;
+            case "12": return 12;
             default: return -1;
         }
     }
@@ -259,13 +283,13 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         showMessage("DICE COLOR (B/G/R/V/Y): ");
         String color = s.next().toUpperCase();
         showMessage("DICE VALUE (1/2/3/4/5/6): ");
-        int value = s.nextInt();
+        int value = stringToInt(s.next());
         Dice dice = new Dice(convert(color));
         dice.setValue(value);
         showMessage("ROW (A/B/C/D): ");
         String row = s.next().toUpperCase();
         showMessage("COLUMN (1/2/3/4/5): ");
-        int column = s.nextInt();
+        int column = stringToInt(s.next());
         handleDicePlacement(rowConversion(row), column - 1, dice);
     }
 
@@ -275,7 +299,7 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
             if (gameMode == 1) {
                 Dice dice = new Dice(DiceColor.RED);//assegno un dado generico che non verra mai utilizzato
                 showMessage("TOOL CARD NUMBER: \n");
-                number = s.nextInt();
+                number = stringToInt(s.next());
                 handleCardActivation(number, dice);
                 showMessage("ERROR:"+error);
 
@@ -284,7 +308,7 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                 Dice dice = selectDice();
 
                 showMessage("TOOL CARD NUMBER: \n");
-                number = s.nextInt();
+                number = stringToInt(s.next());
                 handleCardActivation(number, dice);
                 showMessage("ERROR:"+error);
             }
@@ -358,7 +382,7 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                     }while(error==1);
                     do{
                         showMessage("CHOOSE A VALUE FOR THE DICE: \n");
-                        value=s.nextInt();
+                        value=stringToInt(s.next());
                         if(value>=1&&value<=6){
                             notify(new SetDice(diceC,value));
                         }else{showMessage("THE DICE VALUE MUST BE BETWEEN 1 AND 6 ");}
@@ -411,7 +435,7 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         showMessage("ROW (A/B/C/D): ");
         String row = s.next().toUpperCase();
         showMessage("COLUMN (1/2/3/4/5): ");
-        int column = s.nextInt();
+        int column = stringToInt(s.next());
         handleDicePlacementCard(rowConversion(row), column - 1, dice,num);
 
     }
@@ -422,7 +446,7 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         showMessage("DICE COLOR (B/G/R/V/Y): ");
         String color = s.next().toUpperCase();
         showMessage("DICE VALUE (1/2/3/4/5/6): ");
-        int value = s.nextInt();
+        int value = stringToInt(s.next());
         Dice dice = new Dice(convert(color));
         dice.setValue(value);
         return dice;
@@ -441,12 +465,12 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         showMessage("DICE'S ROW (A/B/C/D):");
         int dr = rowConversion(s.next().toUpperCase());
         showMessage("DICE'S COLUMN (1/2/3/4/5)): ");
-        int dc = s.nextInt();
+        int dc = stringToInt(s.next());
         showMessage("WHERE DO YOU WANNA TO MOVE THE DICE");
         showMessage("ROW (A/B/C/D): ");
         int row = rowConversion(s.next().toUpperCase());
         showMessage("COLUMN (1/2/3/4/5): ");
-        int column = s.nextInt();
+        int column = stringToInt(s.next());
 
         handleMoveDice(dr,dc-1,row,column-1,number);
 

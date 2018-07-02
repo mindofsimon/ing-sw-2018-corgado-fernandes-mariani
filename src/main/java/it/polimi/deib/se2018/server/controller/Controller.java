@@ -10,7 +10,7 @@ import it.polimi.deib.se2018.server.model.events.*;
 import it.polimi.deib.se2018.server.model.events.toolCardsEvents.*;
 import it.polimi.deib.se2018.server.model.player.Player;
 import it.polimi.deib.se2018.common.utils.Observer;
-import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
+
 
 import java.rmi.RemoteException;
 import java.util.ArrayList;
@@ -26,6 +26,7 @@ public class Controller implements Observer<Event> {
     private DicePlacementController dicePlacementController;
     private CardActivationController cardActivationController;
     private int difficult;
+    private int category=-1;
 
     public Controller(Model m, RemoteView v){
         view=v;
@@ -53,7 +54,6 @@ public class Controller implements Observer<Event> {
     public ViewInterface getView() {
         return view;
     }
-    public ArrayList getToolCardList(){return toolCardList;}
 
     //We'll use this method just to reconvert the row, to show the letter instead of the number...
     private String convertRow(int r){
@@ -243,33 +243,41 @@ public class Controller implements Observer<Event> {
 
         if(isPlayerSuspended(p)){
             view.reportError(new StringMessageError("ERROR! You have been suspended.",p,2));
+            category=-2;
+            return;
         }
         if (!isPlayerTurn(p)) {
             view.reportError(new StringMessageError("ERROR! Wait, it's not your turn.", p,2));
+            category=-3;
             return;
         }
         if (cardActivationController.noOneCardsActivated()) {
             view.reportError(new StringMessageError("ERROR! In this moment you can't activated a card", p,2));
+            category=-4;
             return;
         }
 
         if (cardActivationController.findCard(cardActivation.getCardNumber()) == null) {
             view.reportError(new StringMessageError("ERROR! Card not found.", p,1));
+            category=-5;
             return;
         }
 
         if(!cardActivationController.findCard(cardActivation.getCardNumber()).getActivated()){
             view.reportError(new StringMessageError("ERROR! This card is not activaded", p,1));
+            category=-6;
             return;
         }
 
         if(gameInitController.isSinglePlayer()){
             if(model.getDiceStock().findDice(cardActivation.getDice())==-1){
                 view.reportError(new StringMessageError("ERROR! The dice is not in Dice stock",p,1));
+                category=-8;
                 return;
             }
             if(!cardActivation.getDice().getColor().equals(cardActivationController.findCard(cardActivation.getCardNumber()).getSolitaryColor())){
                 view.reportError(new StringMessageError("ERROR! The color of the dice is not the same of the card",p,1));
+                category=-9;
                 return;
             }
             int position=model.getDiceStock().findDice(cardActivation.getDice());
@@ -278,23 +286,20 @@ public class Controller implements Observer<Event> {
             if(cardActivation.getCardNumber()!=6&&cardActivationController.findCard(cardActivation.getCardNumber()) instanceof ChangeAndPlaceCard && cardActivationController.canPlaceAdice(p,cardActivation.getCardNumber())<=0){
                 view.reportError(new StringMessageError("ERROR! You don't have enough dices that you can place in dice stock",p,2));
                 model.getDiceStock().insertDiceInPosition(cardActivation.getDice(),position);
+                category=-10;
                 return;
             }
 
             if(cardActivation.getCardNumber()==8 && cardActivationController.canPlaceAdice(p,cardActivation.getCardNumber())<=1){
                 view.reportError(new StringMessageError("ERROR! You don't have enough dices that you can place in dice stock",p,2));
                 model.getDiceStock().insertDiceInPosition(cardActivation.getDice(),position);
+                category=-11;
                 return;
             }
 
 
 
 
-        }else{
-            if (!cardActivationController.canTakeCard(p,cardActivationController.findCard(cardActivation.getCardNumber()))) {
-                view.reportError(new StringMessageError("ERROR! Not enough resources to take card", p,1));
-                return;
-            }
         }
 
 
@@ -306,30 +311,29 @@ public class Controller implements Observer<Event> {
             case 12:{
 
                 view.notifyView(new SelectDiceToMoveView(p,cardActivation.getCardNumber(),cardActivationController.findCard(cardActivation.getCardNumber()).getNumberD()));
-
+                category=0;
                 break;
             }
             case 1:
             case 10: {
-
+                category=1;
                 view.notifyView(new SelectDiceView(p,cardActivation.getCardNumber()));
-
                 break;
             }
             case 5: {
 
                 view.notifyView(new SelectDicesView(p,cardActivation.getCardNumber()));
-
+                category=2;
                 break;
             }
 
             case 7: {
 
 
-               cardActivationController.findCard(cardActivation.getCardNumber()).activateEffect(model.getDiceStock());
+               cardActivationController.findCard(cardActivation.getCardNumber()).activateEffect(model,cardActivation);
                 model.notifyCardActivation(p);
                 view.showMessage(new StringMessage("All dices in Dice Stock was updates",p));
-
+                category=4;
                 break;
             }
 
@@ -339,7 +343,7 @@ public class Controller implements Observer<Event> {
             case 11:{
 
                 view.notifyView(new ChooseAndPlaceView(p,cardActivation.getCardNumber(),cardActivationController.findCard(cardActivation.getCardNumber()).getNumberD()));
-
+                category=3;
                 break;
             }
 
@@ -347,6 +351,8 @@ public class Controller implements Observer<Event> {
         }
 
     }
+
+    public int getCategory(){return category;}
 
 
 
@@ -403,7 +409,9 @@ public class Controller implements Observer<Event> {
                     p.setPlayerScheme(p.getOfferedSchemeCards().get(1).getRetro());
                     break;
                 }
-                default:break;
+                default:
+                    view.reportError(new StringMessageError("ERROR! Insert a correct value for the scheme",p,1));
+                    return;
             }
             gameInitController.initFavorMarkers(p);
             view.showMessage(new StringMessage("\nYour Scheme Card\n" + p.getPlayerScheme().toString() + "\n" + p.getPrivateGoalCard().toString() + "\n\n"+model.printPublicGoalCards()+"\n"+ model.getDiceStock().toString(), p));
@@ -439,6 +447,8 @@ public class Controller implements Observer<Event> {
                 scoreController.calculateVictoryPoints(model.getFirstActive());//Il get First Active qui rappresenta chiaramente l'ultimo rimasto
                 model.setGameOverMP(model.getFirstActive());
             }
+        }else{
+            view.showMessage(new StringMessage("You are out of the game", p));
         }
     }
 
@@ -447,17 +457,20 @@ public class Controller implements Observer<Event> {
         Player p=model.findPlayerByName(event.getPlayerNickName());
         if(model.getDiceStock().findDice(event.getDice())==-1){
             view.reportError(new StringMessageError("ERROR! The dice is not in Dice stock",p,1));
+            category=-2;
             return;
         }
         if(model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).getValue()==1&&event.getAction().equals("D")){
             view.reportError(new StringMessageError("ERROR! Can't decrement a dice with value 1",p,1));
+            category=-3;
             return;
         }
         if(model.getDiceStock().getDice(model.getDiceStock().findDice(event.getDice())).getValue()==6&&event.getAction().equals("I")){
             view.reportError(new StringMessageError("ERROR! Can't increment a dice with value 6",p,1));
+            category=-4;
             return;
         }
-        cardActivationController.findCard(event.getCardNumber()).activateEffect(event.getDice(),model.getDiceStock(),event.getAction());
+        cardActivationController.findCard(event.getCardNumber()).activateEffect(model,event);
         model.notifyCardActivation(p);
         if(event.getAction().contains("I"))
         {view.showMessage(new StringMessage(event.getDice().getColor()+""+event.getDice().getValue()+" was incremented",p));}
@@ -504,12 +517,14 @@ public class Controller implements Observer<Event> {
     private synchronized void performMoveDice(Event event) throws RemoteException {
         Player p=model.findPlayerByName(event.getPlayerNickName());
 
-        if(!dicePlacementController.isRowColOk(event.getDiceRow(),event.getDiceColum())){
+        if(!dicePlacementController.isRowColOk(event.getDiceRow(),event.getDiceColum())||!dicePlacementController.isRowColOk(event.getRow(),event.getColumn())){
             view.reportError(new StringMessageError("ERROR! Insert a correct value for row and column of the dice!",p,1));
+            category=-2;
             return;
         }
         if(p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].getDice()==null){
             view.reportError(new StringMessageError("ERROR! there isn't a dice in this position!",p,1));
+            category=-3;
             return;
         }
 
@@ -518,6 +533,7 @@ public class Controller implements Observer<Event> {
 
         if(event.getCardNumber()==12&&!dice.getColor().equals(cardActivationController.findCard(event.getCardNumber()).getColorDice())){
             view.reportError(new StringMessageError("ERROR! The dice color is not the same that the color you have select in rounds track!",p,1));
+            category=-10;
             return;
         }
 
@@ -527,6 +543,7 @@ public class Controller implements Observer<Event> {
         if(dicePlacementController.firstDice(p)&&(event.getRow()!=0&&event.getRow()!=3&&event.getColumn()!=0&&event.getColumn()!=4)){
             p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(dice);
             view.reportError(new StringMessageError("ERROR! First dice must be placed on borders!",p,1));
+            category=-4;
             return;
         }
 
@@ -534,6 +551,7 @@ public class Controller implements Observer<Event> {
             if(!dicePlacementController.isBoxOkColor(p,event.getRow(),event.getColumn(),dice)) {
                 p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(dice);
                 view.reportError(new StringMessageError("ERROR! Selected box is not compatible with selected dice!", p,1));
+                category=-5;
                 return;
             }
         }
@@ -542,6 +560,7 @@ public class Controller implements Observer<Event> {
             if(!dicePlacementController.isBoxOkShade(p,event.getRow(),event.getColumn(),dice)){
                 p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(dice);
                 view.reportError((new StringMessageError("ERROR! Selected box is not compatible with selected dice!",p,1)));
+                category=-6;
                 return;
             }
         }
@@ -550,6 +569,7 @@ public class Controller implements Observer<Event> {
             if(!dicePlacementController.isBoxOk(p,event.getRow(),event.getColumn(),dice)){
                 p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(dice);
                 view.reportError((new StringMessageError("ERROR! Selected box is not compatible with selected dice!",p,1)));
+                category=-7;
                 return;
             }
         }
@@ -557,15 +577,18 @@ public class Controller implements Observer<Event> {
         if(!dicePlacementController.firstDice(p)&&!dicePlacementController.similarDicesOk(p,event.getRow(),event.getColumn(),dice)){
             p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(dice);
             view.reportError(new StringMessageError("ERROR! There are some dices similar to the one you've selected near selected box",p,1));
+            category=-8;
             return;
         }
         if(!dicePlacementController.firstDice(p)&&!dicePlacementController.alreadyPlacedDicesOk(p,event.getRow(),event.getColumn())){
             p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(dice);
             view.reportError(new StringMessageError("ERROR! A dice must be placed near already placed dices",p,1));
+            category=-9;
             return;
         }
         //once the controls are done the card effect are activeded
-        cardActivationController.findCard(event.getCardNumber()).activateEffect(p,event.getDiceRow(),event.getDiceColum(),event.getRow(),event.getColumn(),dice);
+        p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(dice);
+        cardActivationController.findCard(event.getCardNumber()).activateEffect(model,event);
         model.notifyCardActivation(p);
         view.showMessage(new StringMessage("\nDICE color: " + dice.getColor() + " value: " + dice.getValue()+ " placed in " +convertRow(event.getRow())+(event.getColumn()+1) +"\n\n",p));
     }
@@ -575,14 +598,16 @@ public class Controller implements Observer<Event> {
         Player p=model.findPlayerByName(event.getPlayerNickName());
         if(model.getDiceStock().findDice(event.getDice())==-1){
             view.reportError(new StringMessageError("ERROR! The dice is not in Dice stock",p,1));
+            category=-2;
             return;
         }
         if(model.getRoundsTrack().findDice(event.getDiceRound())==-1){
             view.reportError(new StringMessageError("ERROR! The dice is not in Rounds track",p,1));
+            category=-3;
             return;
         }
 
-        cardActivationController.findCard(event.getCardNumber()).activateEffect(event.getDice(),event.getDiceRound(),model.getDiceStock(),model.getRoundsTrack());
+        cardActivationController.findCard(event.getCardNumber()).activateEffect(model,event);
         model.notifyCardActivation(p);
         view.showMessage(new StringMessage(event.getDice().getColor()+""+event.getDice().getValue()+" is now in Rounds track and "+event.getDiceRound().getColor()+""+event.getDiceRound().getValue()+" is now in Dice stock", p));
     }
@@ -590,35 +615,27 @@ public class Controller implements Observer<Event> {
     //applicano le modifiche nei dadi prima di piazzarli con l'effetto delle carte change and place
     private synchronized void performChanges(Event event) throws RemoteException {
         Player p=model.findPlayerByName(event.getPlayerNickName());
-        switch(event.getCardNumber()){
-            case 6:
-                if(model.getDiceStock().findDice(event.getDice())==-1){
-                    view.reportError(new StringMessageError("ERROR! The dice is not in Dice stock",p,1));
-                    return;
-                }else{
-                    changeValue(p,event.getDice());
-                }
-                break;
-            case 8:
-                if(model.getDiceStock().findDice(event.getDice())==-1){
-                    view.reportError(new StringMessageError("ERROR! The dice is not in Dice stock",p,1));
-                    return;
-                }else{ view.notifyView(new DiceChange("Puoi piazzare il dado.",p,event.getDice()));}
-                break;
-            case 9:
-                if(model.getDiceStock().findDice(event.getDice())==-1){
-                    view.reportError(new StringMessageError("ERROR! The dice is not in Dice stock",p,1));
-                    return;
-                }else{ view.notifyView(new DiceChange("Puoi piazzare il dado.",p,event.getDice()));}
-                break;
-            case 11:
-                if(model.getDiceStock().findDice(event.getDice())==-1){
-                    view.reportError(new StringMessageError("ERROR! The dice is not in Dice stock",p,1));
-                    return;
-                }else{
-                    takeAnotherDice(p,event.getDice());
-                }
-                break;
+        if(model.getDiceStock().findDice(event.getDice())==-1){
+            category=-2;
+            view.reportError(new StringMessageError("ERROR! The dice is not in Dice stock",p,1));
+            return;
+        }else {
+            switch (event.getCardNumber()) {
+                case 6:
+                    changeValue(p, event.getDice());
+                    break;
+                case 8:
+                    category=2;
+                    view.notifyView(new DiceChange("Puoi piazzare il dado.", p, event.getDice()));
+                    break;
+                case 9:
+                    category=3;
+                    view.notifyView(new DiceChange("Puoi piazzare il dado.", p, event.getDice()));
+                    break;
+                case 11:
+                    takeAnotherDice(p, event.getDice());
+                    break;
+            }
         }
 
     }
@@ -641,6 +658,7 @@ public class Controller implements Observer<Event> {
         if(!cardActivationController.canPlaceDice(p,diceC,6)){
             view.reportError((new StringMessageError("The dice can't be pleaced and will be back in dice stock",p,3)));
         }
+        category=1;
     }
 
     //piazzo il dado attivando l'effetto della carta change and place
@@ -651,29 +669,34 @@ public class Controller implements Observer<Event> {
 
         if(!dicePlacementController.isRowColOk(event.getRow(),event.getColumn())){
             view.reportError(new StringMessageError("ERROR! Insert a correct value for row and column!",p,1));
+            category=-2;
             return;
         }
         if(dicePlacementController.firstDice(p)&&(event.getRow()!=0&&event.getRow()!=3&&event.getColumn()!=0&&event.getColumn()!=4)){
             view.reportError(new StringMessageError("ERROR! First dice must be placed on borders!",p,1));
+            category=-3;
             return;
         }
         if(!dicePlacementController.isBoxOk(p,event.getRow(),event.getColumn(),event.getDice())){
             view.reportError((new StringMessageError("ERROR! Selected box is not compatible with selected dice!",p,1)));
+            category=-4;
             return;
         }
         if(!dicePlacementController.firstDice(p)&&!dicePlacementController.similarDicesOk(p,event.getRow(),event.getColumn(),event.getDice())){
             view.reportError(new StringMessageError("ERROR! There are some dices similar to the one you've selected near selected box",p,1));
+            category=-5;
             return;
         }
         if(event.getCardNumber()!=9){
             if(!dicePlacementController.firstDice(p)&&!dicePlacementController.alreadyPlacedDicesOk(p,event.getRow(),event.getColumn())) {
                 view.reportError(new StringMessageError("ERROR! A dice must be placed near already placed dices", p,1));
+                category=-6;
                 return;
             }
         }
 
         model.getDiceStock().extractDice(event.getDice());
-        cardActivationController.findCard(event.getCardNumber()).activateEffect(p,event.getRow(),event.getColumn(),event.getDice());
+        cardActivationController.findCard(event.getCardNumber()).activateEffect(model,event);
         view.showMessage(new StringMessage("\nDICE color: " + event.getDice().getColor() + " value: " + event.getDice().getValue()+ " placed in " +convertRow(event.getRow())+(event.getColumn()+1) +"\n\n",p));
     }
 
@@ -725,6 +748,7 @@ public class Controller implements Observer<Event> {
         }
         if(event instanceof ColorDice){
             if(!model.getRoundsTrack().findDice(event.getColor())){
+                category=-2;
                 view.reportError(new StringMessageError("ERROR! The color is not in Round Track", model.findPlayerByName(event.getPlayerNickName()),1));
             }else{
                 cardActivationController.findCard(event.getCardNumber()).setColorDice(event.getColor());

@@ -67,9 +67,8 @@ public class TestSchemeCard {
     @Test
     public void testToString(){
         assertTrue(scheme.toString().contains("B1"));
-        assertTrue(scheme.toString().contains("XX"));
-        assertTrue(scheme.toString().contains("2"));
-        assertTrue(scheme.toString().contains("B"));
+        assertTrue(scheme.toString().contains(" 2"));
+        assertTrue(scheme.toString().contains(" B"));
 
         assertTrue(scheme.basicVisualization().contains("2"));
         assertTrue(scheme.basicVisualization().contains("B"));

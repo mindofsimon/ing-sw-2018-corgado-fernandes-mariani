@@ -95,24 +95,15 @@ public class SchemeCard implements Serializable {
         stringa.add(3,"D");
         StringBuilder builder = new StringBuilder();
         builder.append("BOXES SCHEME: \n");
-        builder.append("  1  2  3  4  5");
-        for(int i = 0; i < ROWS; i++){
-            builder.append("\n" + (stringa.get(i)));
-            for(int j=0;j<COLS;j++){
-                if(scheme[i][j] instanceof ColoredBox) builder.append("|"+scheme[i][j].getColor()+"|");
-                else if(scheme[i][j] instanceof ValueBox) builder.append("|"+scheme[i][j].getValue()+"|");
-                else builder.append(("|W|"));
-            }
-        }
-        builder.append("\n\n");
-        builder.append("PLACED DICES SCHEME (XX=Boxes with no dices): \n");
         builder.append("  1   2   3   4   5");
         for(int i = 0; i < ROWS; i++){
             builder.append("\n" + (stringa.get(i)));
             for(int j=0;j<COLS;j++) {
                 if (scheme[i][j].getDice() != null)
                 {builder.append("|" + scheme[i][j].getDice().getColor() + scheme[i][j].getDice().getValue() + "|");}
-                else {builder.append(("|XX|"));}
+                else { if(scheme[i][j] instanceof ColoredBox) builder.append("| "+scheme[i][j].getColor()+"|");
+                else if(scheme[i][j] instanceof ValueBox) builder.append("| "+scheme[i][j].getValue()+"|");
+                else builder.append(("| W|"));}
             }
         }
         builder.append("\n\n");

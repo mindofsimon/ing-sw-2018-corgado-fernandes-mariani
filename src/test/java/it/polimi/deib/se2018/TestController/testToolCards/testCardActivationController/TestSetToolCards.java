@@ -1,4 +1,4 @@
-package it.polimi.deib.se2018.TestController.testToolCards;
+package it.polimi.deib.se2018.TestController.testToolCards.testCardActivationController;
 
 import it.polimi.deib.se2018.server.RemoteView;
 import it.polimi.deib.se2018.server.controller.CardActivationController;

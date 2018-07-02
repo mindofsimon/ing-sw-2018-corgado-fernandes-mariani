@@ -1,11 +1,8 @@
 package it.polimi.deib.se2018.server.controller.toolcard;
 
-import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.model.dice.DiceColor;
-import it.polimi.deib.se2018.server.model.gametable.DiceStock;
-import it.polimi.deib.se2018.server.model.gametable.RoundsTrack;
-import it.polimi.deib.se2018.server.model.player.Player;
-import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.model.events.Event;
 
 import java.rmi.RemoteException;
 
@@ -24,9 +21,9 @@ public class Marteletto implements ToolCard  {
     }
 
 
-    public void activateEffect(DiceStock stock) throws RemoteException {
-        for(int i=0;i<stock.size();i++){
-            stock.setDiceValue(i);
+    public void activateEffect(Model model,Event event) throws RemoteException {
+        for(int i=0;i<model.getDiceStock().size();i++){
+            model.getDiceStock().setDiceValue(i);
         }
 
     }
@@ -59,8 +56,7 @@ public class Marteletto implements ToolCard  {
     public String toStringSolitary(){
         return("CARD: "+name+"|| NUMBER: "+number+"|| COLOR: "+solitaryColor+"|| ACTIVATED: "+activated);
     }
-    public void setIsActivaded(boolean act){}
-    public boolean getIsActivaded(){return false;}
+
     public DiceColor getColorDice(){return null;}
     public void setColorDice(DiceColor color){}
 
@@ -69,17 +65,4 @@ public class Marteletto implements ToolCard  {
         alreadyUsed=true;
     }
 
-    public void activateEffect(Player p, int dr, int dc, int r, int c, Dice dice) throws RemoteException {
-
-    }
-
-    public void activateEffect(Dice dice, DiceStock stock, String action) throws RemoteException {
-
-    }
-    public void activateEffect(Dice dice, Dice diceR, DiceStock stock, RoundsTrack round) throws RemoteException {
-
-    }
-    public void activateEffect(Player p, int r, int c, Dice dice) throws RemoteException {
-
-    }
 }

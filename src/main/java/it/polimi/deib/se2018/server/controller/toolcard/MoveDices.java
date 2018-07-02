@@ -1,11 +1,10 @@
 package it.polimi.deib.se2018.server.controller.toolcard;
 
+import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.model.dice.Dice;
 import it.polimi.deib.se2018.server.model.dice.DiceColor;
-import it.polimi.deib.se2018.server.model.gametable.DiceStock;
-import it.polimi.deib.se2018.server.model.gametable.RoundsTrack;
+import it.polimi.deib.se2018.server.model.events.Event;
 import it.polimi.deib.se2018.server.model.player.Player;
-import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 
 import java.rmi.RemoteException;
 
@@ -30,8 +29,11 @@ public class MoveDices  implements ToolCard {
 
     }
 
-    public void activateEffect(Player p, int dr, int cr, int r, int c, Dice dice) throws RemoteException {
-        p.getPlayerScheme().getScheme()[r][c].setDice(dice);
+    public void activateEffect(Model model,Event event) throws RemoteException {
+        Player p=model.findPlayerByName(event.getPlayerNickName());
+        Dice dice= p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].getDice();
+        p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(null);
+        p.getPlayerScheme().getScheme()[event.getRow()][event.getColumn()].setDice(dice);
 
 
     }
@@ -64,27 +66,10 @@ public class MoveDices  implements ToolCard {
         return("CARD: "+name+"|| NUMBER: "+number+"|| COLOR: "+solitaryColor+"|| ACTIVATED: "+activated);
     }
 
-    public void setIsActivaded(boolean act){}
-    public boolean getIsActivaded(){return false;}
+
 
     public void used(){
         alreadyUsed=true;
     }
 
-    public void activateEffect(Dice dice, DiceStock stock, String action) throws RemoteException {
-
-
-
-
-    }
-
-    public void activateEffect(Dice dice, Dice diceR, DiceStock stock, RoundsTrack round) throws RemoteException {
-
-    }
-    public void activateEffect(DiceStock stock) throws RemoteException {
-
-    }
-    public void activateEffect(Player p, int r, int c, Dice dice) throws RemoteException {
-
-    }
 }

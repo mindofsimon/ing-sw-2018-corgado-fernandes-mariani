@@ -212,7 +212,7 @@ public class Player implements Serializable {
      * Tells if a dice was already placed by this player during this turn with a card
      * @return true if the dice was placed, else returns false
      */
-    public boolean isDicePlacedByCard() { return dicePlaced; }
+    public boolean isDicePlacedByCard() { return dicePlacedByCard; }
 
     /**
      * Resets the dice placement for this turn

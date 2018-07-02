@@ -1,11 +1,10 @@
 package it.polimi.deib.se2018.server.controller.toolcard;
 
-import it.polimi.deib.se2018.server.model.dice.Dice;
+import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.model.dice.DiceColor;
-import it.polimi.deib.se2018.server.model.gametable.DiceStock;
-import it.polimi.deib.se2018.server.model.gametable.RoundsTrack;
 import it.polimi.deib.se2018.server.model.player.Player;
-import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.model.events.*;
+
 
 import java.rmi.RemoteException;
 
@@ -16,7 +15,6 @@ public class ChangeAndPlaceCard implements ToolCard  {
     private boolean alreadyUsed;
     private int numd;
     private boolean activated;
-    private boolean isActivated;
 
     public ChangeAndPlaceCard(String name, int n, DiceColor sColor,int numd){
         this.name=name;
@@ -26,8 +24,9 @@ public class ChangeAndPlaceCard implements ToolCard  {
 
     }
 
-    public void activateEffect(Player p, int r, int c, Dice dice) throws RemoteException {
-        p.getPlayerScheme().getScheme()[r][c].setDice(dice);
+    public void activateEffect(Model model,Event event) throws RemoteException {
+        Player p=model.findPlayerByName(event.getPlayerNickName());
+        p.getPlayerScheme().getScheme()[event.getRow()][event.getColumn()].setDice(event.getDice());
 
     }
 
@@ -62,8 +61,6 @@ public class ChangeAndPlaceCard implements ToolCard  {
         return("CARD: "+name+"|| NUMBER: "+number+"|| COLOR: "+solitaryColor+"|| ACTIVATED: "+activated);
     }
 
-    public void setIsActivaded(boolean act){isActivated=act;}
-    public boolean getIsActivaded(){return isActivated;}
     public DiceColor getColorDice(){return null;}
     public void setColorDice(DiceColor color){}
 
@@ -73,18 +70,6 @@ public class ChangeAndPlaceCard implements ToolCard  {
         alreadyUsed=true;
     }
 
-    public void activateEffect(Player p, int dr, int dc, int r, int c, Dice dice) throws RemoteException {
 
-    }
-    public void activateEffect(DiceStock stock) throws RemoteException {
-
-    }
-    public void activateEffect(Dice dice, DiceStock stock,String action) throws RemoteException {
-
-    }
-
-    public void activateEffect(Dice dice, Dice diceR, DiceStock stock, RoundsTrack round) throws RemoteException {
-
-    }
 }
 
