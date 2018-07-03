@@ -4,20 +4,38 @@ import it.polimi.deib.se2018.server.model.dice.Dice;
 import it.polimi.deib.se2018.server.model.player.Player;
 import it.polimi.deib.se2018.server.model.player.schemecard.ColoredBox;
 
+/**
+ * Dice placement controller class
+ * @author Simone Marian, Sirlan Fernandes
+ */
 public class DicePlacementController {
 
 
+    /**
+     * Checks if number of rows and columns are correct
+     * @param r row
+     * @param c column
+     * @return true if number of rows and columns are correct
+     */
     public boolean isRowColOk(int r, int c){
         return((r>=0&&r<=3)&&(c>=0&&c<=4));
     }
 
 
-    //Controls if there are no dices placed by a player
+    /**
+     * Checks if there are no dices placed by a player
+     * @param p player
+     * @return true if there are no dices placed by a player
+     */
     public boolean firstDice(Player p){
         return (dicesPlaced(p)==0);
     }
 
-    //Returns number of dices placed by a player
+    /**
+     * Returns number of dices placed by a player
+     * @param p player
+     * @return number of dices placed by a player
+     */
     public int dicesPlaced(Player p){
         int cont=0;
         for (int i = 0; i<p.getPlayerScheme().getROWS(); i++){
@@ -28,7 +46,14 @@ public class DicePlacementController {
         return cont;
     }
 
-    //Controls if the choosen box is compatible with the selected dice
+    /**
+     * Checks if the chosen box is compatible with the selected dice
+     * @param p player
+     * @param r row
+     * @param c column
+     * @param d dice
+     * @return
+     */
     public boolean isBoxOk(Player p, int r, int c, Dice d){
         return (p.getPlayerScheme().getScheme()[r][c].getDice()==null
                 && ((p.getPlayerScheme().getScheme()[r][c].getColor()==null&&p.getPlayerScheme().getScheme()[r][c].getValue()==0)||p.getPlayerScheme().getScheme()[r][c].getValue()==d.getValue()
@@ -36,7 +61,14 @@ public class DicePlacementController {
 
     }
 
-    //controlla se il dado rispetta le restrizioni sui colori
+    /**
+     * Checks if the dice respects the color restrictions
+     * @param p player
+     * @param r row
+     * @param c column
+     * @param d dice
+     * @return true if the dice respects the color restrictions
+     */
     public boolean isBoxOkColor(Player p, int r, int c, Dice d){
         if(p.getPlayerScheme().getScheme()[r][c].getColor()!=null) {
             return (p.getPlayerScheme().getScheme()[r][c].getDice() == null
@@ -45,7 +77,14 @@ public class DicePlacementController {
         return(p.getPlayerScheme().getScheme()[r][c].getDice()==null);
     }
 
-    //controlla se il dado rispetta le restrizioni di sfumatura
+    /**
+     * Checks if the dice respects the shade restictions
+     * @param p player
+     * @param r row
+     * @param c column
+     * @param d dice
+     * @return the dice respects the shade restrictions
+     */
     public boolean isBoxOkShade(Player p, int r, int c, Dice d){
         if(p.getPlayerScheme().getScheme()[r][c].getValue()!=0){
             return (p.getPlayerScheme().getScheme()[r][c].getDice()==null
@@ -58,7 +97,14 @@ public class DicePlacementController {
     }
 
 
-    //Controls if the selected dice is not placed near similar dices (similar by value and color)
+    /**
+     * Checks if the selected dice is not placed near similar dices (similar by value and color)
+     * @param p player
+     * @param r row
+     * @param c column
+     * @param d dice
+     * @return true if the selected dice is not placed near similar dices (similar by value and color)
+     */
     public boolean similarDicesOk(Player p, int r, int c, Dice d){
         if ((r == 1 || r == 2) && (c == 1 || c == 2 || c == 3)) {
             return similarDicesControl1(p,r,c,d);
@@ -90,7 +136,14 @@ public class DicePlacementController {
         return false;
     }
 
-    //This methods are used to reduce similarDicesOk() method complexity
+
+    /**
+     * The following methods are used to reduce similarDicesOk() method complexity
+     * @param p player
+     * @param r row
+     * @param c column
+     * @param d dice
+     */
     private boolean similarDicesControl1(Player p, int r, int c, Dice d){
         return( (p.getPlayerScheme().getScheme()[r-1][c].getDice()==null||p.getPlayerScheme().getScheme()[r-1][c].getDice().getValue()!=d.getValue())&&
                 (p.getPlayerScheme().getScheme()[r-1][c].getDice()==null||p.getPlayerScheme().getScheme()[r-1][c].getDice().getColor()!=d.getColor())&&
@@ -177,7 +230,13 @@ public class DicePlacementController {
     }
 
 
-    //Controls if there are already placed dices near the box we want to place the dice in
+    /**
+     * Checks if there are already placed dices near the box we want to place the dice in
+     * @param p player
+     * @param r row
+     * @param c column
+     * @return true if there are placed dices near the box we want to place the dice in
+     */
     public boolean alreadyPlacedDicesOk(Player p, int r, int c) {
         if ((r == 1 || r == 2) && (c == 1 || c == 2 || c == 3)) {
             return alreadyPlacedDicesControl1(p, r, c);
@@ -201,7 +260,12 @@ public class DicePlacementController {
         return false;
     }
 
-    //This methods are used to reduce alreadyPlacedDicesOk() method complexity
+    /**
+     * The following methods are used to reduce alreadyPlacedDicesOk() method complexity
+     * @param p player
+     * @param r row
+     * @param c column
+     */
     private boolean alreadyPlacedDicesControl1(Player p, int r, int c){
         return ((p.getPlayerScheme().getScheme()[r - 1][c - 1].getDice() != null) ||
                 (p.getPlayerScheme().getScheme()[r - 1][c].getDice() != null) ||

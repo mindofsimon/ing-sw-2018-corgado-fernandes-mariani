@@ -9,6 +9,10 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Game round controller class
+ * @author Simone Marian, Sirlan Fernandes
+ */
 public class GameRoundController {
     private Model model;
     private RemoteView view;
@@ -17,12 +21,22 @@ public class GameRoundController {
     private TimerTask checkAction;
     private int suspensionTimerInterval;
 
+    /**
+     * Constructor, initializes game round controller class
+     * @param m model
+     * @param v remote view
+     * @param sc score controller
+     */
     public GameRoundController(Model m, RemoteView v, ScoreController sc){
         model=m;
         view=v;
         scoreController=sc;
     }
 
+    /**
+     * Updates round track
+     * @throws RemoteException
+     */
     private void updateRoundsTrack(){
         if(model.getPlayerList().size()==1) {
             model.getRoundsTrack().getDiceList().addAll(model.getDiceStock().getDiceList());
@@ -32,6 +46,10 @@ public class GameRoundController {
         }
     }
 
+    /**
+     * Updates dice stock
+     * @throws RemoteException
+     */
     public void updateDiceStock(){//DEVO ELIMINARE TUTTI I DADI RIMASTI
         model.getDiceStock().getDiceList().removeAll(model.getDiceStock().getDiceList());
         if(model.getPlayerList().size()==1) {
@@ -48,7 +66,11 @@ public class GameRoundController {
         }
     }
 
-
+    /**
+     * Updates round
+     * @param p player
+     * @throws RemoteException
+     */
     private void updateRound(Player p) throws RemoteException {
         if (model.getPlayerList().size() == 1) {
             if (model.getRound() == 10) {//End of the game
@@ -95,6 +117,10 @@ public class GameRoundController {
         }
     }
 
+    /**
+     * Modifies the order of players after suspension or escape
+     * @param p player
+     */
     private void modifyPlayersOrderAfterSuspensionOrEscape(Player p){
         ArrayList<Player> newPlayerList=new ArrayList<Player>();
         for(int i=0;i<model.getPlayerList().size();i++){//Aggiungo prima i non sospesi
@@ -114,6 +140,10 @@ public class GameRoundController {
         model.setPlayerList(newPlayerList);
     }
 
+    /**
+     * Modifies the order of players
+     * @throws RemoteException
+     */
     private void modifyPlayersOrder(){
         for(int i=0;i<model.getPlayerList().size()-countNotActivePlayers();i++){
             if(model.getPlayerList().get(i).getOrder()==1){
@@ -124,6 +154,11 @@ public class GameRoundController {
         }
     }
 
+    /**
+     * Updates turn
+     * @param p player
+     * @throws RemoteException
+     */
     public void updateTurn(Player p)throws RemoteException {
         if (model.getPlayerList().size() == 1) {//Single Player
             if (p.getnMoves() == 2 && p.getnTurns() == 1) {
@@ -200,6 +235,11 @@ public class GameRoundController {
         }
     }
 
+    /**
+     * Sets timer
+     * @param nActions number of actions
+     * @param order order
+     */
     public void setTimer(final int nActions, final int order){//Timer per sospensione
         checkAction=new TimerTask() {
             @Override
@@ -231,12 +271,19 @@ public class GameRoundController {
         suspensionTimer.schedule(checkAction,(long)suspensionTimerInterval*1000);
     }
 
+    /**
+     * Stops timer
+     */
     public void stopTimer(){
         checkAction.cancel();
         suspensionTimer.cancel();
         suspensionTimer.purge();
     }
 
+    /**
+     * Counts how many players are suspended
+     * @return number of suspended players
+     */
     private int countSuspended(){
         int cont=0;
         for(int i=0;i<model.getPlayerList().size();i++){
@@ -245,6 +292,10 @@ public class GameRoundController {
         return cont;
     }
 
+    /**
+     * Counts how many players exit the game
+     * @return number of player that exit the game
+     */
     public int countEscaped(){
         int cont=0;
         for(int i=0;i<model.getPlayerList().size();i++){
@@ -253,10 +304,18 @@ public class GameRoundController {
         return cont;
     }
 
+    /**
+     * Counts how many players are not active
+     * @return sum of number of suspended players and number of players that exit the game
+     */
     private int countNotActivePlayers(){
         return countSuspended()+countEscaped();
     }
 
+    /**
+     * Sets suspension timer interval
+     * @param interval interval
+     */
     public void setSuspensionTimerInterval(int interval){
         suspensionTimerInterval=interval;
     }

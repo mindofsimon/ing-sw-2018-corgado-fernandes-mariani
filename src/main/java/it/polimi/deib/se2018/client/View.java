@@ -14,6 +14,10 @@ import it.polimi.deib.se2018.server.model.events.toolCardsEvents.*;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
+/**
+ * View class
+ * @author Simone Mariani, Sirlan Fernandes
+ */
 public class View  extends Observable<Event> implements Observer<Message>,Runnable,ViewInterface {//Classe abstract?
 
     private String playerNickName;
@@ -25,47 +29,127 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
     private Dice diceC;//dado a cui applicare effetto carta
     private int gameMode;//singlePlayer o multiplayer
 
+    /**
+     * Constructor, intializes view class
+     * @param n player's nickname
+     * @param gameMod game mode
+     * @throws RemoteException
+     */
     public View(String n,int gameMod) throws RemoteException {
         gameMode=gameMod;
         playerNickName=n;
     }//Valutare protected
 
+    /**
+     * Gets player's nickname
+     * @return player's nickname
+     */
     public String getPlayerNickName(){
         return playerNickName;
     }//Valutare protected
 
+    /**
+     * Handles dice placement
+     * @param r row
+     * @param c column
+     * @param d dice
+     * @throws RemoteException
+     */
     private void handleDicePlacement(int r, int c, Dice d)throws RemoteException {
         notify(new DicePlacement(playerNickName,r,c,d));
     }
 
+    /**
+     * Handles card activation
+     * @param n card number
+     * @param dice dice
+     * @throws RemoteException
+     */
     private void handleCardActivation(int n,Dice dice)throws RemoteException{
         notify(new CardActivation(playerNickName,n,dice));
     }
+
+    /**
+     * Handles change dice
+     * @param dice dice
+     * @param action action
+     * @param num tool card number
+     * @throws RemoteException
+     */
     private void handleChangeDice(Dice dice,String action,int num)throws RemoteException {
         notify(new ChangeDice(playerNickName,dice,action,num));
     }
+
+    /**
+     * Handles move dice
+     * @param dr dice row
+     * @param dc dice column
+     * @param row row
+     * @param column column
+     * @param num tool card number
+     * @throws RemoteException
+     */
     private void handleMoveDice(int dr,int dc,int row,int column,int num)throws RemoteException {
         notify(new MoveDice(playerNickName,dr,dc,row,column,num));
     }
+
+    /**
+     * Handles change of dice from stock with a dice in round track
+     * @param dice dice
+     * @param diceR dice from round track
+     * @param num tool card number
+     * @throws RemoteException
+     */
     private void handleChangeDiceDR(Dice dice,Dice diceR,int num)throws RemoteException {
         notify(new ChangeDiceDR(playerNickName,dice,diceR,num));
     }
+
+    /**
+     * Handles change and place
+     * @param dice dice
+     * @param num tool card number
+     * @throws RemoteException
+     */
     private void handleChangeAndPlace(Dice dice,int num)throws RemoteException {
         notify(new ChangeAndPlace(playerNickName,dice,num));
     }
+
+    /**
+     * Handles dice placement card
+     * @param r row
+     * @param c column
+     * @param d dice
+     * @param num tool card number
+     * @throws RemoteException
+     */
     private void handleDicePlacementCard(int r, int c, Dice d,int num)throws RemoteException {
         notify(new DicePlacementCard(playerNickName,r,c,d,num));
     }
 
+    /**
+     * Shows message
+     * @param message message
+     * @throws RemoteException
+     */
     public void showMessage(StringMessage message)throws RemoteException{//Valutare protected
         System.out.printf(message.getMessage());
     }
 
+    /**
+     * Reports error
+     * @param message message
+     * @throws RemoteException
+     */
     public void reportError(Message message)throws RemoteException{
 
         showMessage(message.getMessage()+"\n\n");
     }
 
+    /**
+     * Updates message
+     * @param message message
+     * @throws RemoteException
+     */
     @Override
     public void update(Message message) throws RemoteException {
         if ((message instanceof StringMessage) && playerNickName.equals(message.getPlayer().getNickname())) {
@@ -164,14 +248,25 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         }
     }
 
+    /**
+     * Shows message
+     * @param message message
+     */
     private void showMessage(String message){
         System.out.println(message+"\n");
     }
 
+    /**
+     * Reports error
+     * @param message message
+     */
     private void reportError(String message){
         System.out.println(message+"\n");
     }
 
+    /**
+     * Runs game
+     */
     @Override
     public void run() {
         int n;
@@ -223,14 +318,29 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
             }catch (RemoteException e){System.out.println("You are disconnected!\n");}}
     }
 
+    /**
+     * Scheme selection
+     * @param n scheme number
+     * @throws RemoteException
+     */
     private void schemeSelection(int n) throws RemoteException{
         notify(new SchemeSelection(playerNickName,n));
     }
 
+    /**
+     * Sets game over
+     * @throws RemoteException
+     */
     public void setGameOver(){
         gameOver=true;
     }
 
+    /**
+     * Converts dice color letter to full dice color name
+     * @param c color letter
+     * @return full dice color name
+     * @throws RemoteException
+     */
     private DiceColor convert(String c){
         switch (c){
             case "B": return DiceColor.BLUE;
@@ -242,6 +352,12 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         }
     }
 
+    /**
+     * Converts row letter to number
+     * @param rowLetter row letter
+     * @return converted row number
+     * @throws RemoteException
+     */
     private int rowConversion(String rowLetter){
         switch (rowLetter){
             case "A": return 0;
@@ -252,6 +368,11 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         }
     }
 
+    /**
+     * Converts string row number to int number
+     * @param rowLetter row letter
+     * @return converted int row number
+     */
     private int stringToInt(String rowLetter){
         switch (rowLetter){
             case "0": return 0;
@@ -271,14 +392,26 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         }
     }
 
+    /**
+     * Ends turn
+     * @throws RemoteException
+     */
     private void endTurn()throws RemoteException{//FORSE VA RIVISTA LA REGISTRAZIONE DEGLI OSSERVATORI PER VIEW E REMOTE VIEW
         notify(new EndTurn(playerNickName));
     }
 
+    /**
+     * Quits game
+     * @throws RemoteException
+     */
     private void quitGame()throws RemoteException{
         notify(new QuitPlayerEvent(playerNickName));
     }
 
+    /**
+     * Places dice
+     * @throws RemoteException
+     */
     private void placeDice()throws RemoteException{
         showMessage("DICE COLOR (B/G/R/V/Y): ");
         String color = s.next().toUpperCase();
@@ -293,6 +426,10 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         handleDicePlacement(rowConversion(row), column - 1, dice);
     }
 
+    /**
+     * Activates card
+     * @throws RemoteException
+     */
     private void activateCard()throws RemoteException{
         int number;
         do {
@@ -428,7 +565,12 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
 
     }
 
-    //chiedo dove vuole piazzare il dado dopo averlo modificato e mando al controller
+    /**
+     * Asks where to place a dice after modifying it and sends to the controller
+     * @param dice dice
+     * @param num dice value
+     * @throws RemoteException
+     */
     private void place(Dice dice,int num)throws RemoteException{
 
         showMessage("WHERE DO YOU WANNA PLACE THE DICE?");
@@ -440,7 +582,11 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
 
     }
 
-    //seleziona un dado
+    /**
+     * Selects a dice
+     * @return dice
+     * @throws RemoteException
+     */
     private Dice selectDice() throws RemoteException{
 
         showMessage("DICE COLOR (B/G/R/V/Y): ");
@@ -452,15 +598,22 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         return dice;
     }
 
-    //nel caso della carta 1 seleziona se vuoi incrementare o decrementare il dado
+    /**
+     * String that gives choice to increment or decrement dice value for tool card number 1
+     * @return choice to increment or decrement dice value
+     * @throws RemoteException
+     */
     public String increment()throws RemoteException{
         showMessage("INCREMENT(I) OR DECREMENT(D): ");
         return s.next().toUpperCase();
 
     }
 
-    //nel caso della categoria di carte dove si muovono dadi nello schema
-    // si sceglie la posizione del dado da muovere e dove lo si vuole spostare
+    /**
+     * Selects the position of the dice that the player wants to move and the position where they want to put it
+     * @param number tool card number
+     * @throws RemoteException
+     */
     public void selectDiceToMove(int number)throws RemoteException{
         showMessage("DICE'S ROW (A/B/C/D):");
         int dr = rowConversion(s.next().toUpperCase());

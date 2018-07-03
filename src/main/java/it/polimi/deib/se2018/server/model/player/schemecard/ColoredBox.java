@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Colored box class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class ColoredBox extends Box implements Serializable{
     private DiceColor color;

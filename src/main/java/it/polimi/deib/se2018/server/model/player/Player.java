@@ -241,8 +241,14 @@ public class Player implements Serializable {
      */
     public void setOfferedSchemeCards(SchemeCard s){ offeredSchemeCards.add(s); }
 
+    /**
+     * Suspends player
+     */
     public void suspend(){suspended=true;}
 
+    /**
+     * Exits a player
+     */
     public void escape(){out=true;}
 
 }

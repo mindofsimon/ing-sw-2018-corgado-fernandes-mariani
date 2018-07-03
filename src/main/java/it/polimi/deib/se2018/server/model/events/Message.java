@@ -6,7 +6,8 @@ import it.polimi.deib.se2018.server.model.player.Player;
 import java.io.Serializable;
 
 /**
- * message class
+ * Message class
+ * @author Simone Mariani, Coreena Corgado
  */
 public class Message implements Serializable {
 
@@ -35,18 +36,46 @@ public class Message implements Serializable {
         return null;
     }
 
+    /**
+     * Gets card number
+     * @return -1
+     */
     public int getCardNumber() {
         return -1;
     }
 
+    /**
+     * Gets card type
+     * @return -1
+     */
     public int getCardType() {
         return -1;
     }
+
+    /**
+     * Gets number of dices
+     * @return -1
+     */
     public int getNumberOfDices(){return -1;}
+
+    /**
+     * Gets single player
+     * @return false
+     */
     public boolean getSinglePlayer(){return false;}
+
+    /**
+     * Gets type
+     * @return -1
+     */
     public int getType() {
         return -1;
     }
+
+    /**
+     * Gets message
+     * @return null
+     */
     public String getMessage() {
         return null;
     }

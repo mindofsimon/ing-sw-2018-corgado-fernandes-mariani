@@ -241,23 +241,45 @@ public class Model extends Observable implements Serializable {
         return builder.toString();
     }
 
+    /**
+     * Suspends player
+     * @param p player
+     * @throws RemoteException
+     */
     public void suspendPlayer(Player p)throws RemoteException{
         p.suspend();
     }
 
+    /**
+     * Notifies player's suspension
+     * @param p player
+     * @throws RemoteException
+     */
     public void notifyPlayerSuspension(Player p)throws RemoteException{
         notify(new PlayerSuspendedMessage(p,this));
     }
 
+    /**
+     * Sets player list
+     * @param list player list
+     */
     public void setPlayerList(ArrayList<Player> list){
         this.playerList=list;
     }
 
-
+    /**
+     * Notifies that player has quit
+     * @param p player
+     * @throws RemoteException
+     */
     public void notifyPlayerQuit(Player p)throws RemoteException{
         notify(new QuitPlayerMessage(p));
     }
 
+    /**
+     * Gets first active player
+     * @return first active player
+     */
     public Player getFirstActive(){//In realtà lo userò per trovare l'unico giocatore rimasto attivo
         for(int i=0;i<playerList.size();i++){
             if(!playerList.get(i).isOut()&&!playerList.get(i).isSuspended()){

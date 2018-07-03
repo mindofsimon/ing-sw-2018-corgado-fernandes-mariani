@@ -13,19 +13,35 @@ import it.polimi.deib.se2018.server.model.player.schemecard.ValueBox;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * Game initiation controller class
+ * @author Simone Marian, Sirlan Fernandes
+ */
 public class GameInitController {
     private Model model;
 
+    /**
+     * Constructor, initializes game initiation controller class
+     * @param m model
+     */
     public GameInitController(Model m){
         model=m;
     }
 
+    /**
+     * Initiates game
+     * @throws RemoteException
+     */
     public void init()throws RemoteException{
         loadSchemeCards();
         loadPrivateGoalCards();
         loadPublicGoalCards();
     }
 
+    /**
+     * Checks if in single player mode or not
+     * @return true if in single player mode
+     */
     public boolean isSinglePlayer(){
         if(model.getPlayerList().size()==1){
             return true;
@@ -34,6 +50,11 @@ public class GameInitController {
 
     }
 
+    /**
+     * Initiate favor markers
+     * @param p player
+     * @throws RemoteException
+     */
     public void initFavorMarkers(Player p) throws RemoteException{
         //Never used in Single-Player
         if(model.getPlayerList().size()==1) {
@@ -44,7 +65,10 @@ public class GameInitController {
         }
     }
 
-
+    /**
+     * Loads private goal cards
+     * @throws RemoteException
+     */
     private void loadPrivateGoalCards()throws RemoteException {
         ArrayList<PrivateGoalCard> privateGoalCards=createPrivateGoalCards();
         for(int i=0; i<model.getPlayerList().size();i++){
@@ -53,6 +77,10 @@ public class GameInitController {
         }
     }
 
+    /**
+     * Loads public goal cards
+     * @throws RemoteException
+     */
     private void loadPublicGoalCards()throws RemoteException{
         ArrayList<PublicGoalCard> publicGoalCards=createPublicGoalCards();
         if(model.getPlayerList().size()==1){
@@ -70,6 +98,9 @@ public class GameInitController {
 
     }
 
+    /**
+     * Load scheme cards
+     */
     private void loadSchemeCards(){
         ArrayList<SchemeCard>schemeCards=createSchemeCards();
         for(int i=0;i<model.getPlayerList().size();i++){
@@ -80,6 +111,10 @@ public class GameInitController {
         }
     }
 
+    /**
+     * Creates private goal cards
+     * @return private goal cards
+     */
     private ArrayList<PrivateGoalCard> createPrivateGoalCards(){
         ArrayList<PrivateGoalCard> privateGoalCards=new ArrayList<PrivateGoalCard>();
         privateGoalCards.add(new PrivateGoalCard(DiceColor.BLUE,"Private Goal Blu"));
@@ -90,6 +125,10 @@ public class GameInitController {
         return privateGoalCards;
     }
 
+    /**
+     * Creates public goal cards
+     * @return public goal cards
+     */
     private ArrayList<PublicGoalCard> createPublicGoalCards(){
         ArrayList<PublicGoalCard> publicGoalCards=new ArrayList<PublicGoalCard>();
         publicGoalCards.add(new RowAndColCard(LineType.ROW,ElementType.COLOR,"Colored Rows"));
@@ -105,6 +144,10 @@ public class GameInitController {
         return publicGoalCards;
     }
 
+    /**
+     * Creates scheme cards
+     * @return scheme cards
+     */
     //Da qui in avanti è tutto creazione dei 24 schemi...
     private ArrayList<SchemeCard> createSchemeCards(){
         ArrayList<SchemeCard>schemeCards=new ArrayList<SchemeCard>();

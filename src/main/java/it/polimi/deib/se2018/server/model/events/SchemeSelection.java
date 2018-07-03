@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Scheme selection class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class SchemeSelection extends Event implements Serializable {
 

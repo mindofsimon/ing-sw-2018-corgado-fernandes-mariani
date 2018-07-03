@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * String message class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class StringMessage extends Message implements Serializable {
 

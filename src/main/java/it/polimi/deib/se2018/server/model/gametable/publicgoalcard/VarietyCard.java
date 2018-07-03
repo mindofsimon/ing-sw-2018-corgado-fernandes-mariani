@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Variety card class: public goal card
- * @author Simone Mariani,Sirlan Fernandes
+ * @author Simone Mariani, Sirlan Fernandes
  */
 public class VarietyCard implements PublicGoalCard,Serializable {
 

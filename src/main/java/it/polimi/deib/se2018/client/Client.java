@@ -10,9 +10,15 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
 
-
+/**
+ * Client class
+ * @author Simone Mariani
+ */
 public class Client {
 
+    /**
+     * Starts client
+     */
     public static void startClient() {
         ServerInterface server;
         try {

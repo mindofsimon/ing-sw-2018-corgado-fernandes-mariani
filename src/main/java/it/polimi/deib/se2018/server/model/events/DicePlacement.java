@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Dice placement class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class DicePlacement extends Event implements Serializable {
 

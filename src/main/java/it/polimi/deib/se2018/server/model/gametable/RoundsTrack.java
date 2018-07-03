@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Rounds track class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class RoundsTrack implements Serializable {
     private ArrayList <Dice> diceList;
@@ -73,7 +73,7 @@ public class RoundsTrack implements Serializable {
     }
 
     /**
-     * Insert dice in position i
+     * Inserts dice in position i
      * @param dice dice
      * @param i position
      */
@@ -82,7 +82,7 @@ public class RoundsTrack implements Serializable {
     }
 
     /**
-     * Extract a selected dice
+     * Extracts a selected dice
      * @param d dice
      */
     public void extractDice(Dice d){
@@ -91,7 +91,7 @@ public class RoundsTrack implements Serializable {
     }
 
     /**
-     *
+     * Finds a dice by color
      * @param c color
      * @return true if there is a dice with the same color of c, else returns false
      */

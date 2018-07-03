@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * End turn message class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class EndTurnMessage extends Message implements Serializable {
 

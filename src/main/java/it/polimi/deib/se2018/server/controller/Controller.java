@@ -15,6 +15,10 @@ import it.polimi.deib.se2018.common.utils.Observer;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * Controller class
+ * @author Simone Marian, Sirlan Fernandes
+ */
 public class Controller implements Observer<Event> {
 
     private Model model;
@@ -28,6 +32,11 @@ public class Controller implements Observer<Event> {
     private int difficult;
     private int category=-1;
 
+    /**
+     * Constructor, initializes controller class
+     * @param m model
+     * @param v remote view
+     */
     public Controller(Model m, RemoteView v){
         view=v;
         model=m;
@@ -39,23 +48,47 @@ public class Controller implements Observer<Event> {
         cardActivationController= new CardActivationController(m,toolCardList,dicePlacementController);
     }
 
+    /**
+     * Gets game round controller
+     * @return Game round controller
+     */
     public GameRoundController getGameRoundController() {
         return gameRoundController;
     }
 
+    /**
+     * Gets tool card list
+     * @return tool card list
+     */
     public ArrayList<ToolCard> getToolCardsList() { return toolCardList; }
 
+    /**
+     * Adds tool card
+     * @param c tool card
+     */
     public void addToolCard(ToolCard c){ toolCardList.add(c); }
 
+    /**
+     * Gets model
+     * @return model
+     */
     public Model getModel() {
         return model;
     }
 
+    /**
+     * Gets view interface
+     * @return view interface
+     */
     public ViewInterface getView() {
         return view;
     }
 
-    //We'll use this method just to reconvert the row, to show the letter instead of the number...
+    /**
+     * Converts row from numbers to letters
+     * @param r row
+     * @return row letter
+     */
     private String convertRow(int r){
         switch (r){
             case 0:return "A";
@@ -67,7 +100,11 @@ public class Controller implements Observer<Event> {
 
     }
 
-    //Game initialization methods
+    /**
+     * Initiates game
+     * @param suspensionTimerInterval suspension timer interval
+     * @throws RemoteException
+     */
     public void initGame(int suspensionTimerInterval)throws RemoteException{
         gameInitController.init();
         gameRoundController.updateDiceStock();
@@ -78,6 +115,10 @@ public class Controller implements Observer<Event> {
         schemeSelection();
     }
 
+    /**
+     * Scheme selection
+     * @throws RemoteException
+     */
     private void schemeSelection()throws RemoteException{
         for(int i=0;i<model.getPlayerList().size();i++){
             view.showMessage(new StringMessage("WELCOME TO SAGRADA!\n"+model.getPlayerList().get(i).getPrivateGoalCard().toString()+"\nPlease select your scheme card(0-FIRST FRONT/1-FIRST RETRO/2-SECOND FRONT/3-SECOND RETRO):\n",model.getPlayerList().get(i)));
@@ -88,7 +129,10 @@ public class Controller implements Observer<Event> {
         }
     }
 
-    //creo le 12 tool cards
+    /**
+     * Creates the 12 tool cards
+     * @return tool cards
+     */
     private ArrayList<ToolCard> createToolCards(){
         ArrayList<ToolCard> toolCards=new ArrayList<ToolCard>();
         toolCards.add(new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET));
@@ -107,7 +151,11 @@ public class Controller implements Observer<Event> {
         return toolCards;
     }
 
-    //carico le tool cards che possono essere utilizzate
+
+    /**
+     * Loads usable tool cards
+     * @throws RemoteException
+     */
     private void loadToolCards()throws RemoteException{
         ArrayList<ToolCard> toolCardLists=createToolCards();
         if(gameInitController.isSinglePlayer()) {
@@ -124,19 +172,28 @@ public class Controller implements Observer<Event> {
 
     }
 
-    //metodo che setta le tool cards e le fa vedere
+    /**
+     * Sets and shows tool cards
+     * @param p player
+     * @throws RemoteException
+     */
     public void showToolCards(Player p) throws RemoteException {
         cardActivationController.setActivated(p,gameInitController.isSinglePlayer());
         view.showMessage(new StringMessage(toStringToolCards(), p));
 
     }
 
-    //pulisce la lista delle toolCards
+    /**
+     * Cleans tool cards list
+     */
     public void cleanToolCards(){
         toolCardList.clear();
     }
 
-    //costruisce l'array con le toolcards per farle vedere nella view
+    /**
+     * Builds tool cards array to show in the view
+     * @return tool cards
+     */
     public String toStringToolCards() {
         StringBuilder builder = new StringBuilder();
         builder.append("TOOL CARDS: \n");
@@ -155,19 +212,39 @@ public class Controller implements Observer<Event> {
         return builder.toString();
     }
 
+    /**
+     * Checks if a player is suspended
+     * @param p player
+     * @return true if a player is suspended, else false
+     */
     private boolean isPlayerSuspended(Player p){
         return p.isSuspended();
     }
 
+    /**
+     * Checks if it is the turn of a given player
+     * @param p player
+     * @return true if it is the turn of a given player
+     * @throws RemoteException
+     */
     private boolean isPlayerTurn(Player p)throws RemoteException{return model.getTurn()==p.getOrder();}
 
+    /**
+     * Checks if the player has already placed a dice
+     * @param p player
+     * @return true if the player has already placed a dice
+     */
     private boolean isDicePlacementAlreadyDone(Player p){
         if(p.dicePlaced()) return true;
         else return false;
     }
 
 
-    //Perform actions and events methods
+    /**
+     * Performs dice placement actions and events
+     * @param placement dice placement
+     * @throws RemoteException
+     */
     private synchronized void performDicePlacement(Event placement)throws RemoteException{
         Player p=model.findPlayerByName(placement.getPlayerNickName());
         if(p!=null) {
@@ -228,6 +305,11 @@ public class Controller implements Observer<Event> {
         }
     }
 
+    /**
+     * Places dice
+     * @param placement dice placement
+     * @throws RemoteException
+     */
     private void placeDice(DicePlacement placement)throws RemoteException {
         Player p=model.findPlayerByName(placement.getPlayerNickName());
         if(p!=null){
@@ -237,6 +319,11 @@ public class Controller implements Observer<Event> {
         }}
 
 
+    /**
+     * Performs card activation
+     * @param cardActivation card activation
+     * @throws RemoteException
+     */
     private synchronized void performCardActivation(Event cardActivation)throws RemoteException{
         Player p=model.findPlayerByName(cardActivation.getPlayerNickName());
 
@@ -352,10 +439,18 @@ public class Controller implements Observer<Event> {
 
     }
 
+    /**
+     * Gets category
+     * @return category
+     */
     public int getCategory(){return category;}
 
 
-
+    /**
+     * Performs end turn
+     * @param e event
+     * @throws RemoteException
+     */
     private synchronized void performEndTurn(Event e) throws RemoteException {
         Player p = model.findPlayerByName(e.getPlayerNickName());
         if (p != null) {
@@ -379,6 +474,11 @@ public class Controller implements Observer<Event> {
         }
     }
 
+    /**
+     * Performs scheme selection
+     * @param e event
+     * @throws RemoteException
+     */
     private synchronized void performSchemeSelection(Event e)throws RemoteException{
         /*
         CASO 0---> SCHEMA 1 FRONTE
@@ -422,6 +522,11 @@ public class Controller implements Observer<Event> {
         }
     }
 
+    /**
+     * Performs events and actions if a player has been suspended or if it is not their turn
+     * @param e event
+     * @throws RemoteException
+     */
     private synchronized void playerEscape(Event e)throws RemoteException{
         Player p=model.findPlayerByName(e.getPlayerNickName());
         if(isPlayerSuspended(p)){
@@ -452,7 +557,11 @@ public class Controller implements Observer<Event> {
         }
     }
 
-    //si fanno dei controlli e si attiva la categoria di carte che cambia il valore di un dado nel diceStock
+    /**
+     * Performs controls and activates card category that changes dice value from dice stock
+     * @param event event
+     * @throws RemoteException
+     */
     private synchronized void performChangeDice(Event event) throws RemoteException {
         Player p=model.findPlayerByName(event.getPlayerNickName());
         if(model.getDiceStock().findDice(event.getDice())==-1){
@@ -480,7 +589,11 @@ public class Controller implements Observer<Event> {
 
     }
 
-    //si fanno le update una volta che l'attivazione della carta è andata a buon fine
+    /**
+     * Performs end card activation if successful
+     * @param event event
+     * @throws RemoteException
+     */
     private synchronized void performEndCardActivation(Event event) throws RemoteException {
         Player p=model.findPlayerByName(event.getPlayerNickName());
         if(p!=null) {
@@ -514,6 +627,11 @@ public class Controller implements Observer<Event> {
         }
     }
 
+    /**
+     * Performs controls and dice move
+     * @param event event
+     * @throws RemoteException
+     */
     private synchronized void performMoveDice(Event event) throws RemoteException {
         Player p=model.findPlayerByName(event.getPlayerNickName());
 
@@ -593,7 +711,11 @@ public class Controller implements Observer<Event> {
         view.showMessage(new StringMessage("\nDICE color: " + dice.getColor() + " value: " + dice.getValue()+ " placed in " +convertRow(event.getRow())+(event.getColumn()+1) +"\n\n",p));
     }
 
-    //applico l'effetto della carta 5 che cambia un dado dal tracciato round con uno nel dice stock
+    /**
+     * Performs dice change from round track to dice stock (tool card number 5)
+     * @param event
+     * @throws RemoteException
+     */
     private synchronized void performChangeDices(Event event) throws RemoteException {
         Player p=model.findPlayerByName(event.getPlayerNickName());
         if(model.getDiceStock().findDice(event.getDice())==-1){
@@ -612,7 +734,11 @@ public class Controller implements Observer<Event> {
         view.showMessage(new StringMessage(event.getDice().getColor()+""+event.getDice().getValue()+" is now in Rounds track and "+event.getDiceRound().getColor()+""+event.getDiceRound().getValue()+" is now in Dice stock", p));
     }
 
-    //applicano le modifiche nei dadi prima di piazzarli con l'effetto delle carte change and place
+    /**
+     * Performs dice changes before placing them with change and place cards effect
+     * @param event event
+     * @throws RemoteException
+     */
     private synchronized void performChanges(Event event) throws RemoteException {
         Player p=model.findPlayerByName(event.getPlayerNickName());
         if(model.getDiceStock().findDice(event.getDice())==-1){
@@ -640,7 +766,13 @@ public class Controller implements Observer<Event> {
 
     }
 
-    //rimette il dado nel sachetto e ne pesca un'altro per attivare l'effetto della carta 11
+
+    /**
+     * Puts dice back in dice bag and picks up a new one for tool card number 11
+     * @param p
+     * @param dice
+     * @throws RemoteException
+     */
     private void takeAnotherDice(Player p,Dice dice) throws RemoteException {
         int position=model.getDiceStock().findDice(dice);
         Dice diceT= model.getDiceBag().extractRandomDice();
@@ -649,7 +781,12 @@ public class Controller implements Observer<Event> {
         view.notifyView(new DiceChange("You extract on the bag the dice with color: "+diceT.getColor(),p,diceT));
     }
 
-    //rilancia un dado nel dice stock
+    /**
+     * Rethrow a dice in dice stock
+     * @param p player
+     * @param dice dice
+     * @throws RemoteException
+     */
     private synchronized void changeValue(Player p,Dice dice) throws RemoteException {
         int position=model.getDiceStock().findDice(dice);
         model.getDiceStock().setDiceValue(position);
@@ -661,7 +798,11 @@ public class Controller implements Observer<Event> {
         category=1;
     }
 
-    //piazzo il dado attivando l'effetto della carta change and place
+    /**
+     * Places dice activating change and place card effect
+     * @param event event
+     * @throws RemoteException
+     */
     private synchronized void performCardPlacement(Event event) throws RemoteException {
         Player p=model.findPlayerByName(event.getPlayerNickName());
 
@@ -700,6 +841,11 @@ public class Controller implements Observer<Event> {
         view.showMessage(new StringMessage("\nDICE color: " + event.getDice().getColor() + " value: " + event.getDice().getValue()+ " placed in " +convertRow(event.getRow())+(event.getColumn()+1) +"\n\n",p));
     }
 
+    /**
+     * Updates event
+     * @param event event
+     * @throws RemoteException
+     */
     @Override
     public void update(Event event) throws RemoteException{
         if (event instanceof DicePlacement) {

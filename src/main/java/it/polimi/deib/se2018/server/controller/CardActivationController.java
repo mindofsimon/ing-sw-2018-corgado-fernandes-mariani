@@ -11,31 +11,52 @@ import it.polimi.deib.se2018.server.model.player.Player;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+/**
+ * Card activation controller class
+ * @author Simone Marian, Sirlan Fernandes
+ */
 public class CardActivationController {
 
     private Model model;
     private ArrayList<ToolCard> toolCardList;
     private DicePlacementController dicePlacementController;
 
+    /**
+     * Constructor, initializes card activation controller class
+     * @param m model
+     * @param list tool card list
+     * @param dicePlacementController dice placement controller
+     */
     public CardActivationController(Model m,ArrayList<ToolCard>list,DicePlacementController dicePlacementController){
         model=m;
         toolCardList=list;
         this.dicePlacementController=dicePlacementController;
     }
 
-    //passando il giocatore,controllo se quel giocatore ha gia attivato una carta in questo turno,ritorna vero o falso
+    /**
+     * Checks if a player has already activated a card in current turn
+     * @param p player
+     * @return true if card has been already activated, else false
+     */
     public boolean isCardActivationAlreadyDone(Player p){
        return p.cardActivated();
 
     }
 
-    //passando il giocatore,controllo se quel giocatore ha piazzato un dado in questo turno,ritorna vero o falso
+    /**
+     * Checks if a player has already placed a dice in current turn
+     * @param p player
+     * @return true if dice has been already placed, else false
+     */
     public boolean isDicePlacementAlreadyDone(Player p){
        return p.dicePlaced();
     }
 
-    //controllo se almeno 1 carta è attivabile,torno vero o falso
-    public boolean noOneCardsActivated(){
+
+    /**
+     * Checks if at least one card can be activated
+     * @return true if at least one card can be activated, else false
+     */    public boolean noOneCardsActivated(){
         boolean control=true;
         for(int i=0;i<toolCardList.size();i++) {
             if (toolCardList.get(i).getActivated()){
@@ -46,8 +67,12 @@ public class CardActivationController {
 
     }
 
-    //metodo che setta le toolcards come attivabili o meno tramitte controlli specifici
-    public void setActivated(Player p,boolean singleP) throws RemoteException {
+    /**
+     * Sets if cards can be activated or not through specific controls
+     * @param p player
+     * @param singleP single player
+     * @throws RemoteException
+     */    public void setActivated(Player p,boolean singleP) throws RemoteException {
 
         for(int i=0;i<toolCardList.size();i++){
             boolean control=true;
@@ -111,6 +136,13 @@ public class CardActivationController {
 
     }
 
+    /**
+     * Checks if a dice can be placed or not
+     * @param p player
+     * @param dice dice
+     * @param cardNumb card number
+     * @return true if a dice can be placed, else false
+     */
     public boolean canPlaceDice(Player p, Dice dice, int cardNumb){
         boolean control=false;
         if(dicePlacementController.firstDice(p)){
@@ -155,6 +187,12 @@ public class CardActivationController {
         return control;
     }
 
+    /**
+     * Counts how many dices are placeable
+     * @param p player
+     * @param cardNumb card number
+     * @return number of placeable dices
+     */
     public int canPlaceAdice(Player p,int cardNumb){
         int cont=0;
         if(model.getDiceStock().size()==0){return 0;}
@@ -165,6 +203,12 @@ public class CardActivationController {
         return cont;}
     }
 
+    /**
+     * Counts how many dices are moveable
+     * @param p player
+     * @param cardNumb card number
+     * @return number of moveable dices
+     */
     public int canMoveAdice(Player p,int cardNumb){
         int cont=0;
         for(int i=0;i<4;i++){
@@ -178,6 +222,12 @@ public class CardActivationController {
         return cont;
     }
 
+    /**
+     * Checks if there are at least two moveable placed dices with the same color as a dice in the round track
+     * @param p player
+     * @param cardNumb card number
+     * @return true if at least two moveable placed dices with the same color as a dice in the round track
+     */
     public boolean canMoveAdiceColor (Player p,int cardNumb){
         int cont=0;
         boolean control=false;
@@ -201,10 +251,20 @@ public class CardActivationController {
         return control;
     }
 
+    /**
+     * Checks if there is a dice in the dice stock with the given color (if a card can be activated in single player mode)
+     * @param color dice color
+     * @return true if there is a dice in the dice stock with the given color
+     */
     private boolean cardColorOk(DiceColor color){
         return model.getDiceStock().findDice(color);
     }
 
+    /**
+     * Finds tool card from tool card list
+     * @param n card number
+     * @return tool card or else null
+     */
     public ToolCard findCard(int n){
         for(int i=0;i<toolCardList.size();i++){
             if(toolCardList.get(i).getNumber()==n) return toolCardList.get(i);
@@ -212,6 +272,13 @@ public class CardActivationController {
         return null;
     }
 
+    /**
+     * Checks if a tool card can be taken
+     * @param p player
+     * @param c tool card
+     * @return true if a tool card can be taken, else false
+     * @throws RemoteException
+     */
     public boolean canTakeCard(Player p, ToolCard c)throws RemoteException {
 
             if(c.isAlreadyUsed()&&p.getFavorMarkers()<2) return false;

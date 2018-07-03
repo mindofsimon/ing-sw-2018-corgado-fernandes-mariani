@@ -8,10 +8,19 @@ import it.polimi.deib.se2018.common.utils.Observer;
 import java.io.Serializable;
 import java.rmi.RemoteException;
 
+/**
+ * Model View class
+ * @author Simone mariani
+ */
 public class ModelView extends Observable<Message> implements Observer<Message>,Serializable {
 
     private Model modelCopy;
 
+    /**
+     * Updates message
+     * @param message message
+     * @throws RemoteException
+     */
     @Override
     public void update(Message message)throws RemoteException {
         if (message instanceof DicePlacementMessage) {

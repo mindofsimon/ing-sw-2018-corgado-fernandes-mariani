@@ -41,7 +41,7 @@ public class ShadeCard implements PublicGoalCard,Serializable {
     }
 
     /**
-     * Calculate number of boxes with given values
+     * Calculates number of boxes with given values
      * @param p player
      * @param val1 shade value n.1
      * @param val2 shade value n.2
@@ -67,9 +67,6 @@ public class ShadeCard implements PublicGoalCard,Serializable {
             return contA*P;
         }
     }
-
-
-
 
     /**
      * Object text representation
