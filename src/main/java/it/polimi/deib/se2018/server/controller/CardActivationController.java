@@ -165,7 +165,7 @@ public class CardActivationController {
                             break;
 
                         case 9:
-                            if (dicePlacementController.isBoxOkShade(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice)) {
+                            if (dicePlacementController.isBoxOk(p, i, j, dice) && dicePlacementController.similarDicesOk(p, i, j, dice)) {
                                 control = true;
                             }
 

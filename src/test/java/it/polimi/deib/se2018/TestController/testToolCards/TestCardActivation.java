@@ -20,6 +20,7 @@ import it.polimi.deib.se2018.server.model.player.Player;
 import it.polimi.deib.se2018.server.model.player.PlayerColor;
 import it.polimi.deib.se2018.server.model.player.PrivateGoalCard;
 import it.polimi.deib.se2018.server.model.player.schemecard.Box;
+import it.polimi.deib.se2018.server.model.player.schemecard.ColoredBox;
 import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 import org.junit.After;
 import org.junit.Before;
@@ -76,6 +77,8 @@ public class TestCardActivation {
         controller.addToolCard(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN));
         controller.addToolCard(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1));
         controller.addToolCard(new Marteletto("Marteletto",7,DiceColor.BLUE));
+        controller.addToolCard(new ChangeAndPlaceCard("Tenaglia  a  Rotelle",8,DiceColor.RED,2));
+        controller.addToolCard(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1));
         cardActivationController=new CardActivationController(model,controller.getToolCardsList(),dicePlacementController);
         //aggiiungo 1 dado nel dice stock
         Dice dice=new Dice(DiceColor.VIOLET);
@@ -253,6 +256,93 @@ public class TestCardActivation {
             fail();
         }
         assertEquals(-9,controller.getCategory());
+    }
+
+    /**
+     * test control the errors of the activation of card 6
+     * @author fernandes
+     */
+    @Test
+    public void testCardActivationKoSPCard6() {
+        //creo uno schema diverso per provare l'errore di questa carta
+        Box[][] tabella1 = new Box[4][5];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                tabella1[i][j] = new ColoredBox(DiceColor.YELLOW);
+            }
+        }
+        SchemeCard schema1=new SchemeCard("schema1",3,tabella1);
+        p1.setPlayerScheme(schema1);
+        model.addPlayer(p1);
+        model.getDiceStock().extractRandomDice();
+        model.getDiceStock().extractRandomDice();
+        Dice dice1=new Dice(DiceColor.YELLOW);
+        dice1.setValue(2);
+        model.getDiceStock().insertDice(dice1);
+        Dice dice2=new Dice(DiceColor.BLUE);
+        dice2.setValue(2);
+        model.getDiceStock().insertDice(dice2);
+        p1.getPlayerScheme().getScheme()[0][0].setDice(dice2);
+
+        try {
+            this.cardActivationController.setActivated(p1, true);
+        } catch (RemoteException e) {
+            fail();
+        }
+        Event event = new CardActivation(p1.getNickname(), 9, model.getDiceStock().getDice(0));
+        try {
+            controller.update(event);
+        } catch (RemoteException e) {
+            fail();
+        }
+        assertEquals(-10,controller.getCategory());
+        assertEquals(dice1,model.getDiceStock().getDice(0));
+
+    }
+
+    /**
+     * test control the errors of the activation of card 8
+     * @author fernandes
+     */
+    @Test
+    public void testCardActivationKoSPCard8() {
+        //creo uno schema diverso per provare l'errore di questa carta
+        Box[][] tabella1 = new Box[4][5];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                tabella1[i][j] = new ColoredBox(DiceColor.RED);
+            }
+        }
+        SchemeCard schema1=new SchemeCard("schema1",3,tabella1);
+        p1.setPlayerScheme(schema1);
+        model.addPlayer(p1);
+        model.getDiceStock().extractRandomDice();
+        model.getDiceStock().extractRandomDice();
+        Dice dice1=new Dice(DiceColor.RED);
+        dice1.setValue(2);
+        model.getDiceStock().insertDice(dice1);
+        Dice d=new Dice(DiceColor.RED);
+        d.setValue(2);
+        model.getDiceStock().insertDice(d);
+        Dice dice2=new Dice(DiceColor.BLUE);
+        dice2.setValue(2);
+        model.getDiceStock().insertDice(dice2);
+        p1.getPlayerScheme().getScheme()[0][0].setDice(dice2);
+
+        try {
+            this.cardActivationController.setActivated(p1, true);
+        } catch (RemoteException e) {
+            fail();
+        }
+        Event event = new CardActivation(p1.getNickname(), 8, model.getDiceStock().getDice(0));
+        try {
+            controller.update(event);
+        } catch (RemoteException e) {
+            fail();
+        }
+        assertEquals(-11,controller.getCategory());
+        assertEquals(dice1,model.getDiceStock().getDice(0));
+
     }
 
     /**

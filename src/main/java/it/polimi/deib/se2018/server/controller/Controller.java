@@ -794,8 +794,10 @@ public class Controller implements Observer<Event> {
         view.notifyView(new DiceChange(""+dice.getColor()+""+dice.getValue()+" è ora "+diceC.getColor()+""+diceC.getValue(),p,diceC));
         if(!cardActivationController.canPlaceDice(p,diceC,6)){
             view.reportError((new StringMessageError("The dice can't be pleaced and will be back in dice stock",p,3)));
-        }
+            category=-3;
+        }else{
         category=1;
+        }
     }
 
     /**

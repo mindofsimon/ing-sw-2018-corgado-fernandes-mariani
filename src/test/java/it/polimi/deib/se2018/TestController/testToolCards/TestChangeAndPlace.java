@@ -21,6 +21,7 @@ import it.polimi.deib.se2018.server.model.player.Player;
 import it.polimi.deib.se2018.server.model.player.PlayerColor;
 import it.polimi.deib.se2018.server.model.player.PrivateGoalCard;
 import it.polimi.deib.se2018.server.model.player.schemecard.Box;
+import it.polimi.deib.se2018.server.model.player.schemecard.ColoredBox;
 import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 import org.junit.After;
 import org.junit.Before;
@@ -138,6 +139,25 @@ public class TestChangeAndPlace {
             fail();
         }
         assertEquals(-2, controller.getCategory());
+        //creo uno schema diverso per provare l'errore di questa carta
+        Box[][] tabella1 = new Box[4][5];
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 5; j++) {
+                tabella1[i][j] = new ColoredBox(DiceColor.RED);
+            }
+        }
+        SchemeCard schema1=new SchemeCard("schema1",3,tabella1);
+        p1.setPlayerScheme(schema1);
+        p1.getPlayerScheme().getScheme()[0][0].setDice(d);
+        //provo con un dado non piazzabile
+        event = new ChangeAndPlace(p1.getNickname(),model.getDiceStock().getDice(0), 6);
+        try {
+            controller.update(event);
+        } catch (RemoteException e) {
+            fail();
+        }
+        assertEquals(-3, controller.getCategory());
+
     }
     /**
      * test control that the changes of set dice is ok
