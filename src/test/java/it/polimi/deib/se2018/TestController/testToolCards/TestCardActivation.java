@@ -1,6 +1,9 @@
 package it.polimi.deib.se2018.TestController.testToolCards;
 
+import it.polimi.deib.se2018.client.NetworkHandler;
+import it.polimi.deib.se2018.client.NetworkHandlerInterface;
 import it.polimi.deib.se2018.server.RemoteView;
+import it.polimi.deib.se2018.server.ServerInterface;
 import it.polimi.deib.se2018.server.controller.CardActivationController;
 import it.polimi.deib.se2018.server.controller.Controller;
 import it.polimi.deib.se2018.server.controller.DicePlacementController;
@@ -22,11 +25,13 @@ import it.polimi.deib.se2018.server.model.player.PrivateGoalCard;
 import it.polimi.deib.se2018.server.model.player.schemecard.Box;
 import it.polimi.deib.se2018.server.model.player.schemecard.ColoredBox;
 import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.modelview.ModelView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 
 import static org.junit.Assert.*;
@@ -357,6 +362,7 @@ public class TestCardActivation {
         model.getDiceBag().clear();
         model.getRoundsTrack().clear();
         p1.setFavorMarkers(4);
+
 
     }
 }

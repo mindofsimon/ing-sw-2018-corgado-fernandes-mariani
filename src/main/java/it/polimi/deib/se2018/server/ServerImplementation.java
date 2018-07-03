@@ -308,18 +308,6 @@ public class ServerImplementation extends UnicastRemoteObject implements
     }
 
 
-    public void send(ClientStringMessage stringMessage) throws RemoteException {
-        Iterator<ClientInterface> clientIterator = clients.iterator();
-        while(clientIterator.hasNext()){
-            try{
-                clientIterator.next().notify(stringMessage);
-            }catch(ConnectException e) {
-                clientIterator.remove();
-                System.out.println("Client removed!");
-            }
-        }
-    }
-
     /**
      * Adds network handlers
      * @param networkHandler network handler

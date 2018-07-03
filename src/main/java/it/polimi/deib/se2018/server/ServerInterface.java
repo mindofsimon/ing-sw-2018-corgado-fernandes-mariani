@@ -35,8 +35,6 @@ public interface ServerInterface extends Remote {
 
     void addNetworkHandler(NetworkHandlerInterface networkHandler) throws RemoteException;
 
-    void send(ClientStringMessage stringMessage) throws RemoteException;
-
     void setEnoughPlayersTimer() throws RemoteException;
 
     void stopEnoughPlayersTimer() throws RemoteException;
