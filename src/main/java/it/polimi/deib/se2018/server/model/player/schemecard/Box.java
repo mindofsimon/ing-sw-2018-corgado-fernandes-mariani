@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Box class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class Box implements Serializable {//It's a white box (no color, no value)
     private Dice dice;

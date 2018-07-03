@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Dice placement message class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class DicePlacementMessage extends Message implements Serializable {
 

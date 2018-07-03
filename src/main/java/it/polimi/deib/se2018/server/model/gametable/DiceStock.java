@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Dice stock class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class DiceStock implements Serializable {
     private ArrayList<Dice> diceList;
@@ -51,7 +51,7 @@ public class DiceStock implements Serializable {
     }
 
     /**
-     * Insert dice in position i
+     * Inserts dice in position i
      * @param dice dice
      * @param i position
      */
@@ -96,7 +96,6 @@ public class DiceStock implements Serializable {
         return false;
     }
 
-
     /**
      * Extracts a selected dice
      * @param d dice
@@ -137,7 +136,6 @@ public class DiceStock implements Serializable {
      */
     public void clear(){
         instance=null;
-
     }
 
     /**

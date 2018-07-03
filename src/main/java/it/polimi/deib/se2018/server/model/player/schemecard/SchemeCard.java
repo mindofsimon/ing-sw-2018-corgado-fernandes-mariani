@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 /**
  * Scheme card class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class SchemeCard implements Serializable {
     private String schemeName;

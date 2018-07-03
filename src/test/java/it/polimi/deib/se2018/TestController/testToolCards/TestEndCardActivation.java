@@ -120,6 +120,39 @@ public class TestEndCardActivation {
             fail();
         }
         assertEquals(1, p1.getFavorMarkers());
+        //provo le altre tipologie di carte
+        event=new EndCardActivation(p1.getNickname(),1);
+        try {
+            controller.update(event);
+        } catch (RemoteException e) {
+            fail();
+        }
+
+        assertTrue(controller.getToolCardsList().get(0).isAlreadyUsed());
+        event=new EndCardActivation(p1.getNickname(),2);
+        try {
+            controller.update(event);
+        } catch (RemoteException e) {
+            fail();
+        }
+
+        assertTrue(controller.getToolCardsList().get(1).isAlreadyUsed());
+        event=new EndCardActivation(p1.getNickname(),5);
+        try {
+            controller.update(event);
+        } catch (RemoteException e) {
+            fail();
+        }
+
+        assertTrue(controller.getToolCardsList().get(2).isAlreadyUsed());
+        event=new EndCardActivation(p1.getNickname(),7);
+        try {
+            controller.update(event);
+        } catch (RemoteException e) {
+            fail();
+        }
+
+        assertTrue(controller.getToolCardsList().get(4).isAlreadyUsed());
 
 
     }

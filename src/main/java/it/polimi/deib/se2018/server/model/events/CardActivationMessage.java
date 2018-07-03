@@ -7,7 +7,7 @@ import java.io.Serializable;
 
 /**
  * Card activation message class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class CardActivationMessage extends Message implements Serializable {
 

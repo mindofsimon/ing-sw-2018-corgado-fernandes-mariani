@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Game over message class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class GameOverMessage extends Message implements Serializable {
 

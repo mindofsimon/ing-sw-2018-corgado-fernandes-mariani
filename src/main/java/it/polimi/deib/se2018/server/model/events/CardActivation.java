@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Card activation class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class CardActivation extends Event implements Serializable {
 

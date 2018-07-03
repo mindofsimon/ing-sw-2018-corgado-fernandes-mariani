@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * Value box class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class ValueBox extends Box implements Serializable {
     private int value;

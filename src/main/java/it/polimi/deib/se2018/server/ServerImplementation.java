@@ -21,7 +21,10 @@ import java.util.Iterator;
 import java.util.Timer;
 import java.util.TimerTask;
 
-
+/**
+ * Server implementation class
+ * @author Simone Mariani
+ */
 public class ServerImplementation extends UnicastRemoteObject implements
         ServerInterface {
 
@@ -42,13 +45,21 @@ public class ServerImplementation extends UnicastRemoteObject implements
     private ArrayList<ClientInterface> disconnectedClients = new ArrayList<ClientInterface>();
     private ArrayList<NetworkHandlerInterface> disconnectedNetworkHandlers=new ArrayList<NetworkHandlerInterface>();
 
-
+    /**
+     * Constructor, initializes server implementation class
+     * @throws RemoteException
+     */
     protected ServerImplementation() throws RemoteException {
         super(0);
     }
 
     private static final long serialVersionUID = -7098548671967083832L;
 
+    /**
+     * Adds client
+     * @param client client
+     * @throws RemoteException
+     */
     public void addClient(ClientInterface client) throws RemoteException {
         clients.add(client);
         System.out.println("Player: "+ (client.getPlayerNickName())+ " connected!");
@@ -61,6 +72,10 @@ public class ServerImplementation extends UnicastRemoteObject implements
         }
     }
 
+    /**
+     * Initiates game
+     * @throws RemoteException
+     */
     public void initGame()throws RemoteException{
         gameStarted=true;
         for(int i=0;i<clients.size();i++){
@@ -70,6 +85,10 @@ public class ServerImplementation extends UnicastRemoteObject implements
         controller.initGame(suspensionTimerInterval);
     }
 
+    /**
+     * Creates game
+     * @throws RemoteException
+     */
     public void createGame()throws RemoteException {
         checkClients();//Faccio partire il controllo sul mantenimento della connessione da qui...cioè dopo che è stato aggiunto il primo client
         model=new Model(DiceBag.getSingletonDiceBag(),DiceStock.getSingletonDiceStock(),RoundsTrack.getSingletonRoundsTrack());
@@ -81,14 +100,25 @@ public class ServerImplementation extends UnicastRemoteObject implements
         modelView.register(remoteView);
     }
 
-
-
+    /**
+     * Checks if the game mode is accepted
+     * @param n mode
+     * @param client client
+     * @return true if accepted, else false
+     * @throws RemoteException
+     */
     public boolean isGameModeAccepted(int n, ClientInterface client) throws RemoteException{
         if(n==0||n==1) return true;
         else {client.notify(new ClientStringMessage("ERROR! Insert a valid option")); return false;}
     }
 
-
+    /**
+     * Checks if inserted name is accepted
+     * @param name name
+     * @param client client
+     * @return true if accepted, else false
+     * @throws RemoteException
+     */
     public boolean isNameAccepted(String name,ClientInterface client)throws RemoteException{
         for(int i=0;i<clients.size();i++){
             if(clients.get(i).getPlayerNickName().equals(name)){client.notify(new ClientStringMessage("ERROR! Name already taken\n")); return false;}
@@ -96,10 +126,20 @@ public class ServerImplementation extends UnicastRemoteObject implements
         return true;
     }
 
+    /**
+     * Gets number of players
+     * @return number of players
+     * @throws RemoteException
+     */
     public int getNPlayers()throws RemoteException {
         return nPlayers;
     }
 
+    /**
+     * Sets number of players
+     * @param n number of players
+     * @throws RemoteException
+     */
     public void setNPlayers(int n)throws RemoteException{
         if(n==0)
             nPlayers=1;
@@ -107,14 +147,29 @@ public class ServerImplementation extends UnicastRemoteObject implements
             nPlayers=4;
     }
 
+    /**
+     * Gets clients number
+     * @return clients number
+     * @throws RemoteException
+     */
     public int getClientsNumber() throws RemoteException{
         return clients.size();
     }
 
+    /**
+     * Checks if game is full
+     * @return true if number of players is equal to clients number, else false
+     * @throws RemoteException
+     */
     public boolean isGameFull()throws RemoteException{
         return nPlayers==clients.size();
     }
 
+    /**
+     * Assigns order to players
+     * @return player's order when player is created
+     * @throws RemoteException
+     */
     public int assignOrder()throws RemoteException{
         if(model.getPlayerList().size()==0){
             return 1;
@@ -125,12 +180,19 @@ public class ServerImplementation extends UnicastRemoteObject implements
     }
 
 
+    /**
+     * Stops enough players timer
+     */
     public void stopEnoughPlayersTimer(){
         waitingConnection.cancel();
         enoughPlayersTimer.cancel();
         enoughPlayersTimer.purge();
     }
 
+    /**
+     * Checks clients
+     * @throws RemoteException
+     */
     public void checkClients()throws RemoteException {
         clientChecker = new TimerTask() {
             @Override
@@ -149,10 +211,19 @@ public class ServerImplementation extends UnicastRemoteObject implements
         connectionCheckerTimer.schedule(clientChecker,0,1000);//La esegue ogni secondo
     }
 
+    /**
+     * Pings client
+     * @param client client
+     * @return message from client
+     * @throws RemoteException
+     */
     public ClientStringMessage pingClient(ClientInterface client) throws RemoteException{
         return client.pingServer();
     }
 
+    /**
+     * Sets enough players timer
+     */
     public void setEnoughPlayersTimer(){
         waitingConnection=new TimerTask() {
             @Override
@@ -167,7 +238,11 @@ public class ServerImplementation extends UnicastRemoteObject implements
         enoughPlayersTimer.schedule(waitingConnection,(long)enoughPlayersTimerInterval*1000);//La esegue una sola volta
     }
 
-
+    /**
+     * Removes client
+     * @param client client
+     * @param i client index in client list
+     */
     private void removeClient(ClientInterface client,int i){
         //Dovrò dividere tra partita iniziata e partita in fase di avvio?
         if(!gameStarted){//Fase di avvio
@@ -190,6 +265,11 @@ public class ServerImplementation extends UnicastRemoteObject implements
         }
     }
 
+    /**
+     * Disconnects client
+     * @param client client
+     * @param i client index in client list
+     */
     private void disconnectClient(ClientInterface client,int i){
         disconnectedClients.add(client);
         disconnectedNetworkHandlers.add(networkHandlers.get(i));
@@ -197,6 +277,10 @@ public class ServerImplementation extends UnicastRemoteObject implements
         clients.remove(client);
     }
 
+    /**
+     * Reconnects client
+     * @param client client
+     */
     public void reconnectClient(ClientInterface client){
         for(int i=0;i<disconnectedClients.size();i++){
             clients.add(client);
@@ -206,6 +290,11 @@ public class ServerImplementation extends UnicastRemoteObject implements
         }
     }
 
+    /**
+     * Assigns color to players
+     * @return color index
+     * @throws RemoteException
+     */
     public PlayerColor assignColor() throws RemoteException{
         ArrayList<PlayerColor> colorList=new ArrayList<PlayerColor>();
         for(PlayerColor c: PlayerColor.values()){
@@ -231,19 +320,38 @@ public class ServerImplementation extends UnicastRemoteObject implements
         }
     }
 
+    /**
+     * Adds network handlers
+     * @param networkHandler network handler
+     * @throws RemoteException
+     */
     public void addNetworkHandler(NetworkHandlerInterface networkHandler) throws RemoteException{
         networkHandlers.add(networkHandler);
     }
 
+    /**
+     * Notifies remote view of an event
+     * @param event event
+     * @throws RemoteException
+     */
     public void notifyRemoteView(Event event) throws RemoteException{
         remoteView.notifyController(event);
     }
 
-
+    /**
+     * Sets enough players timer interval
+     * @param interval interval
+     * @throws RemoteException
+     */
     public void setEnoughPlayersTimerInterval(int interval)throws RemoteException{
         enoughPlayersTimerInterval=interval;
     }
 
+    /**
+     * Sets enough suspension timer interval
+     * @param interval interval
+     * @throws RemoteException
+     */
     public void setSuspensionTimerInterval(int interval)throws RemoteException{
         suspensionTimerInterval=interval;
     }

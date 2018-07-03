@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * End turn class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class EndTurn extends Event implements Serializable {
 

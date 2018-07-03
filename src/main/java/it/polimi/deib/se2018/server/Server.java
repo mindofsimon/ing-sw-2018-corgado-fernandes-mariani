@@ -5,9 +5,16 @@ import java.rmi.Naming;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
+/**
+ * Server class
+ * @author Simone Mariani
+ */
 public class Server {
     private static int PORT = 1099;
 
+    /**
+     * Starts server
+     */
     public static void startServer() {
 
         try {

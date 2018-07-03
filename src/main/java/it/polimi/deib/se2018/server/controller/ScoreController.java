@@ -4,18 +4,29 @@ import it.polimi.deib.se2018.server.RemoteView;
 import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.model.player.Player;
 
-
+/**
+ * Score controller class
+ * @author Simone Marian, Sirlan Fernandes
+ */
 public class ScoreController {//Implements methods related to Victory Points and Game Score
     private Model model;
     private RemoteView view;
 
+    /**
+     * Constructor, initializes score controller class
+     * @param m model
+     * @param v remote view
+     */
     public ScoreController(Model m,RemoteView v){
         model=m;
         view=v;
     }
 
 
-
+    /**
+     * Calculates which player has most points
+     * @return winner
+     */
     private Player calculateMax() {
         Player winner=model.getPlayerList().get(0);
         for(int i=1;i<model.getPlayerList().size();i++){
@@ -41,6 +52,10 @@ public class ScoreController {//Implements methods related to Victory Points and
         return winner;
     }
 
+    /**
+     * Counts solitary objective points
+     * @return solitary objective points
+     */
     public int solitaryObjectivePoint() {
         int points=0;
         for(int i=0;i<model.getRoundsTrack().getDiceList().size();i++){
@@ -49,15 +64,28 @@ public class ScoreController {//Implements methods related to Victory Points and
         return points;
     }
 
-
+    /**
+     * Calculates the winner
+     * @return winner
+     */
     public Player calculateWinner() {
         return calculateMax();
     }
 
+    /**
+     * Calculates victory points
+     * @param p player
+     * @return victory points
+     */
     public int calculateVictoryPoints(Player p){
         return calculatePrivateGoal(p)+calculateEmptyBoxes(p)+calculatePublicGoal(p)+p.getFavorMarkers();
     }
 
+    /**
+     * Calculates empty boxes and minus points if empty
+     * @param p player
+     * @return points
+     */
     private int calculateEmptyBoxes(Player p){
         int points=0;
         for(int i=0;i<p.getPlayerScheme().getROWS();i++){
@@ -70,6 +98,11 @@ public class ScoreController {//Implements methods related to Victory Points and
         return points;
     }
 
+    /**
+     * Calculates private goal points
+     * @param p player
+     * @return private goal points
+     */
     private int calculatePrivateGoal(Player p){
         int points=0;
         for(int i=0;i<p.getPlayerScheme().getROWS();i++){
@@ -82,6 +115,11 @@ public class ScoreController {//Implements methods related to Victory Points and
         return points;
     }
 
+    /**
+     * Calculate public goal points
+     * @param p player
+     * @return public goal points
+     */
     private int calculatePublicGoal(Player p){
         int points=0;
         for(int i=0;i<model.getPublicGoalCards().size();i++){

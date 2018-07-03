@@ -9,7 +9,7 @@ import java.io.Serializable;
 
 /**
  * Event class
- * @author Simone Mariani
+ * @author Simone Mariani, Coreena Corgado
  */
 public class Event implements Serializable {
 
@@ -57,23 +57,63 @@ public class Event implements Serializable {
      */
     public int getSchemeNumber(){return -1;}
 
+    /**
+     * Gets player
+     * @return null
+     */
     public Player getPlayer(){return null;}
+
+    /**
+     * Gets dice color
+     * @return null
+     */
     public DiceColor getColor() { return null; }
+
+    /**
+     * Gets dice row
+     * @return -1
+     */
     public int getDiceRow(){
         return -1;
     }
+
+    /**
+     * Gets dice value
+     * @return -1
+     */
     public int getValue() {
         return -1;
     }
 
+    /**
+     * Gets dice column
+     * @return -1
+     */
     public int getDiceColum(){
         return -1;
     }
+
+
+    /**
+     * Gets dice round
+     * @return null
+     */
     public Dice getDiceRound() {
         return null;
     }
+
     //public Restriction getRestriction() {return null;}
+
+    /**
+     * Gets action
+     * @return null
+     */
     public String getAction(){return null;}
+
+    /**
+     * Gets difficulty
+     * @return -1
+     */
     public int getDifficult(){return -1;}
 
 
