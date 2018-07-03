@@ -69,6 +69,21 @@ public class TestSchemeSelection {
         model.addPublicGoalCard(new RowAndColCard(LineType.ROW,ElementType.SHADE,"Shades Rows"));
     }
 
+
+    /**
+     * Testing illegal choice (illegal input by the player)
+     * @throws RemoteException
+     */
+    @Test
+    public void testSchemeSelectionError()throws RemoteException {
+
+        controller.update(new SchemeSelection(p1.getNickname(),4));
+        assertEquals(null,p1.getPlayerScheme());
+        controller.getGameRoundController().setTimer(p1.getnMoves(),p1.getOrder());
+
+    }
+
+
     /**
      * Testing first card front
      * @throws RemoteException

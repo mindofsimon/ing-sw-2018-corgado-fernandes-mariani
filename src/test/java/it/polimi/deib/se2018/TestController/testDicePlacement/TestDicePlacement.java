@@ -1,6 +1,11 @@
 package it.polimi.deib.se2018.TestController.testDicePlacement;
 
+import it.polimi.deib.se2018.client.NetworkHandler;
+import it.polimi.deib.se2018.client.NetworkHandlerInterface;
 import it.polimi.deib.se2018.server.RemoteView;
+import it.polimi.deib.se2018.server.Server;
+import it.polimi.deib.se2018.server.ServerImplementation;
+import it.polimi.deib.se2018.server.ServerInterface;
 import it.polimi.deib.se2018.server.controller.Controller;
 import it.polimi.deib.se2018.server.controller.DicePlacementController;
 import it.polimi.deib.se2018.server.model.Model;
@@ -17,6 +22,7 @@ import it.polimi.deib.se2018.server.model.player.schemecard.Box;
 import it.polimi.deib.se2018.server.model.player.schemecard.ColoredBox;
 import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
 import it.polimi.deib.se2018.server.model.player.schemecard.ValueBox;
+import it.polimi.deib.se2018.server.modelview.ModelView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,6 +41,7 @@ public class TestDicePlacement {
     private Controller controller;
     private Model model;
     private RemoteView view;
+    private ModelView modelView;
     private ArrayList<Player> playerList;
     private Dice dice1;
     private Dice dice2;
@@ -45,7 +52,7 @@ public class TestDicePlacement {
      *Here we set some players and their schemes to test dice placements
      */
     @Before
-    public void setUp() {
+    public void setUp() throws RemoteException {
         dicePlacementController=new DicePlacementController();
         model = new Model(DiceBag.getSingletonDiceBag(), DiceStock.getSingletonDiceStock(), RoundsTrack.getSingletonRoundsTrack());
         Player p1 = new Player("abc", 1, PlayerColor.RED);
@@ -82,6 +89,14 @@ public class TestDicePlacement {
         model.getDiceStock().insertDice(dice2);
         dice3=new Dice(DiceColor.RED);
         dice3.setValue(3);
+
+        modelView=new ModelView();
+        model.register(modelView);
+        modelView.register(view);
+        ServerInterface server=null;
+        ArrayList<NetworkHandlerInterface> list=new ArrayList<NetworkHandlerInterface>();
+        list.add(new NetworkHandler(server));
+        view.registerNetworkHandlers(list);
     }
 
     /**
@@ -100,12 +115,10 @@ public class TestDicePlacement {
         assertEquals(null,model.getPlayerList().get(1).getPlayerScheme().getScheme()[1][1].getDice());
 
         //Colonna-Riga errate
-        assertEquals(false,dicePlacementController.isRowColOk(7,1));
-        assertEquals(false,dicePlacementController.isRowColOk(1,7));
-        assertEquals(false,dicePlacementController.isRowColOk(7,7));
-        assertEquals(false,dicePlacementController.isRowColOk(-1,-1));
-        assertEquals(false,dicePlacementController.isRowColOk(7,7));
-        assertEquals(true,dicePlacementController.isRowColOk(1,1));
+        controller.update(new DicePlacement(model.getPlayerList().get(0).getNickname(),7,1,dice1));
+        controller.update(new DicePlacement(model.getPlayerList().get(0).getNickname(),1,7,dice1));
+        controller.update(new DicePlacement(model.getPlayerList().get(0).getNickname(),7,7,dice1));
+        controller.update(new DicePlacement(model.getPlayerList().get(0).getNickname(),-1,-1,dice1));
 
         //Primo dado fuori bordi
         controller.update(new DicePlacement(model.getPlayerList().get(0).getNickname(),1,1,dice1));
@@ -137,15 +150,25 @@ public class TestDicePlacement {
         controller.update(new DicePlacement(model.getPlayerList().get(0).getNickname(),0,2,dice2));
         assertEquals(null,model.getPlayerList().get(0).getPlayerScheme().getScheme()[0][2].getDice());
 
+
+        model.getPlayerList().get(0).resetDicePlacement();
+        model.getPlayerList().get(0).setDicePlacedByCard();
+        controller.update(new DicePlacement(model.getPlayerList().get(0).getNickname(),0,2,dice2));
+        assertEquals(null,model.getPlayerList().get(0).getPlayerScheme().getScheme()[0][2].getDice());
+
+
     }
 
     /**
      * Method used to clean some resources used during tests
      */
     @After
-    public void clean(){
+    public void clean() throws RemoteException{
         controller.getGameRoundController().stopTimer();
         model.getDiceStock().clear();
         model.getPlayerList().clear();
+        model.deregister(modelView);
+        modelView.deregister(view);
+        view.registerNetworkHandlers(null);
     }
 }

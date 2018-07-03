@@ -1,6 +1,9 @@
 package it.polimi.deib.se2018.TestController.testTurnAndRoundUpdate;
 
+import it.polimi.deib.se2018.client.NetworkHandler;
+import it.polimi.deib.se2018.client.NetworkHandlerInterface;
 import it.polimi.deib.se2018.server.RemoteView;
+import it.polimi.deib.se2018.server.ServerInterface;
 import it.polimi.deib.se2018.server.controller.Controller;
 import it.polimi.deib.se2018.server.model.Model;
 import it.polimi.deib.se2018.server.model.dice.DiceColor;
@@ -17,11 +20,13 @@ import it.polimi.deib.se2018.server.model.player.PlayerColor;
 import it.polimi.deib.se2018.server.model.player.PrivateGoalCard;
 import it.polimi.deib.se2018.server.model.player.schemecard.Box;
 import it.polimi.deib.se2018.server.model.player.schemecard.SchemeCard;
+import it.polimi.deib.se2018.server.modelview.ModelView;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -34,13 +39,14 @@ public class TestTurnAndRoundMP {
     private Controller controller;
     private Model model;
     private RemoteView view;
+    private ModelView modelView;
     private Player p1,p2,p3,p4;
 
     /**
      * Setting up a simulated game with four players
      */
     @Before
-    public void setUp(){
+    public void setUp()throws RemoteException{
         p1=new Player("a",1,PlayerColor.RED);
         p2=new Player("b",2,PlayerColor.GREEN);
         p3=new Player("c",3,PlayerColor.BLUE);
@@ -78,6 +84,13 @@ public class TestTurnAndRoundMP {
         controller.getGameRoundController().setSuspensionTimerInterval(60);
         controller.getGameRoundController().updateDiceStock();
         controller.getGameRoundController().setTimer(p1.getnMoves(),p1.getOrder());
+        modelView=new ModelView();
+        model.register(modelView);
+        modelView.register(view);
+        ServerInterface server=null;
+        ArrayList<NetworkHandlerInterface> list=new ArrayList<NetworkHandlerInterface>();
+        list.add(new NetworkHandler(server));
+        view.registerNetworkHandlers(list);
     }
 
     /**
@@ -186,6 +199,16 @@ public class TestTurnAndRoundMP {
         assertEquals(4,p1.getOrder());//è stato sospeso
         assertEquals(p2.getOrder(),model.getTurn());
 
+        //Escape by "suspended players" make no changes
+        controller.update(new QuitPlayerEvent(p1.getNickname()));
+        assertEquals(1,model.getRound());
+        assertEquals(1,p2.getOrder());
+        assertEquals(2,p3.getOrder());
+        assertEquals(3,p4.getOrder());
+        assertEquals(4,p1.getOrder());//è stato sospeso
+        assertEquals(p2.getOrder(),model.getTurn());
+
+
         //Update turn made by "suspended players" make no changes
         controller.update(new EndTurn(p1.getNickname()));
         assertEquals(1,model.getRound());
@@ -280,10 +303,13 @@ public class TestTurnAndRoundMP {
      * Cleaning up some resources
      */
     @After
-    public void clean(){
+    public void clean() throws RemoteException{
         controller.getGameRoundController().stopTimer();
         model.getPlayerList().clear();
         model.getDiceStock().clear();
         model.getDiceBag().clear();
+        model.deregister(modelView);
+        modelView.deregister(view);
+        view.registerNetworkHandlers(null);
     }
 }
