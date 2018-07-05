@@ -27,6 +27,8 @@ public class Client {
             System.out.println("Enter server IP address: ");
             serverIp=scanner.next();
 
+            System.setProperty("sun.rmi.transport.tcp.responseTimeout","1000");
+
             server = (ServerInterface)Naming.lookup("//"+serverIp+"/Server");
 
             ClientImplementation client = new ClientImplementation();

@@ -223,7 +223,9 @@ public class Model extends Observable implements Serializable {
     public String printScores(){//MULTI-PLAYER (Faccio una specie di classifica)...magari posso usare java funzionale per ordinamento(?)
         StringBuilder builder = new StringBuilder();
         for(int i=0;i<getPlayerList().size();i++){
-            builder.append("Player: "+getPlayerList().get(i).getNickname()+" Points: "+getPlayerList().get(i).getVictoryPoints());
+            if(!playerList.get(i).isOut()){
+                builder.append("Player: "+getPlayerList().get(i).getNickname()+" Points: "+getPlayerList().get(i).getVictoryPoints()+"\n");
+            }
         }
         return builder.toString();
     }

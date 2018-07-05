@@ -26,6 +26,7 @@ public class Server {
 
         try {
 
+            System.setProperty("sun.rmi.transport.tcp.responseTimeout","1000");
             ServerImplementation serverImplementation = new ServerImplementation();
 
 

@@ -294,7 +294,6 @@ public class Controller implements Observer<Event> {
             gameRoundController.stopTimer();
             p.setDicePlacement();
             if(p.getnMoves()==1){
-                model.notifyPlacement(p);
                 showToolCards(p);
             }
             gameRoundController.updateTurn(p);
@@ -465,11 +464,18 @@ public class Controller implements Observer<Event> {
             if (p.getnMoves() == 1) p.setnMoves(p.getnMoves() + 1);
             if (p.getnMoves() == 0) p.setnMoves(p.getnMoves() + 2);
             gameRoundController.stopTimer();
-            gameRoundController.updateTurn(p);
             showToolCards(p);
+            gameRoundController.updateTurn(p);
             if(!p.getNickname().equals(model.findPlayerByOrder(model.getTurn()).getNickname())) {
                 showToolCards(model.findPlayerByName(model.findPlayerByOrder(model.getTurn()).getNickname()));
                 view.showMessage(new StringMessage("CHOOSE AN OPTION: \n1)PLACE A DICE\n2)ACTIVATE A CARD\n3)PASS TURN\n0)EXIT\n",model.findPlayerByOrder(model.getTurn())));
+            }
+            else{
+                for(int i=0;i<model.getPlayerList().size();i++) {
+                    if(!model.getPlayerList().get(i).getNickname().equals(model.findPlayerByOrder(model.getTurn()).getNickname())) {
+                        view.showMessage(new StringMessage("CHOOSE AN OPTION: \n1)PLACE A DICE\n2)ACTIVATE A CARD\n3)PASS TURN\n0)EXIT\n", model.getPlayerList().get(i)));
+                    }
+                }
             }
         }
     }
@@ -514,7 +520,8 @@ public class Controller implements Observer<Event> {
                     return;
             }
             gameInitController.initFavorMarkers(p);
-            view.showMessage(new StringMessage("\nYour Scheme Card\n" + p.getPlayerScheme().toString() + "\n" + p.getPrivateGoalCard().toString() + "\n\n"+model.printPublicGoalCards()+"\n"+ model.getDiceStock().toString(), p));
+            view.showMessage(new StringMessage("\nYour Scheme Card\n" + p.getPlayerScheme().toString() + "\n" + p.getPrivateGoalCard().toString() + "\n\n"+model.printPublicGoalCards()+"\n"+ model.getDiceStock().toString()+"Favor Markers: "+p.getFavorMarkers(), p));
+            showToolCards(p);
             view.showMessage(new StringMessage("ROUND: " + model.getRound() + " PLAYER: " + model.findPlayerByOrder(model.getTurn()).getNickname() +" TURN: "+model.findPlayerByOrder(model.getTurn()).getnTurns()+"\n", p));
             if(p.getOrder()==1){
                 gameRoundController.setTimer(model.findPlayerByOrder(1).getnMoves(),1);//Inizializzo il timer sospensioni...per il giocatore con ordine 1
@@ -549,7 +556,7 @@ public class Controller implements Observer<Event> {
                 p.escape();
                 p.setnMoves(2);
                 model.notifyPlayerQuit(p);
-                scoreController.calculateVictoryPoints(model.getFirstActive());//Il get First Active qui rappresenta chiaramente l'ultimo rimasto
+                model.getFirstActive().setVictoryPoints(scoreController.calculateVictoryPoints(model.getFirstActive()));//Il get First Active qui rappresenta chiaramente l'ultimo rimasto
                 model.setGameOverMP(model.getFirstActive());
             }
         }else{

@@ -163,13 +163,13 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         }
         if (message instanceof EndTurnMessage) {
             if (message.getPlayer().getNickname().equals(playerNickName)) {
-                showMessage(message.getPlayer().getPlayerScheme().toString() + message.getModel().getDiceBag().toString() + message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
+                showMessage(message.getPlayer().getPlayerScheme().toString() +  message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
                 showMessage("ROUND: " + message.getModel().getRound() + " PLAYER: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getNickname() + " TURN: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getnTurns() + "\n");
                 if (gameMode == 1) {
                     showMessage(" FAVOR MARKS: " + message.getModel().findPlayerByName(playerNickName).getFavorMarkers());
                 }
             } else {
-                showMessage("Another player has passed the turn...\n" + message.getModel().getDiceBag().toString() + message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
+                showMessage("Another player has passed the turn...\n" +message.getModel().findPlayerByOrder(message.getModel().getTurn()).getPlayerScheme().toString() +message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
                 showMessage("ROUND: " + message.getModel().getRound() + " PLAYER: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getNickname() + " TURN: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getnTurns() + "\n");
                 if (gameMode == 1) {
                     showMessage(" FAVOR MARKS: " + message.getModel().findPlayerByName(playerNickName).getFavorMarkers());
@@ -178,21 +178,21 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         }
         if (message instanceof DicePlacementMessage) {
             if (message.getPlayer().getNickname().equals(playerNickName)){
-                showMessage(message.getPlayer().getPlayerScheme().toString() + message.getModel().getDiceBag().toString() + message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
+                showMessage(message.getPlayer().getPlayerScheme().toString() + message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
                 if (gameMode == 1) {
                     showMessage(" FAVOR MARKS: " + message.getModel().findPlayerByName(playerNickName).getFavorMarkers());
                 }
             }
-            else {showMessage("Another player has placed a dice...\n"+message.getModel().getDiceBag().toString() + message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
+            else {showMessage("Another player has placed a dice...\n"+ message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
             }
         }
         if (message instanceof CardActivationMessage) {
             if(message.getPlayer().getNickname().equals(playerNickName)) {
-                showMessage(message.getPlayer().getPlayerScheme().toString() + message.getModel().getDiceBag().toString() + message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
+                showMessage(message.getPlayer().getPlayerScheme().toString() + message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
                 if (gameMode == 1) {
                     showMessage(" FAVOR MARKS: " + message.getModel().findPlayerByName(playerNickName).getFavorMarkers());
                 }
-            }else{ showMessage("Another player has activated a card...\n"+message.getModel().getDiceBag().toString() + message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
+            }else{ showMessage("Another player has activated a card...\n"+ message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
             }
         }
         if(message instanceof GameOverMessage){
@@ -205,14 +205,23 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
             showMessage("\nGAME OVER\n");
         }
         if (message instanceof PlayerSuspendedMessage) {
-            if (message.getPlayer().getNickname().equals(playerNickName)) {
+            if (message.getPlayer().getNickname().equals(playerNickName) && message.getModel().findPlayerByOrder(message.getModel().getTurn())!=message.getPlayer()) {
                 showMessage("You have been suspended!\n");
                 showMessage("ROUND: " + message.getModel().getRound() + " PLAYER: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getNickname() + " TURN: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getnTurns() + "\n");
             }
-            else{
+            else if(!message.getPlayer().getNickname().equals(playerNickName) && message.getModel().findPlayerByOrder(message.getModel().getTurn())!=message.getPlayer()) {
                 showMessage("Player: "+message.getPlayer().getNickname()+" has been suspended!\n");
                 showMessage("ROUND: " + message.getModel().getRound() + " PLAYER: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getNickname() + " TURN: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getnTurns() + "\n");
+                showMessage("CHOOSE AN OPTION: \n1)PLACE A DICE\n2)ACTIVATE A CARD\n3)PASS TURN\n0)EXIT\n");
             }
+            else if(message.getPlayer().getNickname().equals(playerNickName) && message.getModel().findPlayerByOrder(message.getModel().getTurn())==message.getPlayer()){
+                showMessage("You have been suspended!\n");
+            }
+            else if(!message.getPlayer().getNickname().equals(playerNickName) && message.getModel().findPlayerByOrder(message.getModel().getTurn())==message.getPlayer()){
+                showMessage("Player: "+message.getPlayer().getNickname()+" has been suspended!\n");
+            }
+
+
         }
         if(message instanceof QuitPlayerMessage){
             if (message.getPlayer().getNickname().equals(playerNickName)) {
@@ -438,7 +447,6 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                 showMessage("TOOL CARD NUMBER: \n");
                 number = stringToInt(s.next());
                 handleCardActivation(number, dice);
-                showMessage("ERROR:"+error);
 
             } else {
                 showMessage("SELECT A DICE TO USE THE TOOL CARD: \n");
@@ -447,7 +455,6 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                 showMessage("TOOL CARD NUMBER: \n");
                 number = stringToInt(s.next());
                 handleCardActivation(number, dice);
-                showMessage("ERROR:"+error);
             }
 
             if(error==1){
@@ -460,7 +467,6 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
             }
         }while(error==1);
 
-        showMessage("cateogoria:"+category);
 
         switch (category){
             case 0:
@@ -476,7 +482,6 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                 for(int i=0;i<num;i++) {
                     do{
                         selectDiceToMove(number);
-                        showMessage("ERROR:"+error);
                     }while(error==1);
                 }
 
@@ -488,12 +493,10 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                     if(number==1){
                         dice=selectDice();
                         handleChangeDice(dice,increment(),number);
-                        showMessage("ERROR:"+error);
                     }
                     else{
                         dice=selectDice();
                         handleChangeDice(dice,"N",number);
-                        showMessage("ERROR:"+error);
                     }
 
                 }while(error==1);
@@ -505,7 +508,6 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                     showMessage("SELECT DICE IN ROUND TRACK");
                     Dice diceR=selectDice();
                     handleChangeDiceDR(diceS,diceR,number);
-                    showMessage("ERROR:"+error);
                 }while(error==1);
                 break;
             case 3:
@@ -515,7 +517,6 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                     do{
                         Dice dice = selectDice();
                         handleChangeAndPlace(dice, number);
-                        showMessage("ERROR:"+error);
                     }while(error==1);
                     do{
                         showMessage("CHOOSE A VALUE FOR THE DICE: \n");
@@ -536,12 +537,10 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
                         do {
                             Dice dice = selectDice();
                             handleChangeAndPlace(dice, number);
-                            showMessage("ERROR:"+error);
                         }while(error==1);
                         if(error!=3){
                             do{
                                 place(diceC,number);
-                                showMessage("ERROR:"+error);
                             }while(error==1);
                         }
 

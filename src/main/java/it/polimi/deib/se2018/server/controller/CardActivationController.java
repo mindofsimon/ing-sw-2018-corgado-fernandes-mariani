@@ -214,7 +214,10 @@ public class CardActivationController {
         for(int i=0;i<4;i++){
             for(int j=0;j<5;j++) {
                 if(p.getPlayerScheme().getScheme()[i][j].getDice()!=null){
-                    if (canPlaceDice(p, p.getPlayerScheme().getScheme()[i][j].getDice(),cardNumb)) cont++;
+                    Dice d=p.getPlayerScheme().getScheme()[i][j].getDice();
+                    p.getPlayerScheme().getScheme()[i][j].setDice(null);
+                    if (canPlaceDice(p, d,cardNumb)) cont++;
+                    p.getPlayerScheme().getScheme()[i][j].setDice(d);
                 }
 
             }
