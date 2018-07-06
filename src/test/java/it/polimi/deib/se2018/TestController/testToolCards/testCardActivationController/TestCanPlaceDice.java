@@ -99,10 +99,10 @@ public class TestCanPlaceDice {
     @Test
     public void testCanBePlaced(){
         model.addPlayer(p1);
-        toolCardList.add(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1));
-        toolCardList.add(new MoveDices("Alesatore  per  lamina  di  rame",3,Restriction.SHADE,DiceColor.RED,1));
-        toolCardList.add(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1));
-        toolCardList.add(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1));
+        toolCardList.add(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1,"Muovi  un  qualsiasi  dado  nella  tua\n  vetrata  ignorando  le  restrizioni  di  colore"));
+        toolCardList.add(new MoveDices("Alesatore  per  lamina  di  rame",3,Restriction.SHADE,DiceColor.RED,1,"Muovi  un  qualsiasi  dado  nella  tua  vetrata  ignorando  le  restrizioni\n  di  valore"));
+        toolCardList.add(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1,"Dopo  aver  scelto  un  dado,  piazzalo  in  una  casella  che  non  sia  adiacente  a  un  altro  dado"));
+        toolCardList.add(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1,"Dopo  aver  scelto  un  dado,\n  tira  nuovamente  quel  dado\nSe  non  puoi  piazzarlo,\n  riponilo  nella  Riserva"));
         cardActivationController=new CardActivationController(model,toolCardList,dicePlacementController);
         Dice dice=new Dice(DiceColor.YELLOW);
         dice.setValue(1);

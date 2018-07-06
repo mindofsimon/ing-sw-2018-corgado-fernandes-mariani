@@ -17,6 +17,7 @@ public class Taglierina implements ToolCard  {
     private int number;
     private boolean alreadyUsed;
     private boolean activated;
+    private String desc;
 
     /**
      * Constructor, initializes taglierina class
@@ -24,10 +25,11 @@ public class Taglierina implements ToolCard  {
      * @param n card number
      * @param sColor solitary color
      */
-    public Taglierina(String name, int n, DiceColor sColor){
+    public Taglierina(String name, int n, DiceColor sColor,String desc){
         this.name=name;
         this.number=n;
         this.solitaryColor=sColor;
+        this.desc=desc;
 
     }
 
@@ -119,7 +121,7 @@ public class Taglierina implements ToolCard  {
      * @return string message
      */
     public String toString(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| ALREADY USED? "+alreadyUsed+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nALREADY USED? "+alreadyUsed+"||ACTIVATED: "+activated);
     }
 
     /**
@@ -127,7 +129,7 @@ public class Taglierina implements ToolCard  {
      * @return string message
      */
     public String toStringSolitary(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| COLOR: "+solitaryColor+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nCOLOR: "+solitaryColor+"||ACTIVATED: "+activated);
     }
 
     /**

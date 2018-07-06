@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 /**
  * Model class
- * @author Simone Mariani
+ * @author Simone Mariani,Sirlan Fernandes
  */
 public class Model extends Observable implements Serializable {
 

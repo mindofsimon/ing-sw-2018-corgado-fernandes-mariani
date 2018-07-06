@@ -71,7 +71,8 @@ public class GameInitController {
      */
     private void loadPrivateGoalCards()throws RemoteException {
         ArrayList<PrivateGoalCard> privateGoalCards=createPrivateGoalCards();
-        for(int i=0; i<model.getPlayerList().size();i++){
+
+        for(int i=0; i<model.getPlayerList().size();i++) {
             int index = (int) ((Math.random() * privateGoalCards.size()));
             model.getPlayerList().get(i).setPrivateGoalCard(privateGoalCards.remove(index));
         }
@@ -84,7 +85,7 @@ public class GameInitController {
     private void loadPublicGoalCards()throws RemoteException{
         ArrayList<PublicGoalCard> publicGoalCards=createPublicGoalCards();
         if(model.getPlayerList().size()==1){
-            for(int i=0;i<4;i++){
+            for(int i=0;i<2;i++){
                 int index = (int) ((Math.random() * publicGoalCards.size()));
                 model.addPublicGoalCard(publicGoalCards.remove(index));
             }

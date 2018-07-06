@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 /**
  * Player class
- * @author Simone Mariani
+ * @author Simone Mariani,Sirlan Fernandes
  */
 public class Player implements Serializable {
     private PlayerColor playerColor;
@@ -25,6 +25,7 @@ public class Player implements Serializable {
     private boolean suspended;
     private boolean out;
     private boolean dicePlacedByCard=false;
+    private boolean avoidNextTurn=false;
 
     /**
      * Constructor, initializes player class
@@ -103,6 +104,7 @@ public class Player implements Serializable {
      */
     public PrivateGoalCard getPrivateGoalCard(){return privateGoalCard;}
 
+
     /**
      * Gets number of moves
      * @return number of moves
@@ -114,6 +116,12 @@ public class Player implements Serializable {
      * @return number of turns
      */
     public int getnTurns(){ return nTurns; }
+
+    /**
+     * Gets avoid next turn
+     * @return if a player is avoid on the next turn
+     */
+    public boolean getAvoidNextTurn(){ return avoidNextTurn; }
 
     /**
      * Tells if a card was already activated by this player during this turn
@@ -207,6 +215,12 @@ public class Player implements Serializable {
      */
     public void setCardActivated(){
         cardActivated=true;
+    }
+    /**
+     * Sets the avoid of the next turn
+     */
+    public void setAvoidNextTurn(boolean avoid){
+        avoidNextTurn=avoid;
     }
     /**
      * Tells if a dice was already placed by this player during this turn with a card

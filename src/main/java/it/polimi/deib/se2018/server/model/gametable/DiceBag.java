@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Dice bag class
- * @author Simone Mariani, Coreena Corgado
+ * @author Simone Mariani, Coreena Corgado,Sirlan Fernandes
  */
 public class DiceBag implements Serializable {
     private ArrayList<Dice> diceList;

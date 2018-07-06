@@ -2,6 +2,7 @@ package it.polimi.deib.se2018.TestController.testToolCards;
 
 import it.polimi.deib.se2018.server.RemoteView;
 import it.polimi.deib.se2018.server.controller.Controller;
+import it.polimi.deib.se2018.server.controller.toolcard.ChangeDices;
 import it.polimi.deib.se2018.server.controller.toolcard.MoveDices;
 import it.polimi.deib.se2018.server.controller.toolcard.Restriction;
 import it.polimi.deib.se2018.server.model.Model;
@@ -84,10 +85,10 @@ public class TestMoveDice {
         controller.getGameRoundController().setTimer(p1.getnMoves(),p1.getOrder());
         p1.setFavorMarkers(3);
         //aggiungo le carte
-        controller.addToolCard(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1));
-        controller.addToolCard(new MoveDices("Alesatore  per  lamina  di  rame",3,Restriction.SHADE,DiceColor.RED,1));
-        controller.addToolCard(new MoveDices("Lathekin",4,Restriction.NULL,DiceColor.YELLOW,2));
-        controller.addToolCard(new MoveDices("Taglierina  Manuale",12,Restriction.NULL,DiceColor.BLUE,2));
+        controller.addToolCard(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1,"Muovi  un  qualsiasi  dado  nella  tua\n  vetrata  ignorando  le  restrizioni  di  colore"));
+        controller.addToolCard(new MoveDices("Alesatore  per  lamina  di  rame",3,Restriction.SHADE,DiceColor.RED,1,"Muovi  un  qualsiasi  dado  nella  tua  vetrata  ignorando  le  restrizioni\n  di  valore"));
+        controller.addToolCard(new MoveDices("Lathekin",4,Restriction.NULL,DiceColor.YELLOW,2,"Muovi  esattamente  due  dadi,\n  rispettando  tutte  le  restrizioni  di\n  piazzamento"));
+        controller.addToolCard(new MoveDices("Taglierina  Manuale",12,Restriction.NULL,DiceColor.BLUE,2,"Muovi  fino  a  due  dadi  dello  stesso  colore \n di  un  solo  dado  sul  Tracciato  dei  Round"));
         //aggiungo un dado nello schema
         dice1=new Dice(DiceColor.YELLOW);
         dice1.setValue(2);

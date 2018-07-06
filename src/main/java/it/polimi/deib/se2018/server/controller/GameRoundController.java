@@ -48,7 +48,6 @@ public class GameRoundController {
 
     /**
      * Updates dice stock
-     * @throws RemoteException
      */
     public void updateDiceStock(){//DEVO ELIMINARE TUTTI I DADI RIMASTI
         model.getDiceStock().getDiceList().removeAll(model.getDiceStock().getDiceList());
@@ -168,6 +167,11 @@ public class GameRoundController {
                 p.resetDicePlaceByCard();
                 p.setnTurns(2);
                 setTimer(p.getnMoves(), p.getOrder());//Viene resettato il suspensionTimer del giocatore
+                if(p.getAvoidNextTurn()==true){
+                    updateRound(p);
+                    p.setnTurns(1);
+                    p.setAvoidNextTurn(false);
+                }
                 model.notifyTurnAndRoundUpdate(p);
             }
 
@@ -228,6 +232,11 @@ public class GameRoundController {
                     setTimer(model.findPlayerByOrder(model.getTurn()).getnMoves(), model.getTurn());//Setto il suspensionTimer sospensione per il prossimo giocatore
                     model.notifyTurnAndRoundUpdate(p);
                 }
+            }
+            if(model.findPlayerByOrder(model.getTurn()).getAvoidNextTurn()){
+                model.findPlayerByOrder(model.getTurn()).setAvoidNextTurn(false);
+                model.findPlayerByOrder(model.getTurn()).setnMoves(2);
+                updateTurn(model.findPlayerByOrder(model.getTurn()));
             }
         }
         if (p.getnMoves() == 1){

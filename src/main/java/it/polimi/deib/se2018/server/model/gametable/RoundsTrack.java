@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Rounds track class
- * @author Simone Mariani, Coreena Corgado
+ * @author Simone Mariani, Coreena Corgado,Sirlan Fernandes
  */
 public class RoundsTrack implements Serializable {
     private ArrayList <Dice> diceList;
@@ -131,9 +131,9 @@ public class RoundsTrack implements Serializable {
         StringBuilder builder = new StringBuilder();
         builder.append("ROUNDS TRACK: \n");
         for(int i = 0; i < diceList.size(); i++){
-            builder.append("COLOR: "+diceList.get(i).getColor()+" VALUE: "+diceList.get(i).getValue());
-            builder.append("\n");
+            builder.append("||"+diceList.get(i).getColor()+diceList.get(i).getValue());
         }
+        builder.append("||");
         builder.append("\n");
         return builder.toString();
     }

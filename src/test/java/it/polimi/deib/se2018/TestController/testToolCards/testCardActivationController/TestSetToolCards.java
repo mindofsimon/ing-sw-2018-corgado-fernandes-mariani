@@ -82,7 +82,7 @@ public class TestSetToolCards {
     @Test
     public void testSetForChangeDices(){
         model.addPlayer(p1);
-        ToolCard card=new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET);
+        ToolCard card=new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET,"Dopo  aver  scelto  un  dado,\n  aumenta  o  dominuisci  il  valore\n del  dado  scelto  di  1");
         toolCardList.add(card);
         cardActivationController=new CardActivationController(model,toolCardList,dicePlacementController);
         //aggiungo 1 dado viola e uno a caso nel diceStock
@@ -138,9 +138,9 @@ public class TestSetToolCards {
     public void testSetForMoveDices(){
         model.addPlayer(p1);
         model.addPlayer(p2);
-        toolCardList.add(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1));
-        toolCardList.add(new MoveDices("Lathekin",4,Restriction.NULL,DiceColor.YELLOW,2));
-        toolCardList.add(new MoveDices("Taglierina  Manuale",12,Restriction.NULL,DiceColor.BLUE,2));
+        toolCardList.add(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1,"Muovi  un  qualsiasi  dado  nella  tua\n  vetrata  ignorando  le  restrizioni  di  colore"));
+        toolCardList.add(new MoveDices("Lathekin",4,Restriction.NULL,DiceColor.YELLOW,2,"Muovi  esattamente  due  dadi,\n  rispettando  tutte  le  restrizioni  di\n  piazzamento"));
+        toolCardList.add(new MoveDices("Taglierina  Manuale",12,Restriction.NULL,DiceColor.BLUE,2,"Muovi  fino  a  due  dadi  dello  stesso  colore \n di  un  solo  dado  sul  Tracciato  dei  Round"));
         cardActivationController=new CardActivationController(model,toolCardList,dicePlacementController);
         //in questo caso single player e multiplayer testano le stesse cose,perche segnalini e colori sono gia stati testati prima
         p1.setFavorMarkers(2);
@@ -197,8 +197,8 @@ public class TestSetToolCards {
     public void testSetForChangeAndPlace() {
         model.addPlayer(p1);
         model.addPlayer(p2);
-        toolCardList.add(new ChangeAndPlaceCard("Tenaglia  a  Rotelle",8,DiceColor.RED,2));
-        toolCardList.add(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1));
+        toolCardList.add(new ChangeAndPlaceCard("Tenaglia  a  Rotelle",8,DiceColor.RED,2,"Dopo  il  tuo  primo  turno\n  scegli  immediatamente  un  altro  dado\nSalta  il  tuo  secondo  turno  in  questo  round"));
+        toolCardList.add(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1,"Dopo  aver  scelto  un  dado,  piazzalo  in  una  casella  che  non  sia  adiacente  a  un  altro  dado"));
         cardActivationController=new CardActivationController(model,toolCardList,dicePlacementController);
         try {
             this.cardActivationController.setActivated(p1,false);
@@ -233,37 +233,6 @@ public class TestSetToolCards {
         } catch (RemoteException e) {
             fail();
         }
-        //la carta 8 invece è false perche non ci sono 2 dadi piazzabili
-        assertEquals(false,toolCardList.get(0).getActivated());
-        //aggiungo un'altro dado
-        Dice dice1=new Dice(DiceColor.RED);
-        dice.setValue(2);
-        model.getDiceStock().insertDice(dice1);
-        try {
-            this.cardActivationController.setActivated(p1,false);
-        } catch (RemoteException e) {
-            fail();
-        }
-        //ora è a true
-        assertEquals(true,toolCardList.get(0).getActivated());
-        //provando per single player diventa false,perche devono esserci come minimo 3 dadi
-        try {
-            this.cardActivationController.setActivated(p1,true);
-        } catch (RemoteException e) {
-            fail();
-        }
-        assertEquals(false,toolCardList.get(0).getActivated());
-        //aggiungo un'ulteriore dado
-        Dice dice2=new Dice(DiceColor.BLUE);
-        dice.setValue(3);
-        model.getDiceStock().insertDice(dice2);
-        try {
-            this.cardActivationController.setActivated(p1,true);
-        } catch (RemoteException e) {
-            fail();
-        }
-        //diventa true
-        assertEquals(true,toolCardList.get(0).getActivated());
         //se passo al secondo turno diventa false,perche la carta numero 8 non puo essere utilizzata al secondo turno
         p1.setnTurns(2);
         try {
@@ -283,7 +252,7 @@ public class TestSetToolCards {
     public void testSetForTaglierina() {
         model.addPlayer(p1);
         model.addPlayer(p2);
-        toolCardList.add(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN));
+        toolCardList.add(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN,"Dopo  aver  scelto  un  dado,\n  scambia  quel  dado  con  un  dado\n  sul  Tracciato  dei  Round"));
         cardActivationController=new CardActivationController(model,toolCardList,dicePlacementController);
         try {
             this.cardActivationController.setActivated(p1,false);
@@ -315,7 +284,7 @@ public class TestSetToolCards {
     public void testSetForMarteletto() {
         model.addPlayer(p1);
         model.addPlayer(p2);
-        toolCardList.add(new Marteletto("Marteletto",7,DiceColor.BLUE));
+        toolCardList.add(new Marteletto("Marteletto",7,DiceColor.BLUE,"Tira  nuovamentetutti tutti  i  dadi\n  della  Riserva\n Questa  carta  può  essera  usata  \nsolo  durante  il  tuo  secondo  turno,  prima  di  scegliere  il  secondo  dado"));
         cardActivationController=new CardActivationController(model,toolCardList,dicePlacementController);
         try {
             this.cardActivationController.setActivated(p1,false);

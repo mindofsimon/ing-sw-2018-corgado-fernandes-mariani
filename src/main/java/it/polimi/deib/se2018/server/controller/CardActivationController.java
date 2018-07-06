@@ -39,7 +39,7 @@ public class CardActivationController {
      * @return true if card has been already activated, else false
      */
     public boolean isCardActivationAlreadyDone(Player p){
-       return p.cardActivated();
+        return p.cardActivated();
 
     }
 
@@ -49,7 +49,7 @@ public class CardActivationController {
      * @return true if dice has been already placed, else false
      */
     public boolean isDicePlacementAlreadyDone(Player p){
-       return p.dicePlaced();
+        return p.dicePlaced();
     }
 
 
@@ -82,7 +82,7 @@ public class CardActivationController {
 
             }
 
-            if((toolCardList.get(i) instanceof ChangeAndPlaceCard)&& isDicePlacementAlreadyDone(p)){
+            if((toolCardList.get(i) instanceof ChangeAndPlaceCard && toolCardList.get(i).getNumber()!=8)&& isDicePlacementAlreadyDone(p)){
                 control=false;
             }
 
@@ -91,7 +91,7 @@ public class CardActivationController {
 
 
             }
-            if(toolCardList.get(i).getNumber()==8&&(p.getnTurns()==2||canPlaceAdice(p,toolCardList.get(i).getNumber())<=1)){
+            if(toolCardList.get(i).getNumber()==8&&(p.getnTurns()==2||canPlaceAdice(p,toolCardList.get(i).getNumber())<=0||!isDicePlacementAlreadyDone(p))){
                 control=false;
 
 
@@ -197,10 +197,10 @@ public class CardActivationController {
         int cont=0;
         if(model.getDiceStock().size()==0){return 0;}
         else{
-        for(int i=0;i<model.getDiceStock().size();i++){
-            if(canPlaceDice(p,model.getDiceStock().getDice(i),cardNumb))cont++;
-        }
-        return cont;}
+            for(int i=0;i<model.getDiceStock().size();i++){
+                if(canPlaceDice(p,model.getDiceStock().getDice(i),cardNumb))cont++;
+            }
+            return cont;}
     }
 
     /**
@@ -284,9 +284,9 @@ public class CardActivationController {
      */
     public boolean canTakeCard(Player p, ToolCard c)throws RemoteException {
 
-            if(c.isAlreadyUsed()&&p.getFavorMarkers()<2) return false;
-            if(!c.isAlreadyUsed()&&p.getFavorMarkers()<1) return false;
-            return true;
+        if(c.isAlreadyUsed()&&p.getFavorMarkers()<2) return false;
+        if(!c.isAlreadyUsed()&&p.getFavorMarkers()<1) return false;
+        return true;
 
 
     }

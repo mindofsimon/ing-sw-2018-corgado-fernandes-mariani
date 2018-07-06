@@ -68,6 +68,6 @@ public class TestCalculateVictoryPoints {
      */
     @Test
     public void testCalculateVictoryPoints(){
-        assertEquals(-15,scoreController.calculateVictoryPoints(p));
+        assertEquals(-53,scoreController.calculateVictoryPoints(p));
     }
 }

@@ -21,6 +21,7 @@ public class MoveDices  implements ToolCard {
     private boolean alreadyUsed;
     private Restriction restriction;
     private boolean activated;
+    private String desc;
 
 
     /**
@@ -30,13 +31,15 @@ public class MoveDices  implements ToolCard {
      * @param res restriction
      * @param sColor solitary color
      * @param num dice number
+     * @param desc description of card
      */
-    public MoveDices(String name, int n, Restriction res, DiceColor sColor, int num){
+    public MoveDices(String name, int n, Restriction res, DiceColor sColor, int num,String desc){
         this.name=name;
         this.restriction=res;
         this.number=n;
         this.numberD=num;
         this.solitaryColor=sColor;
+        this.desc=desc;
 
     }
 
@@ -124,7 +127,7 @@ public class MoveDices  implements ToolCard {
      * @return string message
      */
     public String toString(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| ALREADY USED? "+alreadyUsed+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nALREADY USED? "+alreadyUsed+"||ACTIVATED: "+activated);
     }
 
     /**
@@ -132,7 +135,7 @@ public class MoveDices  implements ToolCard {
      * @return string message
      */
     public String toStringSolitary(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| COLOR: "+solitaryColor+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nCOLOR: "+solitaryColor+"||ACTIVATED: "+activated);
     }
 
     /**

@@ -338,7 +338,6 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
 
     /**
      * Sets game over
-     * @throws RemoteException
      */
     public void setGameOver(){
         gameOver=true;

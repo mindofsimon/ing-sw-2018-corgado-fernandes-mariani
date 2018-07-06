@@ -18,19 +18,22 @@ public class ChangeAndPlaceCard implements ToolCard  {
     private boolean alreadyUsed;
     private int numd;
     private boolean activated;
+    private String desc;
 
     /**
      * Constructor, initializes change and place card class
      * @param name tool card name
      * @param n tool card number
      * @param sColor solitary color
-     * @param numd dice number
+     * @param numd number of dices
+     * @param desc description of card
      */
-    public ChangeAndPlaceCard(String name, int n, DiceColor sColor,int numd){
+    public ChangeAndPlaceCard(String name, int n, DiceColor sColor,int numd,String desc){
         this.name=name;
         this.number=n;
         this.solitaryColor=sColor;
         this.numd=numd;
+        this.desc=desc;
 
     }
 
@@ -64,12 +67,13 @@ public class ChangeAndPlaceCard implements ToolCard  {
     }
 
     /**
-     * Gets dice number
-     * @return dice number
+     * Gets number of dices
+     * @return number of dices
      */
     public int getNumberD() {
         return numd;
     }
+
 
     /**
      * Checks if tool card is activated
@@ -107,7 +111,7 @@ public class ChangeAndPlaceCard implements ToolCard  {
      * @return string message
      */
     public String toString(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| ALREADY USED? "+alreadyUsed+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nALREADY USED? "+alreadyUsed+"||ACTIVATED: "+activated);
     }
 
     /**
@@ -115,7 +119,7 @@ public class ChangeAndPlaceCard implements ToolCard  {
      * @return string message
      */
     public String toStringSolitary(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| COLOR: "+solitaryColor+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nCOLOR: "+solitaryColor+"||ACTIVATED: "+activated);
     }
 
     /**

@@ -69,10 +69,10 @@ public class TestChangeAndPlace {
         controller.getGameRoundController().setTimer(p1.getnMoves(),p1.getOrder());
         p1.setFavorMarkers(4);
         //carico una carta per ogni categoria
-        controller.addToolCard(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1));
-        controller.addToolCard(new ChangeAndPlaceCard("Tenaglia  a  Rotelle",8,DiceColor.RED,2));
-        controller.addToolCard(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1));
-        controller.addToolCard(new ChangeAndPlaceCard("Diluente  per  Pasta  Salda",11,DiceColor.VIOLET,1));
+        controller.addToolCard(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1,"Dopo  aver  scelto  un  dado,\n  tira  nuovamente  quel  dado\nSe  non  puoi  piazzarlo,\n  riponilo  nella  Riserva"));
+        controller.addToolCard(new ChangeAndPlaceCard("Tenaglia  a  Rotelle",8,DiceColor.RED,1,"Dopo  il  tuo  primo  turno\n  scegli  immediatamente  un  altro  dado\nSalta  il  tuo  secondo  turno  in  questo  round"));
+        controller.addToolCard(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1,"Dopo  aver  scelto  un  dado,  piazzalo  in  una  casella  che  non  sia  adiacente  a  un  altro  dado"));
+        controller.addToolCard(new ChangeAndPlaceCard("Diluente  per  Pasta  Salda",11,DiceColor.VIOLET,1,"Dopo  aver  scelto  un  dado,\n  riponilo  nel  Sacchetto,\n  poi  pescane  uno  dal  SacchettoScegli  il  valore  del  nuovo  dado  e  piazzalo,  rispettando  tutte  le  restrizioni  di  piazzamento"));
         cardActivationController=new CardActivationController(model,controller.getToolCardsList(),dicePlacementController);
         //aggiiungo 1 dado nel dice stock
         dice=new Dice(DiceColor.VIOLET);

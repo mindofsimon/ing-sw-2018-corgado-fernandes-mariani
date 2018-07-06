@@ -68,7 +68,7 @@ public class TestChangeDR {
         controller.getGameRoundController().setTimer(p1.getnMoves(),p1.getOrder());
         p1.setFavorMarkers(4);
         //carico una carta per ogni categoria
-        controller.addToolCard(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN));
+        controller.addToolCard(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN,"Dopo  aver  scelto  un  dado,\n  scambia  quel  dado  con  un  dado\n  sul  Tracciato  dei  Round"));
         cardActivationController=new CardActivationController(model,controller.getToolCardsList(),dicePlacementController);
         //aggiiungo 1 dado nel dice stock
         dice=new Dice(DiceColor.VIOLET);

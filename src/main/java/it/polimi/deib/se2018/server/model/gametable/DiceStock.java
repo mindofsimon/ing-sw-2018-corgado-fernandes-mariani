@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Dice stock class
- * @author Simone Mariani, Coreena Corgado
+ * @author Simone Mariani, Coreena Corgado,Sirlan Fernandes
  */
 public class DiceStock implements Serializable {
     private ArrayList<Dice> diceList;
@@ -147,9 +147,9 @@ public class DiceStock implements Serializable {
         StringBuilder builder = new StringBuilder();
         builder.append("DICE STOCK: \n");
         for(int i = 0; i < diceList.size(); i++){
-            builder.append("COLOR: "+diceList.get(i).getColor()+" VALUE: "+diceList.get(i).getValue());
-            builder.append("\n");
+            builder.append("||"+diceList.get(i).getColor()+diceList.get(i).getValue());
         }
+        builder.append("||");
         builder.append("\n");
         return builder.toString();
     }

@@ -91,7 +91,12 @@ public class ScoreController {//Implements methods related to Victory Points and
         for(int i=0;i<p.getPlayerScheme().getROWS();i++){
             for(int j=0;j<p.getPlayerScheme().getCOLS();j++){
                 if(p.getPlayerScheme().getScheme()[i][j].getDice()== null ){
-                    points=points-1;
+                    if(model.getPlayerList().size()==1){
+                        points=points-3;
+                    }
+                    else{
+                        points=points-1;
+                    }
                 }
             }
         }

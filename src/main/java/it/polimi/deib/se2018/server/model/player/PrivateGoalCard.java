@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * Private goal card class
- * @author Simone Mariani
+ * @author Simone Mariani,Sirlan Fernandes
  */
 public class PrivateGoalCard implements Serializable {
     private DiceColor color;

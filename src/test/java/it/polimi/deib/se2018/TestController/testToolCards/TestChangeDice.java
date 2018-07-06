@@ -67,8 +67,8 @@ public class TestChangeDice {
         controller.getGameRoundController().setTimer(p1.getnMoves(),p1.getOrder());
         p1.setFavorMarkers(4);
         //carico una carta per ogni categoria
-        controller.addToolCard(new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET));
-        controller.addToolCard(new ChangeDices("Tampone  Diamantato",10,DiceColor.GREEN));
+        controller.addToolCard(new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET,"Dopo  aver  scelto  un  dado,\n  aumenta  o  dominuisci  il  valore\n del  dado  scelto  di  1"));
+        controller.addToolCard(new ChangeDices("Tampone  Diamantato",10,DiceColor.GREEN,"Dopo  aver  scelto  un  dado,\n  giralo  sulla  faccia  opposta"));
         cardActivationController=new CardActivationController(model,controller.getToolCardsList(),dicePlacementController);
         //aggiiungo 1 dado nel dice stock
         Dice dice=new Dice(DiceColor.VIOLET);

@@ -16,17 +16,21 @@ public class Marteletto implements ToolCard  {
     private int number;
     private boolean alreadyUsed;
     private boolean activated;
+    private String desc;
+
 
     /**
      * Constructor, initializes marteletto class
      * @param name name
      * @param n card number
      * @param sColor solitary color
+     * @param desc description of card
      */
-    public Marteletto(String name, int n, DiceColor sColor){
+    public Marteletto(String name, int n, DiceColor sColor,String desc){
         this.name=name;
         this.number=n;
         this.solitaryColor=sColor;
+        this.desc=desc;
 
     }
 
@@ -98,11 +102,11 @@ public class Marteletto implements ToolCard  {
     }
 
     /**
-     * Checks if card has already been used
-     * @return true if already used
+     * String message
+     * @return string message
      */
     public String toString(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| ALREADY USED? "+alreadyUsed+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nALREADY USED? "+alreadyUsed+"||ACTIVATED: "+activated);
     }
 
     /**
@@ -110,9 +114,8 @@ public class Marteletto implements ToolCard  {
      * @return string message
      */
     public String toStringSolitary(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| COLOR: "+solitaryColor+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nCOLOR: "+solitaryColor+"||ACTIVATED: "+activated);
     }
-
     /**
      * Gets dice color
      * @return null

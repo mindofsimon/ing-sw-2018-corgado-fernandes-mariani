@@ -73,11 +73,11 @@ public class TestEndCardActivation {
         controller.getGameRoundController().setTimer(p2.getnMoves(),p2.getOrder());
         p1.setFavorMarkers(4);
         //carico una carta per ogni categoria
-        controller.addToolCard(new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET));
-        controller.addToolCard(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1));
-        controller.addToolCard(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN));
-        controller.addToolCard(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1));
-        controller.addToolCard(new Marteletto("Marteletto",7,DiceColor.BLUE));
+        controller.addToolCard(new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET,"Dopo  aver  scelto  un  dado,\n  aumenta  o  dominuisci  il  valore\n del  dado  scelto  di  1"));
+        controller.addToolCard(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1,"Muovi  un  qualsiasi  dado  nella  tua\n  vetrata  ignorando  le  restrizioni  di  colore"));
+        controller.addToolCard(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN,"Dopo  aver  scelto  un  dado,\n  scambia  quel  dado  con  un  dado\n  sul  Tracciato  dei  Round"));
+        controller.addToolCard(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1,"Dopo  aver  scelto  un  dado,\n  tira  nuovamente  quel  dado\nSe  non  puoi  piazzarlo,\n  riponilo  nella  Riserva"));
+        controller.addToolCard(new Marteletto("Marteletto",7,DiceColor.BLUE,"Tira  nuovamentetutti tutti  i  dadi\n  della  Riserva\n Questa  carta  può  essera  usata  \nsolo  durante  il  tuo  secondo  turno,  prima  di  scegliere  il  secondo  dado"));
         cardActivationController=new CardActivationController(model,controller.getToolCardsList(),dicePlacementController);
         //aggiiungo 1 dado nel dice stock
         Dice dice=new Dice(DiceColor.VIOLET);

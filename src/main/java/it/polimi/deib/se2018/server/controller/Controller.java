@@ -135,18 +135,18 @@ public class Controller implements Observer<Event> {
      */
     private ArrayList<ToolCard> createToolCards(){
         ArrayList<ToolCard> toolCards=new ArrayList<ToolCard>();
-        toolCards.add(new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET));
-        toolCards.add(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1));
-        toolCards.add(new MoveDices("Alesatore  per  lamina  di  rame",3,Restriction.SHADE,DiceColor.RED,1));
-        toolCards.add(new MoveDices("Lathekin",4,Restriction.NULL,DiceColor.YELLOW,2));
-        toolCards.add(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN));
-        toolCards.add(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1));
-        toolCards.add(new Marteletto("Marteletto",7,DiceColor.BLUE));
-        toolCards.add(new ChangeAndPlaceCard("Tenaglia  a  Rotelle",8,DiceColor.RED,2));
-        toolCards.add(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1));
-        toolCards.add(new ChangeDices("Tampone  Diamantato",10,DiceColor.GREEN));
-        toolCards.add(new ChangeAndPlaceCard("Diluente  per  Pasta  Salda",11,DiceColor.VIOLET,1));
-        toolCards.add(new MoveDices("Taglierina  Manuale",12,Restriction.NULL,DiceColor.BLUE,2));
+        toolCards.add(new ChangeDices("Pinza  Sgrossatrice",1,DiceColor.VIOLET,"Dopo  aver  scelto  un  dado, aumenta  o  dominuisci  il  valore del  dado  scelto  di  1"));
+        toolCards.add(new MoveDices("Pennello  per  Eglomise",2,Restriction.COLOR,DiceColor.BLUE,1,"Muovi  un  qualsiasi  dado  nella  tua vetrata  ignorando  le  restrizioni  di  colore"));
+        toolCards.add(new MoveDices("Alesatore  per  lamina  di  rame",3,Restriction.SHADE,DiceColor.RED,1,"Muovi  un  qualsiasi  dado  nella  tua  vetrata  ignorando  le  restrizioni di  valore"));
+        toolCards.add(new MoveDices("Lathekin",4,Restriction.NULL,DiceColor.YELLOW,2,"Muovi  esattamente  due  dadi, rispettando  tutte  le  restrizioni  di piazzamento"));
+        toolCards.add(new Taglierina("Taglierina  circolare",5,DiceColor.GREEN,"Dopo  aver  scelto  un  dado,  scambia  quel  dado  con  un  dadoì sul  Tracciato  dei  Round"));
+        toolCards.add(new ChangeAndPlaceCard("Pennello  per  Pasta  Salda",6,DiceColor.VIOLET,1,"Dopo  aver  scelto  un  dado, tira  nuovamente  quel  dado Se  non  puoi  piazzarlo, riponilo  nella  Riserva"));
+        toolCards.add(new Marteletto("Marteletto",7,DiceColor.BLUE,"Tira  nuovamentetutti tutti  i  dadi della  Riserva Questa  carta  può  essera  usata solo  durante  il  tuo  secondo  turno,  prima  di  scegliere  il  secondo  dado"));
+        toolCards.add(new ChangeAndPlaceCard("Tenaglia  a  Rotelle",8,DiceColor.RED,1,"Dopo  il  tuo  primo  turno scegli  immediatamente  un  altro  dado Salta  il  tuo  secondo  turno  in  questo  round"));
+        toolCards.add(new ChangeAndPlaceCard("Riga  in  Sughero",9,DiceColor.YELLOW,1,"Dopo  aver  scelto  un  dado,  piazzalo  in  una  casella  che  non  sia  adiacente  a  un  altro  dado"));
+        toolCards.add(new ChangeDices("Tampone  Diamantato",10,DiceColor.GREEN,"Dopo  aver  scelto  un  dado, giralo  sulla  faccia  opposta"));
+        toolCards.add(new ChangeAndPlaceCard("Diluente  per  Pasta  Salda",11,DiceColor.VIOLET,1,"Dopo  aver  scelto  un  dado, riponilo  nel  Sacchetto, poi  pescane  uno  dal  SacchettoScegli  il  valore  del  nuovo  dado  e  piazzalo,  rispettando  tutte  le  restrizioni  di  piazzamento"));
+        toolCards.add(new MoveDices("Taglierina  Manuale",12,Restriction.NULL,DiceColor.BLUE,2,"Muovi  fino  a  due  dadi  dello  stesso  colore di  un  solo  dado  sul  Tracciato  dei  Round"));
 
         return toolCards;
     }
@@ -196,15 +196,19 @@ public class Controller implements Observer<Event> {
      */
     public String toStringToolCards() {
         StringBuilder builder = new StringBuilder();
-        builder.append("TOOL CARDS: \n");
+        builder.append("TOOL CARDS: \n\n");
         if(gameInitController.isSinglePlayer()) {
             for (int i = 0; i < toolCardList.size(); i++) {
                 builder.append(toolCardList.get(i).toStringSolitary());
+                builder.append("\n");
+                builder.append("----------------------------------------------------------------------------------------------------------");
                 builder.append("\n");
             }
         }else{
             for (int i = 0; i < toolCardList.size(); i++) {
                 builder.append(toolCardList.get(i).toString());
+                builder.append("\n");
+                builder.append("----------------------------------------------------------------------------------------------------------");
                 builder.append("\n");
             }
         }
@@ -376,16 +380,6 @@ public class Controller implements Observer<Event> {
                 return;
             }
 
-            if(cardActivation.getCardNumber()==8 && cardActivationController.canPlaceAdice(p,cardActivation.getCardNumber())<=1){
-                view.reportError(new StringMessageError("ERROR! You don't have enough dices that you can place in dice stock",p,2));
-                model.getDiceStock().insertDiceInPosition(cardActivation.getDice(),position);
-                category=-11;
-                return;
-            }
-
-
-
-
         }
 
 
@@ -416,7 +410,7 @@ public class Controller implements Observer<Event> {
             case 7: {
 
 
-               cardActivationController.findCard(cardActivation.getCardNumber()).activateEffect(model,cardActivation);
+                cardActivationController.findCard(cardActivation.getCardNumber()).activateEffect(model,cardActivation);
                 model.notifyCardActivation(p);
                 view.showMessage(new StringMessage("All dices in Dice Stock was updates",p));
                 category=4;
@@ -520,7 +514,9 @@ public class Controller implements Observer<Event> {
                     return;
             }
             gameInitController.initFavorMarkers(p);
+
             view.showMessage(new StringMessage("\nYour Scheme Card\n" + p.getPlayerScheme().toString() + "\n" + p.getPrivateGoalCard().toString() + "\n\n"+model.printPublicGoalCards()+"\n"+ model.getDiceStock().toString()+"Favor Markers: "+p.getFavorMarkers(), p));
+
             showToolCards(p);
             view.showMessage(new StringMessage("ROUND: " + model.getRound() + " PLAYER: " + model.findPlayerByOrder(model.getTurn()).getNickname() +" TURN: "+model.findPlayerByOrder(model.getTurn()).getnTurns()+"\n", p));
             if(p.getOrder()==1){
@@ -615,6 +611,9 @@ public class Controller implements Observer<Event> {
             gameRoundController.stopTimer();
             if(cardActivationController.findCard(event.getCardNumber()) instanceof ChangeAndPlaceCard){
                 p.setDicePlacedByCard();
+            }
+            if(event.getCardNumber()==8){
+                p.setAvoidNextTurn(true);
             }
             cardActivationController.findCard(event.getCardNumber()).used();
             if(gameInitController.isSinglePlayer())toolCardList.remove(cardActivationController.findCard(event.getCardNumber()));
@@ -803,7 +802,7 @@ public class Controller implements Observer<Event> {
             view.reportError((new StringMessageError("The dice can't be pleaced and will be back in dice stock",p,3)));
             category=-3;
         }else{
-        category=1;
+            category=1;
         }
     }
 

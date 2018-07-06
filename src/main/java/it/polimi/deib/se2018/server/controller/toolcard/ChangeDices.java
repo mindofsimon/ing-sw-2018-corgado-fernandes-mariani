@@ -17,17 +17,20 @@ public class ChangeDices implements ToolCard  {
     private int number;
     private boolean alreadyUsed;
     private boolean activated;
+    private String desc;
 
     /**
      * Constructor, initializes change dices class
      * @param name tool card name
      * @param n tool card number
      * @param sColor solitary color
+     * @param desc description of card
      */
-    public ChangeDices(String name, int n, DiceColor sColor){
+    public ChangeDices(String name, int n, DiceColor sColor,String desc){
         this.name=name;
         this.number=n;
         this.solitaryColor=sColor;
+        this.desc=desc;
 
     }
 
@@ -93,7 +96,7 @@ public class ChangeDices implements ToolCard  {
     }
 
     /**
-     * Gets dice number
+     * Gets number of dices
      * @return 0
      */
     public int getNumberD() {
@@ -133,7 +136,7 @@ public class ChangeDices implements ToolCard  {
      * @return string message
      */
     public String toString(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| ALREADY USED? "+alreadyUsed+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nALREADY USED? "+alreadyUsed+"||ACTIVATED: "+activated);
     }
 
     /**
@@ -141,7 +144,7 @@ public class ChangeDices implements ToolCard  {
      * @return string message
      */
     public String toStringSolitary(){
-        return("CARD: "+name+"|| NUMBER: "+number+"|| COLOR: "+solitaryColor+"|| ACTIVATED: "+activated);
+        return("CARD: "+name+"||NUMBER: "+number+"\nDESCRIPTION: "+desc+"\nCOLOR: "+solitaryColor+"||ACTIVATED: "+activated);
     }
 
     /**
