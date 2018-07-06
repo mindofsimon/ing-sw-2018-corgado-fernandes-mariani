@@ -297,10 +297,8 @@ public class Controller implements Observer<Event> {
             p.setnMoves(p.getnMoves() + 1);
             gameRoundController.stopTimer();
             p.setDicePlacement();
-            if(p.getnMoves()==1){
-                showToolCards(p);
-            }
             gameRoundController.updateTurn(p);
+            showToolCards(p);
             if(!p.getNickname().equals(model.findPlayerByOrder(model.getTurn()).getNickname())) {
                 showToolCards(model.findPlayerByName(model.findPlayerByOrder(model.getTurn()).getNickname()));
                 view.showMessage(new StringMessage("CHOOSE AN OPTION: \n1)PLACE A DICE\n2)ACTIVATE A CARD\n3)PASS TURN\n0)EXIT\n",model.findPlayerByOrder(model.getTurn())));
@@ -411,7 +409,6 @@ public class Controller implements Observer<Event> {
 
 
                 cardActivationController.findCard(cardActivation.getCardNumber()).activateEffect(model,cardActivation);
-                model.notifyCardActivation(p);
                 view.showMessage(new StringMessage("All dices in Dice Stock was updates",p));
                 category=4;
                 break;
@@ -458,8 +455,8 @@ public class Controller implements Observer<Event> {
             if (p.getnMoves() == 1) p.setnMoves(p.getnMoves() + 1);
             if (p.getnMoves() == 0) p.setnMoves(p.getnMoves() + 2);
             gameRoundController.stopTimer();
-            showToolCards(p);
             gameRoundController.updateTurn(p);
+            showToolCards(p);
             if(!p.getNickname().equals(model.findPlayerByOrder(model.getTurn()).getNickname())) {
                 showToolCards(model.findPlayerByName(model.findPlayerByOrder(model.getTurn()).getNickname()));
                 view.showMessage(new StringMessage("CHOOSE AN OPTION: \n1)PLACE A DICE\n2)ACTIVATE A CARD\n3)PASS TURN\n0)EXIT\n",model.findPlayerByOrder(model.getTurn())));
@@ -583,7 +580,6 @@ public class Controller implements Observer<Event> {
             return;
         }
         cardActivationController.findCard(event.getCardNumber()).activateEffect(model,event);
-        model.notifyCardActivation(p);
         if(event.getAction().contains("I"))
         {view.showMessage(new StringMessage(event.getDice().getColor()+""+event.getDice().getValue()+" was incremented",p));}
         else if(event.getAction().contains("D")){view.showMessage(new StringMessage(event.getDice().getColor()+""+event.getDice().getValue()+" was decremented",p));
@@ -617,13 +613,9 @@ public class Controller implements Observer<Event> {
             }
             cardActivationController.findCard(event.getCardNumber()).used();
             if(gameInitController.isSinglePlayer())toolCardList.remove(cardActivationController.findCard(event.getCardNumber()));
-            if(p.getnMoves()==1){
-                showToolCards(p);
-                model.notifyCardActivation(p);
-
-
-            }
+            model.notifyCardActivation(p);
             gameRoundController.updateTurn(p);
+            showToolCards(p);
             if(!p.getNickname().equals(model.findPlayerByOrder(model.getTurn()).getNickname())) {
                 showToolCards(model.findPlayerByName(model.findPlayerByOrder(model.getTurn()).getNickname()));
                 view.showMessage(new StringMessage("CHOOSE AN OPTION: \n1)PLACE A DICE\n2)ACTIVATE A CARD\n3)PASS TURN\n0)EXIT\n",model.findPlayerByOrder(model.getTurn())));
@@ -713,7 +705,6 @@ public class Controller implements Observer<Event> {
         //once the controls are done the card effect are activeded
         p.getPlayerScheme().getScheme()[event.getDiceRow()][event.getDiceColum()].setDice(dice);
         cardActivationController.findCard(event.getCardNumber()).activateEffect(model,event);
-        model.notifyCardActivation(p);
         view.showMessage(new StringMessage("\nDICE color: " + dice.getColor() + " value: " + dice.getValue()+ " placed in " +convertRow(event.getRow())+(event.getColumn()+1) +"\n\n",p));
     }
 
@@ -736,7 +727,6 @@ public class Controller implements Observer<Event> {
         }
 
         cardActivationController.findCard(event.getCardNumber()).activateEffect(model,event);
-        model.notifyCardActivation(p);
         view.showMessage(new StringMessage(event.getDice().getColor()+""+event.getDice().getValue()+" is now in Rounds track and "+event.getDiceRound().getColor()+""+event.getDiceRound().getValue()+" is now in Dice stock", p));
     }
 

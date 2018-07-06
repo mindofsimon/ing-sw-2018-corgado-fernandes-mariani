@@ -163,12 +163,14 @@ public class View  extends Observable<Event> implements Observer<Message>,Runnab
         }
         if (message instanceof EndTurnMessage) {
             if (message.getPlayer().getNickname().equals(playerNickName)) {
+                showMessage(message.getPlayer().getPrivateGoalCard().toString() + "\n\n");
                 showMessage(message.getPlayer().getPlayerScheme().toString() +  message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
                 showMessage("ROUND: " + message.getModel().getRound() + " PLAYER: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getNickname() + " TURN: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getnTurns() + "\n");
                 if (gameMode == 1) {
                     showMessage(" FAVOR MARKS: " + message.getModel().findPlayerByName(playerNickName).getFavorMarkers());
                 }
             } else {
+                showMessage(message.getModel().findPlayerByOrder(message.getModel().getTurn()).getPrivateGoalCard().toString() + "\n\n");
                 showMessage("Another player has passed the turn...\n" +message.getModel().findPlayerByOrder(message.getModel().getTurn()).getPlayerScheme().toString() +message.getModel().getDiceStock().toString() + message.getModel().getRoundsTrack().toString());
                 showMessage("ROUND: " + message.getModel().getRound() + " PLAYER: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getNickname() + " TURN: " + message.getModel().findPlayerByOrder(message.getModel().getTurn()).getnTurns() + "\n");
                 if (gameMode == 1) {
